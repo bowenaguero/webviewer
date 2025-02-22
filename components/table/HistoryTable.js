@@ -7,6 +7,7 @@ import EventType from "./EventTypeTag";
 import PaginationMenu from "./PaginationMenu";
 import ItemsPerPage from "./ItemsPerPage";
 import SortBy from "./SortBy";
+import ContextMenu from "../general/ContextMenu";
 
 export default function HistoryTable2({ history }) {
   const [page, setPage] = useState(1);
@@ -23,21 +24,16 @@ export default function HistoryTable2({ history }) {
     const sortedHistory = [...history].sort((a, b) => {
       const dateA = new Date(a.lastVisitTime);
       const dateB = new Date(b.lastVisitTime);
-  
+
       if (sortBy === "desc") {
         return dateB - dateA;
       } else {
         return dateA - dateB;
       }
     });
-  
+
     setLocalHistory(sortedHistory);
   }, [sortBy, history]);
-  
-  const truncateText = (text) => {
-    if (text.length <= 100) return text;
-    return text.slice(0, 100) + "...";
-  };
 
   return (
     <>
@@ -62,35 +58,37 @@ export default function HistoryTable2({ history }) {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-        {currentItems.map((item, index) => (
-            <Table.Row key={index}>
-            <Table.Cell minWidth="50px">
+          {currentItems.map((item, index) => (
+            <Table.Row 
+              key={index}
+            >
+              <Table.Cell minWidth="50px">
                 <EventType eventType="visit" />
-            </Table.Cell>
-            <Table.Cell fontWeight={"bold"} minWidth="70px">
+              </Table.Cell>
+              <Table.Cell fontWeight={"bold"} minWidth="70px">
                 {format(new Date(item.lastVisitTime), "MM/dd/yyyy HH:mm:ss")}
-            </Table.Cell>
-            <Table.Cell minWidth="200px">
-                {truncateText(item.url)}
-            </Table.Cell>
-            <Table.Cell minWidth="150px">
-                {truncateText(item.title)}
-            </Table.Cell>
+              </Table.Cell>
+              <Table.Cell minWidth="200px">
+                <ContextMenu item={item.url} />
+              </Table.Cell>
+              <Table.Cell minWidth="150px">
+                <ContextMenu item={item.title} />
+              </Table.Cell>
             </Table.Row>
-        ))}
+          ))}
         </Table.Body>
       </Table.Root>
-      <HStack justifyContent="space-between">
-        <Box/>
+      <HStack justifyContent="space-between" mt={5} mb={5}>
+        <Box />
         <Box>
           <PaginationMenu
             page={page}
-          setPage={setPage}
-          itemsPerPage={itemsPerPage}
-          count={history.length}
+            setPage={setPage}
+            itemsPerPage={itemsPerPage}
+            count={history.length}
           />
         </Box>
-        <Box/>
+        <Box />
       </HStack>
     </>
   );
