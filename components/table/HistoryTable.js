@@ -11,7 +11,7 @@ import ContextMenu from "../general/ContextMenu";
 
 export default function HistoryTable2({ history, handleAlert, setShowAlert }) {
   const [page, setPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(25);
   const [localHistory, setLocalHistory] = useState(history);
   const currentItems = useMemo(() => {
     const startIndex = (page - 1) * itemsPerPage;
@@ -37,13 +37,19 @@ export default function HistoryTable2({ history, handleAlert, setShowAlert }) {
 
   return (
     <>
-      <Table.Root interactive size={["lg", "md", "sm"]}>
+      <Table.Root 
+        interactive
+        variant="surface"
+        style={{
+          tableLayout: "fixed"
+        }}
+      >
         <Table.Header>
-          <Table.Row bg="transparent">
-            <Table.ColumnHeader fontWeight={"bold"}>Type</Table.ColumnHeader>
-            <Table.ColumnHeader fontWeight={"bold"}>Time</Table.ColumnHeader>
-            <Table.ColumnHeader fontWeight={"bold"}>URL</Table.ColumnHeader>
-            <Table.ColumnHeader fontWeight={"bold"}>
+          <Table.Row bg="transparent" fontSize={["xs","xs", "sm", "md"]} fontWeight={"bold"}>
+            <Table.ColumnHeader width={["20%", "18%", "10%"]} fontWeight={"bold"}>Type</Table.ColumnHeader>
+            <Table.ColumnHeader width={["25%", "18%", "10%"]} fontWeight={"bold"}>Time</Table.ColumnHeader>
+            <Table.ColumnHeader width={["20%", "30%", "50%"]} fontWeight={"bold"}>URL</Table.ColumnHeader>
+            <Table.ColumnHeader width={["10%", "20%", "40%"]} fontWeight={"bold"}>
               <HStack justifyContent="space-between">
                 <Box>Title</Box>
                 <Box display="flex" alignItems="center" gap={2}>
@@ -62,16 +68,16 @@ export default function HistoryTable2({ history, handleAlert, setShowAlert }) {
             <Table.Row 
               key={index}
             >
-              <Table.Cell minWidth="50px">
+              <Table.Cell style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                 <EventType eventType="visit" />
               </Table.Cell>
-              <Table.Cell fontWeight={"bold"} minWidth="70px">
-                {format(new Date(item.lastVisitTime), "MM/dd/yyyy HH:mm:ss")}
+              <Table.Cell fontSize={["xs", "xs", "sm", "md"]} fontWeight={"bold"} style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                <ContextMenu item={format(new Date(item.lastVisitTime), "MM/dd/yyyy HH:mm:ss")} type="time" handleAlert={handleAlert} setShowAlert={setShowAlert}/>
               </Table.Cell>
-              <Table.Cell minWidth="200px">
+              <Table.Cell fontSize={["xs", "xs", "sm", "md"]} style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                 <ContextMenu item={item.url} type="url" handleAlert={handleAlert} setShowAlert={setShowAlert}/>
               </Table.Cell>
-              <Table.Cell minWidth="150px">
+              <Table.Cell fontSize={["xs", "xs", "sm", "md"]} style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                 <ContextMenu item={item.title} type="title" handleAlert={handleAlert} setShowAlert={setShowAlert} />
               </Table.Cell>
             </Table.Row>

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   MenuContent,
   MenuContextTrigger,
@@ -10,6 +9,12 @@ import {
 import { FaExternalLinkAlt, FaCopy } from "react-icons/fa";
 
 export default function ContextMenu({ item, type, handleAlert }) {
+    const securityTools = {
+        browserling: 'https://www.browserling.com/browse/win10/chrome127/${url}',
+        vt: 'https://www.virustotal.com/gui/domain/${url}',
+        domainTools: 'https://whois.domaintools.com/${url}',
+    }
+
   const truncateText = (text) => {
     if (text.length <= 100) return text;
     return text.slice(0, 100) + "...";
@@ -21,6 +26,19 @@ export default function ContextMenu({ item, type, handleAlert }) {
 
   const handleOpen = (item) => {
     handleAlert('url', item);
+  };
+
+  const handleSendTo = (platform, item) => {
+    if (platform === 'domainTools' || platform === 'vt') {
+      try {
+        const urlObj = new URL(item); 
+        item = urlObj.hostname;
+      } catch (error) {
+        console.error("Invalid URL:", item); 
+      }
+    }
+    const url = securityTools[platform].replace('${url}', encodeURIComponent(item));
+    window.open(url, '_blank');
   };
 
   return (
@@ -46,9 +64,9 @@ export default function ContextMenu({ item, type, handleAlert }) {
               <MenuRoot positioning={{ placement: "right-start", gutter: 2 }}>
                 <MenuTriggerItem value="send-to">Send To</MenuTriggerItem>
                 <MenuContent>
-                  <MenuItem value="browserling">Browserling</MenuItem>
-                  <MenuItem value="vt">VirusTotal</MenuItem>
-                  <MenuItem value="domain-tools">DomainTools</MenuItem>
+                  <MenuItem value="browserling" onClick={() => handleSendTo('browserling', item)}>Browserling</MenuItem>
+                  <MenuItem value="vt" onClick={() => handleSendTo('vt', item)}>VirusTotal</MenuItem>
+                  <MenuItem value="domain-tools" onClick={() => handleSendTo('domainTools', item)}>DomainTools</MenuItem>
                 </MenuContent>
               </MenuRoot>
               <MenuItem value="open" onClick={() => handleOpen(item)}>

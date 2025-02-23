@@ -14,7 +14,6 @@ export default function Home() {
       router.push('/viewer')
     } catch (error) {
       console.error('Error processing history:', error)
-      alert('Error processing the history file. Please try again.')
     }
   }
 

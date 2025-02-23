@@ -33,7 +33,7 @@ export default function _Alert({ alertItem, setShowAlert }) {
             </Box>
         </Center>
         <Box display="flex" justifyContent="center" mt={2}>
-          <Button variant={"subtle"} colorPalette={"green"} onClick={() => goToUrl(alertItem)}>Go</Button>
+          <Button variant={"ghost"} onClick={() => goToUrl(alertItem)}>Okay</Button>
         </Box>
       </VStack>
     </Alert.Root>

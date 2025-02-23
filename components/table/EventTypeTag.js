@@ -23,7 +23,15 @@ export default function EventType({ eventType }) {
     
     return (
         <>
-            <Badge gap={2} colorPalette={iconColor[eventType]} fontSize={["sm", "md"]}>
+            <Badge 
+            gap={2} 
+            height={["10px", "20px", "30px", "40px"]} 
+            width={["80px", "100px", "120px", "160px"]} 
+            colorPalette={iconColor[eventType]} 
+            fontSize={["xs", "sm", "lg"]}
+            display="flex"
+            alignItems="center"
+            justifyContent="center">
                 <Icon />
                 {capitalize(eventType)}
             </Badge>

@@ -11,10 +11,7 @@ export default function SortBy({ sortBy, setSortBy }) {
 
   return (
     <Button
-      color="gray.200"
-      bg="transparent"
-      border="none"
-      _hover={{ bg: "gray.900" }}
+      variant="transparent"
       onClick={() => {
         setSortBy(sortBy === "asc" ? "desc" : "asc");
         console.log(sortBy);
