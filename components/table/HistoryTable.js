@@ -9,7 +9,7 @@ import ItemsPerPage from "./ItemsPerPage";
 import SortBy from "./SortBy";
 import ContextMenu from "../general/ContextMenu";
 
-export default function HistoryTable2({ history }) {
+export default function HistoryTable2({ history, handleAlert, setShowAlert }) {
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [localHistory, setLocalHistory] = useState(history);
@@ -69,10 +69,10 @@ export default function HistoryTable2({ history }) {
                 {format(new Date(item.lastVisitTime), "MM/dd/yyyy HH:mm:ss")}
               </Table.Cell>
               <Table.Cell minWidth="200px">
-                <ContextMenu item={item.url} />
+                <ContextMenu item={item.url} type="url" handleAlert={handleAlert} setShowAlert={setShowAlert}/>
               </Table.Cell>
               <Table.Cell minWidth="150px">
-                <ContextMenu item={item.title} />
+                <ContextMenu item={item.title} type="title" handleAlert={handleAlert} setShowAlert={setShowAlert} />
               </Table.Cell>
             </Table.Row>
           ))}
