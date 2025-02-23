@@ -8,6 +8,7 @@ import PaginationMenu from "./PaginationMenu";
 import ItemsPerPage from "./ItemsPerPage";
 import SortBy from "./SortBy";
 import ContextMenu from "../general/ContextMenu";
+import Event from "./Event";
 
 export default function HistoryTable2({ history, handleAlert, setShowAlert }) {
   const [page, setPage] = useState(1);
@@ -35,14 +36,20 @@ export default function HistoryTable2({ history, handleAlert, setShowAlert }) {
     setLocalHistory(sortedHistory);
   }, [sortBy, history]);
 
+  console.log(history)
+
   return (
     <>
       <Table.Root 
         interactive
         variant="surface"
         style={{
-          tableLayout: "fixed"
+          tableLayout: "fixed",
         }}
+        border={"1px solid"}
+        borderColor={{base: "gray.200", _dark: "gray.700"}}
+        backgroundColor={{base: "white", _dark: "gray.900"}}
+        mt={5}
       >
         <Table.Header>
           <Table.Row bg="transparent" fontSize={["xs","xs", "sm", "md"]} fontWeight={"bold"}>
@@ -71,11 +78,11 @@ export default function HistoryTable2({ history, handleAlert, setShowAlert }) {
               <Table.Cell style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                 <EventType eventType="visit" />
               </Table.Cell>
-              <Table.Cell fontSize={["xs", "xs", "sm", "md"]} fontWeight={"bold"} style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+              <Table.Cell fontSize={["xs", "xs", "sm", "md"]} style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                 <ContextMenu item={format(new Date(item.lastVisitTime), "MM/dd/yyyy HH:mm:ss")} type="time" handleAlert={handleAlert} setShowAlert={setShowAlert}/>
               </Table.Cell>
               <Table.Cell fontSize={["xs", "xs", "sm", "md"]} style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                <ContextMenu item={item.url} type="url" handleAlert={handleAlert} setShowAlert={setShowAlert}/>
+                <ContextMenu item={item.url} valueText={<Event eventItem={item.url}/>} type="url" handleAlert={handleAlert} setShowAlert={setShowAlert}/>
               </Table.Cell>
               <Table.Cell fontSize={["xs", "xs", "sm", "md"]} style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                 <ContextMenu item={item.title} type="title" handleAlert={handleAlert} setShowAlert={setShowAlert} />
@@ -96,6 +103,7 @@ export default function HistoryTable2({ history, handleAlert, setShowAlert }) {
         </Box>
         <Box />
       </HStack>
+      <Event eventItem={history[0].url} />
     </>
   );
 }

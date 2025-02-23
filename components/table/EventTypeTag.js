@@ -25,7 +25,7 @@ export default function EventType({ eventType }) {
         <>
             <Badge 
             gap={2} 
-            height={["10px", "20px", "30px", "40px"]} 
+            height={["10px", "15px", "18px", "22px"]} 
             width={["80px", "100px", "120px", "160px"]} 
             colorPalette={iconColor[eventType]} 
             fontSize={["xs", "sm", "lg"]}

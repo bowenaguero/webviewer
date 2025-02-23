@@ -13,7 +13,7 @@ export default function ItemsPerPage2({itemsPerPage, setItemsPerPage}) {
     return (
         <MenuRoot onSelect={(e) => setItemsPerPage(e.value)}>
             <MenuTrigger asChild>
-                <Button variant="transparent">
+                <Button variant="transparent" fontSize={["xs", "xs", "xs", "sm"]}>
                     {`${itemsPerPage} items per page`}
                     <FaChevronDown />
                 </Button>

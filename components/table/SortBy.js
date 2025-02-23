@@ -12,6 +12,7 @@ export default function SortBy({ sortBy, setSortBy }) {
   return (
     <Button
       variant="transparent"
+      fontSize={["xs", "xs", "xs", "sm"]}
       onClick={() => {
         setSortBy(sortBy === "asc" ? "desc" : "asc");
         console.log(sortBy);

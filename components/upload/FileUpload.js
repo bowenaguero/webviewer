@@ -52,6 +52,10 @@ export default function FileUpload({ onHistoryLoaded }) {
       borderRadius="lg"
       borderStyle="dashed"
       cursor="pointer"
+      _hover={{
+        borderColor: "blue.500",
+        backgroundColor: {base: "gray.100", _dark: "gray.900"},
+      }}
       transition="all 0.2s"
       display="flex"
       alignItems="center"

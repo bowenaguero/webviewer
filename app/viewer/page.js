@@ -65,7 +65,7 @@ function ViewerContent() {
           <_Alert alertItem={alertItem} setShowAlert={setShowAlert} />
         </Box>
       )}
-      <Box w={"98%"} mt={4}>
+      <Box w={["99%", "99%", "90%", "75%"]} mt={4}>
         <ToolBar />
         <HistoryTable
           history={data.history}
