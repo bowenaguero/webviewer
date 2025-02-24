@@ -65,8 +65,7 @@ function ViewerContent() {
           <_Alert alertItem={alertItem} setShowAlert={setShowAlert} />
         </Box>
       )}
-      <Box w={["99%", "99%", "90%", "75%"]} mt={4}>
-        <ToolBar />
+      <Box minW={["70%"]} maxW={["75%"]} mt={4}>
         <HistoryTable
           history={data.history}
           handleAlert={handleAlert}

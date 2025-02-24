@@ -1,13 +1,28 @@
-import { Heading, HStack, Icon } from "@chakra-ui/react";
-import { FaEye } from "react-icons/fa";
+import { Text, HStack, Icon } from "@chakra-ui/react";
+import { FaEye, FaDownload, FaICursor, FaBookmark, FaQuestion } from "react-icons/fa";
 
-export default function Event({ eventItem }) {
+export default function Event({ eventItem, eventType, truncateText }) {
+
+  const icons = {
+    visit: FaEye,
+    download: FaDownload,
+    autofill: FaICursor,
+    bookmark: FaBookmark,
+  }
+
+  const iconColor = { 
+    visit: "blue.400",
+    download: "green.400",
+    autofill: "purple.400",
+    bookmark: "orange.400",
+  }
+  
   return (
       <HStack gap={4}>
-        <Icon as={FaEye} color="blue.400" />
-        <Heading fontSize={["xs", "xs", "sm", "md"]}>
-          https://example.com/this-is-a-test
-        </Heading>
+        <Icon as={icons[eventType]} color={iconColor[eventType]} />
+        <Text fontSize={["xs", "xs", "sm", "md"]} color={iconColor[eventType]}>
+          {truncateText(eventItem, 50)}
+        </Text>
       </HStack>
   );
 }
