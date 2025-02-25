@@ -9,6 +9,7 @@ export default function Footer() {
             width="100%"
             py={4}
             textAlign={"center"}
+            alignItems={"center"}
         >
             <Flex justifyContent={"center"} gap={4}>
                 <Link href={"https://buymeacoffee.com/bowenaguero"}>

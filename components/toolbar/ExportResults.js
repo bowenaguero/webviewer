@@ -1,12 +1,15 @@
 import { IconButton, Center } from "@chakra-ui/react";
-import { FaFileExport } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 
 export default function ExportResults() {
-    return (
-        <IconButton variant="subtle" border={"2px solid"} borderColor={{ base: "gray.200", _dark: "gray.700" }} borderRadius={"md"} h="100%">
-            <Center>
-                <FaFileExport/>
-            </Center>
-        </IconButton>
-    )
+  return (
+    <IconButton
+      variant="transparent"
+      borderRadius={"sm"}
+      h="70%"
+      _hover={{bg: "gray.800"}}
+    >
+        <FaBars />
+    </IconButton>
+  );
 }

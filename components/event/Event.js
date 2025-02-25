@@ -20,7 +20,7 @@ export default function Event({ eventItem, eventType, truncateText }) {
   return (
       <HStack gap={4}>
         <Icon as={icons[eventType]} color={iconColor[eventType]} />
-        <Text fontSize={["xs", "xs", "sm", "md"]} color={iconColor[eventType]}>
+        <Text fontSize={["xs", "xs", "sm", "md"]}>
           {truncateText(eventItem, 50)}
         </Text>
       </HStack>

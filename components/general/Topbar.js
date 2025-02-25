@@ -8,7 +8,8 @@ export default function Topbar() {
         <Box 
         bg={{base: "gray.200", _dark: "gray.900"}}
         shadow={"sm"}
-        borderBottom={"1px"}
+        borderBottom={"1px solid"}
+        borderColor={{base: "gray.300", _dark: "gray.700"}}
         transition={"all 0.2s"}
         px={4}
         >

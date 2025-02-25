@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValueText,
 } from "@/components/ui/select";
-import { FaEye, FaDownload, FaBookmark, FaICursor } from "react-icons/fa";
+import { FaEye, FaDownload, FaBookmark, FaICursor, FaFilter } from "react-icons/fa";
 import { HStack, Icon } from "@chakra-ui/react";
 
 export default function FilterBy() {
@@ -29,15 +29,15 @@ export default function FilterBy() {
   return (
     <SelectRoot
       variant="subtle"
+      borderRadius={"sm"}
       border={"2px solid"}
-      h="100%"
       borderColor={{ base: "gray.200", _dark: "gray.700" }}
-      borderRadius={"md"}
       multiple
       collection={eventTypes}
+      height="100%"
     >
-      <SelectTrigger>
-        <SelectValueText placeholder="Filter by" />
+      <SelectTrigger clearable>
+        <SelectValueText placeholder="Filter" />
       </SelectTrigger>
       <SelectContent>
         {eventTypes.items.map((eventType) => (
