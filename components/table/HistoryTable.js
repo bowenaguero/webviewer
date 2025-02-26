@@ -4,21 +4,15 @@ import { useState, useMemo, useEffect, useRef } from "react";
 import {
   HStack,
   Box,
-  Text,
   VStack,
-  Collapsible,
-  Icon,
 } from "@chakra-ui/react";
-import { format } from "date-fns";
 import PaginationMenu from "./PaginationMenu";
-import Event from "../event/Event";
 import ToolBar from "../toolbar/ToolBar";
-import { FaChevronRight, FaChevronDown } from "react-icons/fa";
+import HistoryTableRow from "./HistoryTableRow";
 
-export default function HistoryTable2({ history, handleAlert, setShowAlert }) {
-  console.log(history);
+export default function HistoryTable2({ history }) {
   const [page, setPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(25);
+  const [itemsPerPage, setItemsPerPage] = useState(15);
   const [localHistory, setLocalHistory] = useState(history);
   const currentItems = useMemo(() => {
     const startIndex = (page - 1) * itemsPerPage;
@@ -60,61 +54,18 @@ export default function HistoryTable2({ history, handleAlert, setShowAlert }) {
         mt={4}
       >
         <Box mb={5}>
-          <ToolBar itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} sortBy={sortBy} setSortBy={setSortBy} page={page} setPage={setPage} />
+          <ToolBar
+            itemsPerPage={itemsPerPage}
+            setItemsPerPage={setItemsPerPage}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            page={page}
+            setPage={setPage}
+          />
         </Box>
         <VStack>
           {currentItems.map((item, index) => (
-            <Collapsible.Root key={index} w="100%">
-              <HStack justify="space-between">
-                <Collapsible.Trigger asChild>
-                  <HStack
-                    as="button"
-                    w="100%"
-                    gap={4}
-                    _hover={{ bg: "gray.800" }}
-                  >
-                    <Box>
-                      <Icon
-                        as={open ? FaChevronRight : FaChevronDown}
-                        ref={iconRef}
-                      />
-                    </Box>
-                    <Box
-                      fontSize={["xs", "xs", "sm", "md"]}
-                      w="10%"
-                      textAlign="left"
-                    >
-                      <Text>{format(
-                        new Date(item.lastVisitTime),
-                        "MM/dd/yyyy HH:mm"
-                      )}</Text>
-                    </Box>
-                    <Box 
-                      fontSize={["xs", "xs", "sm", "md"]} 
-                      w={"45%"}
-                      textAlign="left"
-                    >
-                      <Event eventItem={item.url} eventType={item.eventType} truncateText={truncateText} />
-                    </Box>
-                    <Box 
-                      fontSize={["xs", "xs", "sm", "md"]} 
-                      w={"45%"}
-                      textAlign="left"
-                    >
-                      <Text color={{base: "blue.800", _dark: "blue.400"}}>{truncateText(item.title, 50)}</Text>
-                    </Box>
-                  </HStack>
-                </Collapsible.Trigger>
-              </HStack>
-
-              <Collapsible.Content>
-                <Box textAlign="left">
-                  <Text fontSize="sm" wordBreak="break-all">
-                    {item.url}
-                  </Text>
-                </Box>
-              </Collapsible.Content>
-            </Collapsible.Root>
+            <HistoryTableRow item={item} index={index} key={index} truncateText={truncateText} />
           ))}
         </VStack>
       </Box>
