@@ -4,29 +4,22 @@ import Link from "next/link";
 import { ColorModeButton } from "@/components/ui/color-mode";
 
 export default function Topbar() {
-    return (
-        <Box 
-        bg={{base: "gray.200", _dark: "gray.900"}}
-        shadow={"sm"}
-        borderBottom={"1px solid"}
-        borderColor={{base: "gray.300", _dark: "gray.700"}}
-        transition={"all 0.2s"}
-        px={4}
-        >
-            <Flex 
-            justifyContent={"space-between"}
-            h={16}
-            alignItems={"center"}
-            >
-                <Box>
-                    <Link href={"/"}>
-                        <Heading _hover={{opacity: 0.8}}>WebViewer</Heading>
-                    </Link>
-                </Box>
-                <Box>
-                    <ColorModeButton bg={{base: "gray.200", _dark: "gray.900"}} />
-                </Box>
-            </Flex>
+  return (
+    <Box
+      transition={"all 0.2s"}
+      p={5}
+      bg="gray.900"
+    >
+      <Flex justifyContent={"space-between"} alignItems={"center"}>
+        <Box>
+          <Link href={"/"}>
+            <Heading _hover={{ opacity: 0.8 }}>WebViewer</Heading>
+          </Link>
         </Box>
-    )
+        <Box>
+          <ColorModeButton bg={{ base: "gray.200", _dark: "gray.900" }} />
+        </Box>
+      </Flex>
+    </Box>
+  );
 }

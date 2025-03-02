@@ -6,45 +6,36 @@ import {
   SelectTrigger,
   SelectValueText,
 } from "@/components/ui/select";
-import { FaEye, FaDownload, FaBookmark, FaICursor, FaFilter } from "react-icons/fa";
-import { HStack, Icon } from "@chakra-ui/react";
+import EventIcon from "../event/EventIcon";
+import { HStack } from "@chakra-ui/react";
 
-export default function FilterBy() {
-  const eventTypes = createListCollection({
-    items: [
-      { label: "Visits", value: "visits", icon: FaEye },
-      { label: "Downloads", value: "downloads", icon: FaDownload },
-      { label: "Bookmarks", value: "bookmarks", icon: FaBookmark },
-      { label: "Autofills", value: "autofills", icon: FaICursor },
-    ],
+export default function FilterBy({ eventTypes, capitalizeFirstLetter, setFilteredEventTypes }) {
+  const eventTypeMap = createListCollection({
+    items: eventTypes.map(type => ({
+      label: capitalizeFirstLetter(type),
+      value: type
+    }))
   });
-
-  const iconColor = {
-    visits: "blue.400",
-    downloads: "green.400",
-    bookmarks: "orange.400",
-    autofills: "purple.400",
-  };
 
   return (
     <SelectRoot
-      variant="subtle"
-      borderRadius={"sm"}
-      border={"2px solid"}
+      borderRadius="sm"
+      border="1px solid"
       borderColor={{ base: "gray.200", _dark: "gray.700" }}
       multiple
-      collection={eventTypes}
+      collection={eventTypeMap}
       height="100%"
+      onValueChange={setFilteredEventTypes}
     >
       <SelectTrigger clearable>
         <SelectValueText placeholder="Filter" />
       </SelectTrigger>
       <SelectContent>
-        {eventTypes.items.map((eventType) => (
-          <SelectItem item={eventType} key={eventType.value}>
+        {eventTypeMap.items.map((item) => (
+          <SelectItem key={item.value} item={item}>
             <HStack>
-              <Icon as={eventType.icon} color={iconColor[eventType.value]} />
-              {eventType.label}
+              <EventIcon eventType={item.value} size="sm" />
+              {item.label}
             </HStack>
           </SelectItem>
         ))}

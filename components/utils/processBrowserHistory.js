@@ -18,16 +18,20 @@ export const processVisitTimestamp = (timestamp) => {
   
   export const processHistoryResults = (results) => {
     if (!results?.[0]?.values) return { history: []}
-  
-    const history = results[0].values.map(row => ({
-      id: row[0],
-      lastVisitTime: processVisitTimestamp(row[1]),
-      url: row[2],
-      title: row[3] || 'Untitled',
-      visitCount: row[4] || 0,
-      eventEntity: row[5],
-      eventType: row[6]
-    }))
-  
-    return history
+
+    const historyArray = []
+    results[0].values.forEach((row) => {
+      let historyObject = {}
+      results[0].columns.forEach((column, index) => {
+        if (column === "lastVisitTime") {
+          historyObject[column] = processVisitTimestamp(row[index])
+        }
+        else {
+          historyObject[column] = row[index]
+        }
+      })
+      historyArray.push(historyObject)
+    })
+
+    return historyArray
   } 
