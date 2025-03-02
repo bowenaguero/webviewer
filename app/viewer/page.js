@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Center, Spinner } from "@chakra-ui/react";
-import { useEffect, useState, Suspense } from "react";
+import { useState, Suspense } from "react";
 import HistoryTable from "@/components/table/HistoryTable";
 
 export default function ViewerPage() {
@@ -13,8 +13,6 @@ export default function ViewerPage() {
 }
 
 function ViewerContent() {
-  const [alertItem, setAlertItem] = useState(null);
-
   const storedData = typeof window !== 'undefined' ? localStorage.getItem("browserHistory") : null;
   const parsedData = storedData ? JSON.parse(storedData) : null;
   const [data] = useState(parsedData);
@@ -31,7 +29,7 @@ function ViewerContent() {
 
   return (
     <Center>
-      <Box w="75%" mt={5}>
+      <Box w="90%">
         <HistoryTable
           history={history}
         />
