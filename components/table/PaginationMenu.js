@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/pagination"
 import { HStack } from "@chakra-ui/react"
 
-export default function PaginationMenu2({page, setPage, itemsPerPage, count}) {
+export default function PaginationMenu({page, setPage, itemsPerPage, count, style}) {
     return (
         <PaginationRoot
             count={count}
@@ -16,9 +16,9 @@ export default function PaginationMenu2({page, setPage, itemsPerPage, count}) {
             type="button"
         >
             <HStack>
-                <PaginationPrevTrigger />
-                <PaginationItems />
-                <PaginationNextTrigger />
+                <PaginationPrevTrigger _hover={{ bg: "gray.800" }} />
+                {style === "compact" ? null : <PaginationItems _hover={{ bg: "gray.800" }} />}
+                <PaginationNextTrigger _hover={{ bg: "gray.800" }} />
             </HStack>
         </PaginationRoot>
     )

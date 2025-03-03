@@ -5,8 +5,8 @@ import { useDropzone } from 'react-dropzone'
 import { Box, Text, VStack } from '@chakra-ui/react'
 import { FaUpload } from 'react-icons/fa'
 import initSqlJs from 'sql.js'
-import { queryBrowserHistory } from '@/components/utils/browserHistoryQueries'
-import { processHistoryResults } from '@/components/utils/statisticsProcessing'
+import { queryBrowserHistory } from '@/components/utils/queryBrowserHistory'
+import { processHistoryResults } from '@/components/utils/processBrowserHistory'
 
 export default function FileUpload({ onHistoryLoaded }) {
   const [isProcessing, setIsProcessing] = useState(false)
@@ -24,10 +24,9 @@ export default function FileUpload({ onHistoryLoaded }) {
       })
       
       const db = new SQL.Database(new Uint8Array(arrayBuffer))
-      const results = await queryBrowserHistory(db)
-      const { history, statistics } = processHistoryResults(results)
+      const { history } = await queryBrowserHistory(db)
       
-      onHistoryLoaded({ history, statistics })
+      onHistoryLoaded({ history })
     } catch (error) {
       console.error('Error processing file:', error)
     } finally {

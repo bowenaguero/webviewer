@@ -1,39 +1,45 @@
-import { createListCollection } from "@chakra-ui/react"
+import { createListCollection } from "@chakra-ui/react";
 import {
-    SelectContent,
-    SelectItem,
-    SelectLabel,
-    SelectRoot,
-    SelectTrigger,
-    SelectValueText
-} from "@/components/ui/select"
-import { FaSearch, FaDownload } from "react-icons/fa"
-import { HStack, Icon } from "@chakra-ui/react"
+  SelectContent,
+  SelectItem,
+  SelectRoot,
+  SelectTrigger,
+  SelectValueText,
+} from "@/components/ui/select";
+import EventIcon from "../event/EventIcon";
+import { HStack } from "@chakra-ui/react";
 
-export default function FilterBy() {
+export default function FilterBy({ eventTypes, capitalizeFirstLetter, setFilteredEventTypes }) {
+  const eventTypeMap = createListCollection({
+    items: eventTypes.map(type => ({
+      label: capitalizeFirstLetter(type),
+      value: type
+    }))
+  });
 
-    const eventTypes = createListCollection({
-        items: [
-            {label: "visits", value: "visits", icon: FaSearch},
-            {label: "downloads", value: "downloads", icon: FaDownload},
-        ],
-    })
-
-    return (
-        <SelectRoot variant="subtle" multiple collection={eventTypes}>
-            <SelectTrigger>
-                <SelectValueText placeholder="Filter by" />
-            </SelectTrigger>
-            <SelectContent>
-                {eventTypes.items.map((eventType) => (
-                    <SelectItem item={eventType} key={eventType.value}>
-                        <HStack>
-                            <eventType.icon />
-                            {eventType.label}
-                        </HStack>
-                    </SelectItem>
-                ))}
-            </SelectContent>
-        </SelectRoot>
-    )
+  return (
+    <SelectRoot
+      borderRadius="sm"
+      border="1px solid"
+      borderColor={{ base: "gray.200", _dark: "gray.700" }}
+      multiple
+      collection={eventTypeMap}
+      height="100%"
+      onValueChange={setFilteredEventTypes}
+    >
+      <SelectTrigger clearable>
+        <SelectValueText placeholder="Filter" />
+      </SelectTrigger>
+      <SelectContent>
+        {eventTypeMap.items.map((item) => (
+          <SelectItem key={item.value} item={item}>
+            <HStack>
+              <EventIcon eventType={item.value} size="sm" />
+              {item.label}
+            </HStack>
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </SelectRoot>
+  );
 }

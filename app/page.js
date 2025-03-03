@@ -1,6 +1,6 @@
 'use client'
 
-import FileUpload from '@/components/upload/FileUpload'
+import FileUpload from '@/components/general/FileUpload'
 import { Box, Text, VStack } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 
