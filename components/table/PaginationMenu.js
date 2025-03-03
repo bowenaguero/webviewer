@@ -16,9 +16,9 @@ export default function PaginationMenu({page, setPage, itemsPerPage, count, styl
             type="button"
         >
             <HStack>
-                <PaginationPrevTrigger />
-                {style === "compact" ? null : <PaginationItems />}
-                <PaginationNextTrigger />
+                <PaginationPrevTrigger _hover={{ bg: "gray.800" }} />
+                {style === "compact" ? null : <PaginationItems _hover={{ bg: "gray.800" }} />}
+                <PaginationNextTrigger _hover={{ bg: "gray.800" }} />
             </HStack>
         </PaginationRoot>
     )

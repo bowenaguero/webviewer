@@ -48,13 +48,9 @@ export default function ToolBar({
     <Flex
       justifyContent="space-between"
       gap={5}
-      p={5}
+      mt={5}
       alignItems="center"
       justifyItems="center"
-      bg="gray.950"
-      border={"2px solid"}
-      borderColor="gray.800"
-      borderRadius={"md"}
     >
       <Box w="30%" display="flex" justifyContent="flex-start" gap={3}>
         <ItemsPerPage
@@ -78,6 +74,7 @@ export default function ToolBar({
             <IconButton
               onClick={handleClick}
               variant="ghost"
+              _hover={{ bg: "gray.800" }}
               size="sm"
               color="gray.400"
             >
@@ -88,9 +85,10 @@ export default function ToolBar({
                 <Text color="gray.400" fontSize="sm" whiteSpace="nowrap">
                   {startDate.toLocaleDateString()} - {endDate.toLocaleDateString()}
                 </Text>
-                <CloseButton
+                <CloseButton 
                   size="xs"
                   onClick={handleClose}
+                  _hover={{ bg: "gray.800" }}
                 />
               </Box>
             )}
@@ -101,8 +99,7 @@ export default function ToolBar({
               top="100%"
               left="0"
               zIndex="1000"
-              bg="white"
-              boxShadow="md"
+              bg="gray.950"
               p={2}
             >
               <DatePicker

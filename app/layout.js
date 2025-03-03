@@ -14,6 +14,21 @@ const inter = Inter({
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <style>
+          {`
+            ::selection {
+              background-color: #a0aec0;
+              color: white;
+            }
+
+            ::-moz-selection {
+              background-color: #a0aec0;
+              color: white;
+            }
+          `}
+        </style>
+      </head>
       <body className={inter.className}>
         {/* <ReactScan/> */}
         <Provider>

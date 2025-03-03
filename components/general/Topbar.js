@@ -1,5 +1,4 @@
 import { Box, Flex, Heading, Button } from "@chakra-ui/react";
-import { FaSearch } from "react-icons/fa";
 import Link from "next/link";
 import { ColorModeButton } from "@/components/ui/color-mode";
 
@@ -13,11 +12,11 @@ export default function Topbar() {
       <Flex justifyContent={"space-between"} alignItems={"center"}>
         <Box>
           <Link href={"/"}>
-            <Heading _hover={{ opacity: 0.8 }}>WebViewer</Heading>
+            <Heading _hover={{ opacity: 0.8 }} fontSize={"2xl"}>// WebViewer</Heading>
           </Link>
         </Box>
         <Box>
-          <ColorModeButton bg={{ base: "gray.200", _dark: "gray.900" }} />
+          {/* <ColorModeButton bg={{ base: "gray.200", _dark: "gray.900" }} /> */}
         </Box>
       </Flex>
     </Box>

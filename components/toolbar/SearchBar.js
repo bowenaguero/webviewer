@@ -7,7 +7,7 @@ export default function SearchBar({ setSearch }) {
         variant="subtle"
         placeholder="Search"
         border="2px solid"
-        borderColor={{ base: "gray.200", _dark: "gray.700" }}
+        borderColor="gray.800"
         borderRadius="sm"
         onChange={(e) => setSearch(e.target.value)}
       />

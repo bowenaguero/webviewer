@@ -1,11 +1,13 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { HStack, Box, Table, Text, Icon } from "@chakra-ui/react";
+import { HStack, Box, Table, Text, Icon, IconButton } from "@chakra-ui/react";
 import PaginationMenu from "./PaginationMenu";
 import EventIcon from "../event/EventIcon";
 import ToolBar from "../toolbar/ToolBar";
+import { Tooltip } from "../ui/tooltip";
 import { FaEllipsisV } from "react-icons/fa";
+import EventTooltip from "../event/EventTooltip";
 
 export default function HistoryTable2({ history }) {
   const [page, setPage] = useState(1);
@@ -129,16 +131,15 @@ export default function HistoryTable2({ history }) {
         />
       </Box>
       <Box
-        bg="gray.900"
+        bg="gray.950"
         border={"2px solid"}
         borderColor="gray.800"
         borderRadius={"md"}
       >
         <Table.Root tableLayout="fixed">
           <Table.Header>
-            <Table.Row bg="gray.950">
-              <Table.ColumnHeader w="3%">
-              </Table.ColumnHeader>
+            <Table.Row bg="transparent">
+              <Table.ColumnHeader w="3%"></Table.ColumnHeader>
               <Table.ColumnHeader
                 overflow="hidden"
                 textOverflow="ellipsis"
@@ -183,9 +184,11 @@ export default function HistoryTable2({ history }) {
           </Table.Header>
           <Table.Body>
             {currentItems.map((item, index) => (
-              <Table.Row key={index} bg="gray.950" _hover={{ bg: "gray.900" }}>
+              <Table.Row key={index} bg="transparent" _hover={{ bg: "gray.800" }}>
                 <Table.Cell color="gray.500" p={5}>
-                  <Icon as={FaEllipsisV} />
+                  <IconButton variant="ghost" size="sm" color="gray.400">
+                    <Icon as={FaEllipsisV} />
+                  </IconButton>
                 </Table.Cell>
                 <Table.Cell color="gray.500" p={5}>
                   <Box
@@ -211,15 +214,17 @@ export default function HistoryTable2({ history }) {
                 </Table.Cell>
                 <Table.Cell p={5}>
                   <Box>
-                    <Text
-                      fontSize="sm"
-                      fontWeight={"medium"}
-                      overflow="hidden"
-                      textOverflow="ellipsis"
-                      whiteSpace="nowrap"
-                    >
-                      {item.url}
-                    </Text>
+                    <Tooltip content={item.url}>
+                      <Text
+                        fontSize="sm"
+                        fontWeight={"medium"}
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        whiteSpace="nowrap"
+                      >
+                        {item.url}
+                      </Text>
+                    </Tooltip>
                   </Box>
                 </Table.Cell>
                 <Table.Cell color="gray.500" p={5}>
