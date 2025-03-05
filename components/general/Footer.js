@@ -14,7 +14,11 @@ export default function Footer() {
       bg="gray.900"
     >
       <Flex color={"gray.500"} justifyContent={"center"} gap={4}>
-        <Link href={"https://buymeacoffee.com/bowenaguero"} color={"gray.700"}>
+        <Link
+          href={"https://buymeacoffee.com/bowenaguero"}
+          target="_blank"
+          color={"gray.700"}
+        >
           <Box display={"flex"} alignItems={"center"} gap={2}>
             <Icon>
               <FaCoffee size={14} />
@@ -25,6 +29,7 @@ export default function Footer() {
         <Text fontSize="sm">{"//"}</Text>
         <Link
           href={"https://github.com/bowenaguero/webviewer"}
+          target="_blank"
           color={"gray.700"}
         >
           <Box display={"flex"} alignItems={"center"} gap={2}>

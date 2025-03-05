@@ -29,6 +29,9 @@ export default function ToolBar({
   capitalizeFirstLetter,
   setFilteredEventTypes,
   setSearch,
+  setSearching,
+  search,
+  filteredEventTypes,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const beginDate = startDate;
@@ -60,7 +63,7 @@ export default function ToolBar({
         <SortBy sortBy={sortBy} setSortBy={setSortBy} />
       </Box>
       <Box w="30%" display="flex" justifyContent="center" gap={3}>
-        <SearchBar setSearch={setSearch} />
+        <SearchBar setSearch={setSearch} setSearching={setSearching} search={search} />
       </Box>
       <Box
         display="flex"
@@ -104,14 +107,12 @@ export default function ToolBar({
             >
               <DatePicker
                 inline
-                isClearable
+                selectsRange
                 selected={startDate}
                 onChange={handleDateChange}
                 startDate={startDate}
                 endDate={endDate}
                 dateFormat="MM/dd/yyyy"
-                shouldCloseOnSelect={false}
-                selectsRange
                 minDate={minDate}
                 maxDate={maxDate}
                 excludeDateIntervals={[
@@ -133,6 +134,7 @@ export default function ToolBar({
             eventTypes={eventTypes}
             capitalizeFirstLetter={capitalizeFirstLetter}
             setFilteredEventTypes={setFilteredEventTypes}
+            filteredEventTypes={filteredEventTypes}
           />
         </Box>
         <Box>
