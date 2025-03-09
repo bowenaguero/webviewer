@@ -37,7 +37,7 @@ export default function Home() {
             Browser History Viewer
           </Text>
           <Box display="flex" alignItems="center">
-            <Link href="/learn-how" target="_blank">
+            <Link href="/learn-how">
               <IconButton
                 color="gray.500"
                 _hover={{ color: "gray.700" }}

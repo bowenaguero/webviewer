@@ -147,9 +147,6 @@ export default function HistoryTable2({ history }) {
                   </Table.Cell>
                   <Table.Cell color="gray.500" p={5}>
                     <Box
-                      overflow="hidden"
-                      textOverflow="ellipsis"
-                      whiteSpace="nowrap"
                       fontSize="sm"
                     >
                       {new Date(item.visitTime).toLocaleString()}

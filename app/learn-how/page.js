@@ -27,7 +27,7 @@ export default function How() {
               to process browser history databases directly in your browser.
             </Text>
             <Text color="green.500">
-              Your privacy is protected: all processing occurs locally in your
+              All processing occurs locally in your
               browser using{" "}
               <Link
                 href="https://webassembly.org/"
