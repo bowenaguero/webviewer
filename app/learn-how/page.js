@@ -11,7 +11,7 @@ import {
 export default function How() {
   return (
     <Center w="100%">
-      <Box w="25%">
+      <Box w={["100%", "70%", "50%"]}>
         <VStack align="flex-start" gap={11}>
           <VStack align="flex-start" gap={3} m={5}>
             <Heading size="3xl">⚙️ How It Works</Heading>

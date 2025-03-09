@@ -41,7 +41,7 @@ export default function Home() {
                 <Icon
                   color="gray.500"
                   _hover={{ color: "gray.700" }}
-                  size="sm"
+                  size={["xs","sm"]}
                   as={FaRegQuestionCircle}
                 />
               </Link>
