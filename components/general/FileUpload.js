@@ -64,16 +64,14 @@ export default function FileUpload({ onHistoryLoaded }) {
       justifyContent="center"
     >
       <input {...getInputProps()} />
-      <VStack spacing={16}>
+      <VStack gap={3}>
         <FaUpload size={40} />
-        <VStack spacing={3} align="center">
-          <Text fontSize={["xs", "sm", "md"]}>
-            {isDragActive ? "Drop to analyze" : "PRIVATE + SECURE"}
-          </Text>
-          <Text fontSize={["2xs", "xs", "sm"]}>
-            {"DATA NEVER LEAVES YOUR BROWSER"}
-          </Text>
-        </VStack>
+        <Text fontSize={["xs", "sm", "md"]}>
+          {isDragActive ? "Drop to analyze" : "PRIVATE + SECURE"}
+        </Text>
+        <Text fontSize={["2xs", "xs", "sm"]}>
+          {"DATA NEVER LEAVES YOUR BROWSER"}
+        </Text>
       </VStack>
     </Box>
   );

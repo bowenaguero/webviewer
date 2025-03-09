@@ -124,7 +124,7 @@ export default function HistoryTable2({ history }) {
           <Table.Body>
             {searching ? (
               <Table.Row>
-                <Table.Cell p={5} colSpan={7}>
+                <Table.Cell p={5} colSpan={7} bg="gray.950">
                   <Box
                     display="flex"
                     justifyContent="center"

@@ -1,10 +1,10 @@
 "use client";
 
 import FileUpload from "@/components/general/FileUpload";
-import { Box, Text, VStack } from "@chakra-ui/react";
-import { InfoTip, ToggleTip } from "@/components/ui/toggle-tip";
+import { Box, Text, VStack, Icon } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-
+import { FaRegQuestionCircle } from "react-icons/fa";
+import Link from "next/link";
 export default function Home() {
   const router = useRouter();
 
@@ -27,22 +27,33 @@ export default function Home() {
       minHeight="calc(100vh - 120px)"
       textAlign="center"
     >
-      <VStack spacing={6} mb={12}>
-        <Text
-          fontSize={["3xl", "4xl", "5xl"]}
-          fontWeight="bold"
-          letterSpacing="tight"
-        >
-          Browser History Viewer
-        </Text>
-        <Box display="flex" alignItems="center" gap={1}>
-          <Text fontSize={["sm", "md", "lg"]}>
-            Upload your browser history file for secure, local analysis.
-          </Text>
-          <InfoTip content="Currently only supports Chromium and Firefox sqlite databases. Upload history.db or places.sqlite." />
+        <VStack gap={5}>
+          <Box display="flex" flexDirection="column" alignItems="center">
+            <Text
+              fontSize={["3xl", "4xl", "5xl"]}
+              fontWeight="bold"
+              letterSpacing="tight"
+            >
+              Browser History Viewer
+            </Text>
+            <Box display="flex" gap={2}>
+              <Link href="/learn-how" target="_blank">
+                <Icon
+                  color="gray.500"
+                  _hover={{ color: "gray.700" }}
+                  size="sm"
+                  as={FaRegQuestionCircle}
+                />
+              </Link>
+              <Text fontSize={["sm", "md", "lg"]}>
+                Upload your browser history file for secure, local analysis.
+              </Text>
+            </Box>
+          </Box>
+          <Box>
+          <FileUpload onHistoryLoaded={handleHistoryLoaded} />
         </Box>
       </VStack>
-      <FileUpload onHistoryLoaded={handleHistoryLoaded} />
     </Box>
   );
 }

@@ -5,7 +5,9 @@ import { FaCopy, FaExternalLinkAlt } from "react-icons/fa";
 
 export default function ActionsMenu({ event }) {
   const handleCopy = (type) => {
-    if (type === "url") {
+    if (type === "event") {
+      navigator.clipboard.writeText(JSON.stringify(event));
+    } else if (type === "url") {
       navigator.clipboard.writeText(event.url);
     } else if (type === "domain") {
       navigator.clipboard.writeText(event.domain);
@@ -33,6 +35,7 @@ export default function ActionsMenu({ event }) {
         <MenuRoot positioning={{ placement: "right-start", gutter: 2 }}>
             <MenuTriggerItem value="copy" onClick={handleCopy}>Copy</MenuTriggerItem>
             <MenuContent>
+                <MenuItem value="event" onClick={() => handleCopy("event")}><Icon as={FaCopy} /> Event</MenuItem>
                 <MenuItem value="url" onClick={() => handleCopy("url")}><Icon as={FaCopy} /> URL</MenuItem>
                 <MenuItem value="domain" onClick={() => handleCopy("domain")}><Icon as={FaCopy} /> Domain</MenuItem>
             </MenuContent>

@@ -18,17 +18,28 @@ const processVisitTimestamp = (timestamp) => {
   return timestamp;
 };
 
+const columnMap = {
+  lastVisitTime: "visitTime",
+  title: "title",
+  eventType: "eventType",
+  eventEntity: "eventEntity",
+  browser: "browser",
+  eventEntityType: "eventEntityType",
+};
+
 export const processHistoryResults = (results) => {
   const historyArray = [];
   const stats = new Map();
-  results[0].values.forEach((row) => {
+
+  results.values.forEach((row) => {
     let historyObject = {};
     historyObject["additionalFields"] = {};
-    results[0].columns.forEach((column, index) => {
-      if (column === "lastVisitTime") {
-        historyObject["visitTime"] = processVisitTimestamp(row[index]);
-      } else if (column === "url") {
-        const url = row[index];
+
+    results.columns.forEach((column, index) => {
+      let value = row[index];
+      
+      if (column === "url") {
+        const url = value;
         const domain = urlToDomain(url);
 
         historyObject["url"] = url;
@@ -36,24 +47,17 @@ export const processHistoryResults = (results) => {
 
         stats.set(domain, (stats.get(domain) || 0) + 1);
         stats.set(url, (stats.get(url) || 0) + 1);
-      } else if (column === "title") {
-        historyObject["title"] = row[index];
-      } else if (column === "eventType") {
-        historyObject["eventType"] = row[index];
-      } else if (column === "eventEntity") {
-        historyObject["eventEntity"] = row[index];
-      } else if (column === "browser") {
-        historyObject["browser"] = row[index];
-      } else if (column === "eventEntityType") {
-        historyObject["eventEntityType"] = row[index];
+      } else if (column === "lastVisitTime") {
+        historyObject["visitTime"] = processVisitTimestamp(value);
+      } else if (column === "referrer" && value === "") {
+        return;
+      } else if (columnMap[column]) {
+        historyObject[columnMap[column]] = value;
       } else {
-        if (column === "referrer" && row[index] === "") {
-          return;
-        } else {
-          historyObject["additionalFields"][column] = row[index];
-        }
+        historyObject["additionalFields"][column] = value;
       }
     });
+
     historyArray.push(historyObject);
   });
 

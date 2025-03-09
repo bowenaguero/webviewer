@@ -1,4 +1,4 @@
-import { Box, Input } from "@chakra-ui/react";
+import { Input } from "@chakra-ui/react";
 import { InputGroup } from "../ui/input-group";
 import { FaSearch } from "react-icons/fa";
 import { CloseButton } from "../ui/close-button";

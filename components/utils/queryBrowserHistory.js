@@ -1,65 +1,13 @@
 import { processHistoryResults } from "@/components/utils/processBrowserHistory";
 
-// const exampleData = [
-//   {
-//     eventType: "visit",
-//     url: "https://www.google.com",
-//     title: "Google",
-//     lastVisitTime: "2021-01-01",
-//     visitCount: 10,
-//     domain: "google.com",
-//     domainVisitCount: 10,
-//     eventEntity: "https://www.google.com",
-//   },
-//   {
-//     eventType: "download",
-//     url: "https://www.google.com",
-//     title: "Google",
-//     lastVisitTime: "2021-01-01",
-//     visitCount: 10,
-//     domain: "google.com",
-//     domainVisitCount: 10,
-//     eventEntity: "C:\\Users\\John\\Downloads\\google.exe",
-//   },
-//   {
-//     eventType: "keyword_search",
-//     url: "https://www.google.com",
-//     title: "Google",
-//     lastVisitTime: "2021-01-01",
-//     visitCount: 10,
-//     domain: "google.com",
-//     domainVisitCount: 10,
-//     eventEntity: "google",
-//   },
-//   {
-//     eventType: "autofill",
-//     url: "https://www.google.com",
-//     title: "Google",
-//     lastVisitTime: "2021-01-01",
-//     visitCount: 10,
-//     domain: "google.com",
-//     domainVisitCount: 10,
-//     eventEntity: "google",
-//   },
-//   {
-//     eventType: "bookmark",
-//     url: "https://www.google.com",
-//     title: "Google",
-//     lastVisitTime: "2021-01-01",
-//     visitCount: 10,
-//     domain: "google.com",
-//     domainVisitCount: 10,
-//     eventEntity: "Google",
-//   },
-// ];
-
 export const queryBrowserHistory = async (db) => {
   let results = [];
 
   Object.keys(BROWSER_QUERIES).forEach((key) => {
     try {
       Object.keys(BROWSER_QUERIES[key]).forEach((query) => {
-        const result = db.exec(BROWSER_QUERIES[key][query]);
+        const result = db.exec(BROWSER_QUERIES[key][query])[0];
+        console.log(result);
         const processedResult = processHistoryResults(result);
         results.push(...processedResult);
       });
@@ -68,7 +16,6 @@ export const queryBrowserHistory = async (db) => {
     }
   });
 
-  console.log({ history: results });
   return { history: results };
 };
 
