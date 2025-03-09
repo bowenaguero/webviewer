@@ -76,14 +76,13 @@ const BROWSER_QUERIES = {
   firefox: {
     downloads: `
       SELECT
-        moz_places.id,
         moz_places.last_visit_date AS lastVisitTime,
         moz_places.url,
         moz_places.title,
-        moz_places.visit_count AS visitCount,
         moz_annos.content AS eventEntity,
-        'download' AS eventType,
-        'firefox' as browser
+        'File Name' AS eventEntityType,
+        'Download' AS eventType,
+        'Firefox' as browser
       FROM
         moz_places
       JOIN
@@ -95,14 +94,13 @@ const BROWSER_QUERIES = {
       `,
     visits: `
       SELECT
-          moz_places.id,
           moz_historyvisits.visit_date as lastVisitTime,
           moz_places.url,
           moz_places.title,
-          moz_places.visit_count AS visitCount,
           moz_places.url as eventEntity,
-          'visit' AS eventType,
-          'firefox' as browser
+          'URL' AS eventEntityType,
+          'Visit' AS eventType,
+          'Firefox' as browser
       FROM
           moz_places
       JOIN
@@ -112,14 +110,13 @@ const BROWSER_QUERIES = {
       `,
     autofill: `
       SELECT
-      moz_places.id,
       moz_places.last_visit_date AS lastVisitTime,
       moz_places.url,
       moz_places.title,
-      moz_places.visit_count AS visitCount,
       moz_inputhistory.input AS eventEntity,
-      'autofill' AS eventType,
-      'firefox' as browser
+      'Input' AS eventEntityType,
+      'Autofill' AS eventType,
+      'Firefox' as browser
       FROM
         moz_places
       JOIN
@@ -129,14 +126,13 @@ const BROWSER_QUERIES = {
     `,
     bookmarks: `
       SELECT
-        moz_places.id,
         moz_places.last_visit_date AS lastVisitTime,
         moz_places.url,
         moz_places.title,
-        moz_places.visit_count AS visitCount,
         moz_bookmarks.title AS eventEntity,
-        'bookmark' AS eventType,
-        'firefox' as browser
+        'Bookmark Name' AS eventEntityType,
+        'Bookmark' AS eventType,
+        'Firefox' as browser
       FROM
         moz_places
       JOIN
@@ -150,7 +146,6 @@ const BROWSER_QUERIES = {
   chrome: {
     downloads: `
       SELECT
-        id,
         start_time as lastVisitTime,
         target_path as eventEntity,
         tab_url as url,
@@ -160,8 +155,9 @@ const BROWSER_QUERIES = {
         original_mime_type as originalMimeType,
         received_bytes as receivedBytes,
         total_bytes as totalBytes,
-        'download' as eventType,
-        'chrome' as browser
+        'File Name' AS eventEntityType,
+        'Download' as eventType,
+        'Chrome' as browser
       FROM
         downloads
       ORDER BY start_time DESC   
@@ -169,15 +165,14 @@ const BROWSER_QUERIES = {
     `,
     visits: `
     SELECT
-      urls.id,
       visits.visit_time as lastVisitTime,
       urls.url as url,
       urls.title,
-      urls.visit_count as visitCount,
       urls.url as eventEntity,
       visits.external_referrer_url as referrer,
-      'visit' as eventType,
-      'chrome' as browser
+      'URL' as eventEntityType,
+      'Visit' as eventType,
+      'Chrome' as browser
     FROM
       visits
     JOIN
@@ -187,16 +182,13 @@ const BROWSER_QUERIES = {
     `,
     keyword_search: `
     SELECT
-      content_annotations.visit_id,
       content_annotations.search_terms as eventEntity,
-      visits.url,
       visits.visit_time as lastVisitTime,
-      visits.id,
       urls.url,
       urls.title,
-      urls.visit_count,
-      'keyword' as eventType,
-      'chrome' as browser
+      'Keyword' as eventEntityType,
+      'Keyword' as eventType,
+      'Chrome' as browser
     FROM 
       content_annotations
     JOIN 

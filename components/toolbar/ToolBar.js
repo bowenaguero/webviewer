@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Flex, Box, IconButton, Text } from "@chakra-ui/react";
 import SearchBar from "./SearchBar";
 import FilterBy from "./FilterBy";
@@ -22,30 +22,51 @@ export default function ToolBar({
   setStartDate,
   endDate,
   setEndDate,
-  handleDateChange,
-  minDate,
-  maxDate,
-  eventTypes,
-  capitalizeFirstLetter,
   setFilteredEventTypes,
   setSearch,
   setSearching,
   search,
   filteredEventTypes,
+  history,
+  processedHistory,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const beginDate = startDate;
 
-  const handleClick = (e) => {
+  const handleCalendarClick = (e) => {
     e.preventDefault();
     setIsOpen(!isOpen);
   };
 
-  const handleClose = () => {
+  const handleClearDate = () => {
     setStartDate(beginDate);
     setEndDate(null);
     setIsOpen(false);
+    setPage(1);
   };
+
+  const handleDateChange = (dates) => {
+    const [start, end] = dates;
+    setStartDate(start);
+    setEndDate(end);
+    setPage(1);
+  };
+
+  const dateRange = useMemo(() => {
+    const dates = processedHistory.map((item) => new Date(item.visitTime));
+    return {
+      minDate: new Date(Math.min(...dates)),
+      maxDate: new Date(Math.max(...dates)),
+    };
+  }, [processedHistory]);
+
+  const eventTypes = useMemo(() => {
+    const uniqueEventTypes = new Set();
+    history.forEach((item) => {
+      uniqueEventTypes.add(item.eventType);
+    });
+    return Array.from(uniqueEventTypes);
+  }, [history]);
 
   return (
     <Flex
@@ -75,7 +96,7 @@ export default function ToolBar({
         <Box position="relative">
           <Box display="flex" alignItems="center" gap={2}>
             <IconButton
-              onClick={handleClick}
+              onClick={handleCalendarClick}
               variant="ghost"
               _hover={{ bg: "gray.800" }}
               size="sm"
@@ -90,7 +111,7 @@ export default function ToolBar({
                 </Text>
                 <CloseButton 
                   size="xs"
-                  onClick={handleClose}
+                  onClick={handleClearDate}
                   _hover={{ bg: "gray.800" }}
                 />
               </Box>
@@ -113,15 +134,15 @@ export default function ToolBar({
                 startDate={startDate}
                 endDate={endDate}
                 dateFormat="MM/dd/yyyy"
-                minDate={minDate}
-                maxDate={maxDate}
+                minDate={dateRange.minDate}
+                maxDate={dateRange.maxDate}
                 excludeDateIntervals={[
                   {
                     start: new Date(0),
-                    end: new Date(minDate.getTime() - 86400000),
+                    end: new Date(dateRange.minDate.getTime() - 86400000),
                   },
                   {
-                    start: new Date(maxDate.getTime() + 86400000),
+                    start: new Date(dateRange.maxDate.getTime() + 86400000),
                     end: new Date(2099, 11, 31),
                   },
                 ]}
@@ -132,9 +153,9 @@ export default function ToolBar({
         <Box w="40%">
           <FilterBy
             eventTypes={eventTypes}
-            capitalizeFirstLetter={capitalizeFirstLetter}
             setFilteredEventTypes={setFilteredEventTypes}
             filteredEventTypes={filteredEventTypes}
+            setPage={setPage}
           />
         </Box>
         <Box>

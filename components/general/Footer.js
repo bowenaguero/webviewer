@@ -26,19 +26,6 @@ export default function Footer() {
             <Text fontSize="sm">Coffee</Text>
           </Box>
         </Link>
-        <Text fontSize="sm">{"//"}</Text>
-        <Link
-          href={"https://github.com/bowenaguero/webviewer"}
-          target="_blank"
-          color={"gray.700"}
-        >
-          <Box display={"flex"} alignItems={"center"} gap={2}>
-            <Icon>
-              <FaGithub size={14} />
-            </Icon>
-            <Text fontSize="sm">Source</Text>
-          </Box>
-        </Link>
       </Flex>
     </Box>
   );

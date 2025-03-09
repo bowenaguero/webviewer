@@ -8,14 +8,20 @@ import {
 } from "@/components/ui/select";
 import EventIcon from "../event/EventIcon";
 import { HStack } from "@chakra-ui/react";
+import { capitalizeFirstLetter } from "../utils/helpers";
 
-export default function FilterBy({ eventTypes, capitalizeFirstLetter, setFilteredEventTypes, filteredEventTypes }) {
+export default function FilterBy({ eventTypes, setFilteredEventTypes, filteredEventTypes, setPage }) {
   const eventTypeMap = createListCollection({
     items: eventTypes.map(type => ({
       label: capitalizeFirstLetter(type),
       value: type
     }))
   });
+
+  const handleValueChange = (value) => {
+    setFilteredEventTypes(value);
+    setPage(1);
+  };
 
   return (
     <SelectRoot
@@ -25,7 +31,7 @@ export default function FilterBy({ eventTypes, capitalizeFirstLetter, setFiltere
       multiple
       collection={eventTypeMap}
       height="100%"
-      onValueChange={setFilteredEventTypes}
+      onValueChange={handleValueChange}
       _hover={{ borderColor: "gray.700" }}
     >
       <SelectTrigger clearable>

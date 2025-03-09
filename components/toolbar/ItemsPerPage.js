@@ -23,7 +23,7 @@ export default function ItemsPerPage({ itemsPerPage, setItemsPerPage }) {
         </Button>
       </MenuTrigger>
       <MenuContent>
-        <MenuItem value={15}>15 items per page</MenuItem>
+        <MenuItem value={10}>10 items per page</MenuItem>
         <MenuItem value={25}>25 items per page</MenuItem>
         <MenuItem value={50}>50 items per page</MenuItem>
         <MenuItem value={100}>100 items per page</MenuItem>

@@ -17,19 +17,19 @@ export default function Event({ eventType, size = "md" }) {
   }
 
   const icons = {
-    visit: FaEye,
-    download: FaDownload,
-    autofill: FaICursor,
-    bookmark: FaBookmark,
-    keyword: FaSearch,
+    Visit: FaEye,
+    Download: FaDownload,
+    Autofill: FaICursor,
+    Bookmark: FaBookmark,
+    Keyword: FaSearch,
   }
 
   const iconColor = { 
-    visit: "#AA4586",
-    download: "#1B998B",
-    autofill: "#F2DC5D",
-    bookmark: "#F46036",
-    keyword: "#468C98",
+    Visit: "#AA4586",
+    Download: "#1B998B",
+    Autofill: "#F2DC5D",
+    Bookmark: "#F46036",
+    Keyword: "#468C98",
   }
   
   return (
