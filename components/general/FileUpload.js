@@ -6,7 +6,6 @@ import { Box, Text, VStack } from "@chakra-ui/react";
 import { FaUpload } from "react-icons/fa";
 import initSqlJs from "sql.js";
 import { queryBrowserHistory } from "@/components/utils/queryBrowserHistory";
-import { processHistoryResults } from "@/components/utils/processBrowserHistory";
 
 export default function FileUpload({ onHistoryLoaded }) {
   const [isProcessing, setIsProcessing] = useState(false);
