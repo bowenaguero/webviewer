@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import FileUpload from "@/components/general/FileUpload";
-import { Box, Text, VStack, IconButton, Spinner } from "@chakra-ui/react";
+import { Box, Text, VStack, IconButton, Spinner, Icon } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { FaRegQuestionCircle } from "react-icons/fa";
+import { FaRegQuestionCircle, FaChrome, FaFirefox, FaSafari } from "react-icons/fa";
 import { toaster } from "@/components/ui/toaster";
+import { Tooltip } from "@/components/ui/tooltip";
 import Link from "next/link";
 
 export default function Home() {
@@ -77,6 +78,20 @@ export default function Home() {
               setIsProcessing={setIsProcessing}
             />
           )}
+        </Box>
+        <Box display="flex" justifyContent="center" gap={2} alignItems="center">
+          <Text fontSize={["xs"]} color="gray.500">
+            Supports:{" "}
+          </Text>
+          <Tooltip content="Chromium (Supported)">
+            <Icon color="green.500" opacity={0.4} as={FaChrome} />
+          </Tooltip>
+          <Tooltip content="Firefox (Supported)">
+            <Icon color="green.500" opacity={0.4} as={FaFirefox} />
+          </Tooltip>
+          <Tooltip content="Safari (Not Supported)">
+            <Icon color="red.500" opacity={0.4} as={FaSafari} />
+          </Tooltip>
         </Box>
       </VStack>
     </Box>
