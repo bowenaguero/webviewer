@@ -7,8 +7,7 @@ import { FaUpload } from "react-icons/fa";
 import initSqlJs from "sql.js";
 import { queryBrowserHistory } from "@/components/utils/queryBrowserHistory";
 
-export default function FileUpload({ onHistoryLoaded }) {
-  const [isProcessing, setIsProcessing] = useState(false);
+export default function FileUpload({ onHistoryLoaded, setIsProcessing }) {
 
   const onDrop = useCallback(
     async (acceptedFiles) => {
@@ -33,7 +32,7 @@ export default function FileUpload({ onHistoryLoaded }) {
         setIsProcessing(false);
       }
     },
-    [onHistoryLoaded]
+    [onHistoryLoaded, setIsProcessing]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

@@ -1,12 +1,15 @@
 "use client";
 
+import { useState } from "react";
 import FileUpload from "@/components/general/FileUpload";
-import { Box, Text, VStack, IconButton } from "@chakra-ui/react";
+import { Box, Text, VStack, IconButton, Spinner } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { FaRegQuestionCircle } from "react-icons/fa";
 import Link from "next/link";
+
 export default function Home() {
   const router = useRouter();
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const handleHistoryLoaded = (data) => {
     try {
@@ -53,7 +56,16 @@ export default function Home() {
           </Box>
         </Box>
         <Box>
-          <FileUpload onHistoryLoaded={handleHistoryLoaded} />
+          {isProcessing ? (
+            <Box display="flex" justifyContent="center" mt={4}>
+              <Spinner size="sm" />
+            </Box>
+          ) : (
+            <FileUpload
+              onHistoryLoaded={handleHistoryLoaded}
+              setIsProcessing={setIsProcessing}
+            />
+          )}
         </Box>
       </VStack>
     </Box>
