@@ -12,6 +12,11 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+export const metadata = {
+  title: "WebViewer",
+  description: "A tool to analyze browser history",
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
