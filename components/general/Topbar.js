@@ -11,7 +11,7 @@ export default function Topbar() {
       <Flex justifyContent={"space-between"} alignItems={"center"}>
         <Box>
           <Link href={"/"}>
-            <Heading _hover={{ opacity: 0.8 }} fontSize={"2xl"}>WebViewer</Heading>
+            <Heading _hover={{ opacity: 0.8 }} fontSize={"4xl"} fontStyle={"italic"}>BHV</Heading>
           </Link>
         </Box>
       </Flex>
