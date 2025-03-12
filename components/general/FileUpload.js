@@ -43,6 +43,11 @@ export default function FileUpload({ onHistoryLoaded, setIsProcessing }) {
         onHistoryLoaded({ history });
       } catch (error) {
         console.error("Error processing file:", error);
+        toaster.create({
+          title: "Error",
+          description: "Error processing file",
+          type: "error",
+        });
       } finally {
         setIsProcessing(false);
       }
