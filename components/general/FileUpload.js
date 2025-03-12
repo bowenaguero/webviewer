@@ -84,11 +84,8 @@ export default function FileUpload({ onHistoryLoaded, setIsProcessing }) {
       <input {...getInputProps()} />
       <VStack gap={3}>
         <FaUpload size={40} />
-        <Text fontSize={["xs", "sm", "md"]}>
-          {isDragActive ? "Drop to analyze" : "PRIVATE + SECURE"}
-        </Text>
-        <Text fontSize={["2xs", "xs", "sm"]}>
-          {"DATA NEVER LEAVES YOUR BROWSER"}
+        <Text color="gray.500" fontSize={["xs", "sm"]}>
+          {isDragActive ? "Drop to analyze" : "Drag and drop or click to upload"}
         </Text>
       </VStack>
     </Box>

@@ -62,7 +62,7 @@ export default function Home() {
                 <FaRegQuestionCircle />
               </IconButton>
             </Link>
-            <Text fontSize={["sm", "md", "lg"]}>
+            <Text fontSize={["xs", "sm", "md", "lg"]}>
               Upload your browser history file for secure, local analysis.
             </Text>
           </Box>
@@ -84,13 +84,13 @@ export default function Home() {
             Supports:{" "}
           </Text>
           <Tooltip content="Chromium (Supported)">
-            <Icon color="green.500" opacity={0.4} as={FaChrome} />
+            <Icon color="gray.500" opacity={0.8} as={FaChrome} />
           </Tooltip>
           <Tooltip content="Firefox (Supported)">
-            <Icon color="green.500" opacity={0.4} as={FaFirefox} />
+            <Icon color="gray.500" opacity={0.8} as={FaFirefox} />
           </Tooltip>
           <Tooltip content="Safari (Not Supported)">
-            <Icon color="red.500" opacity={0.4} as={FaSafari} />
+            <Icon color="gray.500" opacity={0.1} as={FaSafari} />
           </Tooltip>
         </Box>
       </VStack>
