@@ -2,15 +2,31 @@ import { MenuContent, MenuItem, MenuRoot, MenuTrigger, MenuItemCommand, MenuTrig
 import { FaEllipsisV } from "react-icons/fa";
 import { Icon, IconButton } from "@chakra-ui/react";
 import { FaCopy, FaExternalLinkAlt } from "react-icons/fa";
+import { toaster } from "../ui/toaster";
 
 export default function ActionsMenu({ event }) {
   const handleCopy = (type) => {
     if (type === "event") {
       navigator.clipboard.writeText(JSON.stringify(event));
+      toaster.create({
+        title: "Copied to clipboard",
+        description: "Event copied to clipboard",
+        type: "success",
+      });
     } else if (type === "url") {
       navigator.clipboard.writeText(event.url);
+      toaster.create({
+        title: "Copied to clipboard",
+        description: "URL copied to clipboard",
+        type: "success",
+      });
     } else if (type === "domain") {
       navigator.clipboard.writeText(event.domain);
+      toaster.create({
+        title: "Copied to clipboard",
+        description: "Domain copied to clipboard",
+        type: "success",
+      });
     }
   }
 

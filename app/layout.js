@@ -4,6 +4,7 @@ import Footer from "@/components/general/Footer";
 import { Box } from "@chakra-ui/react";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react"
+import { Toaster } from "@/components/ui/toaster"
 import { ReactScan } from "./ReactScan";
 
 const inter = Inter({
@@ -39,6 +40,7 @@ export default function RootLayout({ children }) {
         {/* <ReactScan/> */}
         <Analytics />
         <Provider>
+          <Toaster />
           <Topbar />
           <Box minH={"calc(100vh - 120px)"} bg="gray.900">
               {children}

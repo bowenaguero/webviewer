@@ -5,6 +5,7 @@ import FileUpload from "@/components/general/FileUpload";
 import { Box, Text, VStack, IconButton, Spinner } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { FaRegQuestionCircle } from "react-icons/fa";
+import { toaster } from "@/components/ui/toaster";
 import Link from "next/link";
 
 export default function Home() {
@@ -15,9 +16,19 @@ export default function Home() {
     try {
       const dataString = JSON.stringify(data);
       localStorage.setItem("browserHistory", dataString);
+      toaster.create({
+        title: "History loaded",
+        description: "You can now view your browser history",
+        type: "info",
+      });
       router.push("/viewer");
     } catch (error) {
       console.error("Error processing history:", error);
+      toaster.create({
+        title: "Error",
+        description: "Error processing history",
+        type: "error",
+      });
     }
   };
 
