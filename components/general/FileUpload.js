@@ -6,12 +6,27 @@ import { Box, Text, VStack } from "@chakra-ui/react";
 import { FaUpload } from "react-icons/fa";
 import initSqlJs from "sql.js";
 import { queryBrowserHistory } from "@/components/utils/queryBrowserHistory";
+import { toaster } from "../ui/toaster";
 
 export default function FileUpload({ onHistoryLoaded, setIsProcessing }) {
 
   const onDrop = useCallback(
-    async (acceptedFiles) => {
-      if (acceptedFiles.length === 0) return;
+    async (acceptedFiles, rejectedFiles) => {
+      if (rejectedFiles.length > 0) {
+        toaster.create({
+          title: "Error",
+          description: "Invalid file type",
+          type: "error",
+        })
+        return;
+      } else if (acceptedFiles.length === 0) {
+        toaster.create({
+          title: "Error",
+          description: "No file selected",
+          type: "error",
+        });
+        return;
+      }
 
       setIsProcessing(true);
       try {
