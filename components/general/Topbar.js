@@ -20,7 +20,7 @@ export default function Topbar() {
               fontSize={"sm"}
               color={"gray.500"}
             >
-              Upload
+              Home
             </Text>
           </Link>
           <Link href={"/viewer"}>
