@@ -1,6 +1,6 @@
 import { Provider } from "@/components/ui/provider";
 import Topbar from "@/components/general/Topbar";
-import Footer from "@/components/general/Footer";
+// import Footer from "@/components/general/Footer";
 import { Box } from "@chakra-ui/react";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react"
@@ -41,11 +41,11 @@ export default function RootLayout({ children }) {
         <Analytics />
         <Provider>
           <Toaster />
+          <Box minH={"100vh"} bg="gray.900">
           <Topbar />
-          <Box minH={"calc(100vh - 120px)"} bg="gray.900">
-              {children}
+            {children}
           </Box>
-          <Footer />
+          {/* <Footer /> */}
         </Provider>
       </body>
     </html>
