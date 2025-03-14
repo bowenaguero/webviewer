@@ -1,3 +1,5 @@
+import db from "./indexedDb";
+
 const urlToDomain = (url) => {
   return new URL(url).hostname;
 };
@@ -64,7 +66,11 @@ export const processHistoryResults = (results) => {
   historyArray.forEach((historyObject) => {
     historyObject["domain_count"] = stats.get(historyObject["domain"]);
     historyObject["url_count"] = stats.get(historyObject["url"]);
+
+    db.history.add(historyObject);
   });
+
+
 
   return historyArray;
 };

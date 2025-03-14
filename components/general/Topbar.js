@@ -40,7 +40,7 @@ export default function Topbar() {
               fontSize={"sm"}
               color={"gray.500"}
             >
-              Learn How
+              Learn
             </Text>
           </Link>
           {/* <Link href={"/about"}>

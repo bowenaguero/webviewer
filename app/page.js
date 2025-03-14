@@ -15,13 +15,6 @@ export default function Home() {
 
   const handleHistoryLoaded = (data) => {
     try {
-      const dataString = JSON.stringify(data);
-      localStorage.setItem("browserHistory", dataString);
-      toaster.create({
-        title: "History loaded",
-        description: "You can now view your browser history",
-        type: "info",
-      });
       router.push("/viewer");
     } catch (error) {
       console.error("Error processing history:", error);

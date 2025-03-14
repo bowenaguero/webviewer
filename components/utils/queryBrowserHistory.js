@@ -1,7 +1,10 @@
 import { processHistoryResults } from "@/components/utils/processBrowserHistory";
-let rowLimit = 7000;
+import indexedDb from "@/components/utils/indexedDb";
+
+let rowLimit = 25000;
 
 export const queryBrowserHistory = async (db) => {
+  indexedDb.history.clear();
   let results = [];
 
   Object.keys(BROWSER_QUERIES).forEach((key) => {

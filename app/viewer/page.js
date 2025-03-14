@@ -1,8 +1,11 @@
 "use client";
 
 import { Box, Center, Spinner } from "@chakra-ui/react";
-import { useState, Suspense } from "react";
+import { Suspense } from "react";
 import HistoryTable from "@/components/table/HistoryTable";
+import indexedDb from "@/components/utils/indexedDb";
+import { useLiveQuery } from "dexie-react-hooks";
+import { toaster } from "@/components/ui/toaster";
 
 export default function ViewerPage() {
   return (
@@ -13,29 +16,21 @@ export default function ViewerPage() {
 }
 
 function ViewerContent() {
-  const storedData = typeof window !== 'undefined' ? localStorage.getItem("browserHistory") : null;
-  const parsedData = storedData ? JSON.parse(storedData) : null;
-  const [data] = useState(parsedData);
-  const [history] = useState(parsedData?.history || null);
+  const history = useLiveQuery(() => indexedDb.history.toArray());
 
-  if (!data) {
+  if (!history) {
+    return <LoadingSpinner />;
+  } else {
     return (
-      <Box p={8} textAlign="center">
-        No history data available. Please upload a history file from the home
-        page.
-      </Box>
+      <Center>
+        <Box w="90%">
+          <HistoryTable
+            history={history}
+          />
+        </Box>
+      </Center>
     );
   }
-
-  return (
-    <Center>
-      <Box w="90%">
-        <HistoryTable
-          history={history}
-        />
-      </Box>
-    </Center>
-  );
 }
 
 function LoadingSpinner() {

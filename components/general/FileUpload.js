@@ -9,7 +9,6 @@ import { queryBrowserHistory } from "@/components/utils/queryBrowserHistory";
 import { toaster } from "../ui/toaster";
 
 export default function FileUpload({ onHistoryLoaded, setIsProcessing }) {
-
   const onDrop = useCallback(
     async (acceptedFiles, rejectedFiles) => {
       if (rejectedFiles.length > 0) {
@@ -17,7 +16,7 @@ export default function FileUpload({ onHistoryLoaded, setIsProcessing }) {
           title: "Error",
           description: "Invalid file type",
           type: "error",
-        })
+        });
         return;
       } else if (acceptedFiles.length === 0) {
         toaster.create({
@@ -85,7 +84,9 @@ export default function FileUpload({ onHistoryLoaded, setIsProcessing }) {
       <VStack gap={3}>
         <FaUpload size={40} />
         <Text color="gray.500" fontSize={["xs", "sm"]}>
-          {isDragActive ? "Drop to analyze" : "Drag and drop or click to upload"}
+          {isDragActive
+            ? "Drop to analyze"
+            : "Drag and drop or click to upload"}
         </Text>
       </VStack>
     </Box>

@@ -26,7 +26,6 @@ export default function HistoryTable2({ history }) {
     filtered = filterBySearch(filtered, search);
     filtered = filterByDate(filtered, startDate, endDate);
     filtered = sortByDate(filtered, sortBy);
-
     return filtered;
   }, [history, sortBy, filteredEventTypes, search, startDate, endDate]);
 
