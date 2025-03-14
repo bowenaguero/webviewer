@@ -1,4 +1,5 @@
 import { processHistoryResults } from "@/components/utils/processBrowserHistory";
+let rowLimit = 7000;
 
 export const queryBrowserHistory = async (db) => {
   let results = [];
@@ -37,7 +38,7 @@ const BROWSER_QUERIES = {
       WHERE
         moz_annos.content NOT LIKE '%deleted%'
       ORDER BY moz_places.last_visit_date DESC
-      LIMIT 8000
+      LIMIT ${rowLimit}
       `,
     visits: `
       SELECT
@@ -53,7 +54,7 @@ const BROWSER_QUERIES = {
       JOIN
           moz_historyvisits ON moz_places.id = moz_historyvisits.place_id
       ORDER BY moz_historyvisits.visit_date DESC
-      LIMIT 8000
+      LIMIT ${rowLimit}
       `,
     autofill: `
       SELECT
@@ -69,7 +70,7 @@ const BROWSER_QUERIES = {
       JOIN
       moz_inputhistory ON moz_places.id = moz_inputhistory.place_id
       ORDER BY moz_places.last_visit_date DESC
-      LIMIT 8000
+      LIMIT ${rowLimit}
     `,
     bookmarks: `
       SELECT
@@ -87,7 +88,7 @@ const BROWSER_QUERIES = {
       WHERE 
         moz_bookmarks.fk IS NOT NULL
       ORDER BY moz_places.last_visit_date DESC
-      LIMIT 8000
+      LIMIT ${rowLimit}
     `,
   },
   chrome: {
@@ -108,7 +109,7 @@ const BROWSER_QUERIES = {
       FROM
         downloads
       ORDER BY start_time DESC   
-      LIMIT 8000
+      LIMIT ${rowLimit}
     `,
     visits: `
     SELECT
@@ -125,7 +126,7 @@ const BROWSER_QUERIES = {
     JOIN
       urls ON visits.url = urls.id
     ORDER BY visits.visit_time DESC
-    LIMIT 8000
+    LIMIT ${rowLimit}
     `,
     keyword_search: `
     SELECT
@@ -144,7 +145,7 @@ const BROWSER_QUERIES = {
       urls ON urls.id = visits.url
     WHERE content_annotations.search_terms IS NOT ""
     ORDER BY visits.visit_time DESC
-    LIMIT 8000
+    LIMIT ${rowLimit}
     `,
   },
 };
