@@ -1,5 +1,5 @@
 import { Provider } from "@/components/ui/provider";
-import Topbar from "@/components/general/Topbar";
+import Topbar from "@/components/topbar/Topbar";
 // import Footer from "@/components/general/Footer";
 import { Box } from "@chakra-ui/react";
 import { Inter } from "next/font/google";

@@ -1,7 +1,29 @@
 import { Timeline, VStack, Heading, Text, Icon, HStack } from "@chakra-ui/react";
-import { FaInfoCircle } from "react-icons/fa";
+import { FaInfoCircle, FaFileDownload, FaUpload, FaEye } from "react-icons/fa";
 
-export default function HowToTimeline({ instructions }) {
+const instructions = [
+    {
+      title: "Fetch your browser history file",
+      description: "Supported browser history files are listed below.",
+      gif: "/images/fetch-browser-history-file.gif",
+      icon: <FaFileDownload />,
+    },
+    {
+      title: "Upload your browser history file",
+      description: "Upload your browser history file to WebViewer.",
+      gif: "/images/upload-browser-history-file.gif",
+      icon: <FaUpload />,
+    },
+    {
+      title: "View your browser history",
+      description:
+        "Browser history is displayed in a table format, which can be filtered by date, event type, and more.",
+      gif: "/images/view-browser-history.gif",
+      icon: <FaEye />,
+    },
+  ];
+
+export default function HowToTimeline() {
   return (
     <VStack gap={7} alignItems="start">
       <VStack gap={2} alignItems="start">

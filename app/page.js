@@ -1,16 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import FileUpload from "@/components/general/FileUpload";
-import { Box, Text, VStack, IconButton, Spinner, Icon, } from "@chakra-ui/react";
+import FileUpload from "@/components/fileupload/FileUpload";
+import { Box, Text, VStack, IconButton, Spinner } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import {
-  FaRegQuestionCircle,
-  FaCog,
-} from "react-icons/fa";
+import { FaRegQuestionCircle } from "react-icons/fa";
 import { toaster } from "@/components/ui/toaster";
 import Link from "next/link";
-import Supports from "@/components/Supports/Supports";
+import Supports from "@/components/fileupload/Supports";
 
 export default function Home() {
   const router = useRouter();

@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
-import Socials from "@/components/Socials/Socials";
-import Navbar from "@/components/Navbar/Navbar";
+import Socials from "@/components/topbar/Socials";
+import Navbar from "@/components/topbar/Navbar";
 
 export default function Topbar() {
   return (

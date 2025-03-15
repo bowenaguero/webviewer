@@ -4,7 +4,7 @@ import SearchBar from "./SearchBar";
 import FilterBy from "./FilterBy";
 import ItemsPerPage from "./ItemsPerPage";
 import SortBy from "./SortBy";
-import PaginationMenu from "../table/PaginationMenu";
+import PaginationMenu from "../Table/PaginationMenu";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaCalendarAlt } from "react-icons/fa";
