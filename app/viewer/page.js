@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Center, Spinner } from "@chakra-ui/react";
+import { Box, Center, Spinner, Text, VStack } from "@chakra-ui/react";
 import { Suspense } from "react";
 import HistoryTable from "@/components/table/HistoryTable";
 import indexedDb from "@/components/utils/indexedDb";
@@ -35,8 +35,13 @@ function ViewerContent() {
 
 function LoadingSpinner() {
   return (
-    <Center h="100vh">
-      <Spinner size="xl" />
+    <Center h="calc(100vh - 120px)">
+      <VStack gap={5}>
+        <Spinner size="xl" />
+        <Text fontSize={["xs", "sm"]}>
+          Loading your history...
+        </Text>
+      </VStack>
     </Center>
   );
 }

@@ -2,12 +2,15 @@
 
 import { useState } from "react";
 import FileUpload from "@/components/general/FileUpload";
-import { Box, Text, VStack, IconButton, Spinner, Icon } from "@chakra-ui/react";
+import { Box, Text, VStack, IconButton, Spinner, Icon, } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { FaRegQuestionCircle, FaChrome, FaFirefox, FaSafari } from "react-icons/fa";
+import {
+  FaRegQuestionCircle,
+  FaCog,
+} from "react-icons/fa";
 import { toaster } from "@/components/ui/toaster";
-import { Tooltip } from "@/components/ui/tooltip";
 import Link from "next/link";
+import Supports from "@/components/Supports/Supports";
 
 export default function Home() {
   const router = useRouter();
@@ -62,9 +65,7 @@ export default function Home() {
         </Box>
         <Box>
           {isProcessing ? (
-            <Box display="flex" justifyContent="center" mt={4}>
-              <Spinner size="sm" />
-            </Box>
+            <ProcessingSpinner />
           ) : (
             <FileUpload
               onHistoryLoaded={handleHistoryLoaded}
@@ -72,21 +73,19 @@ export default function Home() {
             />
           )}
         </Box>
-        <Box display="flex" justifyContent="center" gap={2} alignItems="center">
-          <Text fontSize={["xs"]} color="gray.500">
-            Supports:{" "}
-          </Text>
-          <Tooltip content="Chromium (Supported)">
-            <Icon color="gray.500" opacity={0.8} as={FaChrome} />
-          </Tooltip>
-          <Tooltip content="Firefox (Supported)">
-            <Icon color="gray.500" opacity={0.8} as={FaFirefox} />
-          </Tooltip>
-          <Tooltip content="Safari (Not Supported)">
-            <Icon color="gray.500" opacity={0.1} as={FaSafari} />
-          </Tooltip>
+        <Box display="flex" alignItems="center">
+          <Supports />
         </Box>
       </VStack>
     </Box>
+  );
+}
+
+function ProcessingSpinner() {
+  return (
+    <VStack display="flex" justifyContent="center" m={5} gap={5}>
+      <Spinner size="sm" />
+      <Text fontSize={["xs", "sm"]}>Processing your history...</Text>
+    </VStack>
   );
 }
