@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useMemo } from "react";
 import { HStack, Box, Table, Text, Spinner } from "@chakra-ui/react";
 import PaginationMenu from "./PaginationMenu";
@@ -23,6 +21,7 @@ export default function HistoryTable2({ history }) {
   const processedHistory = useMemo(() => {
     let filtered = [...history];
     filtered = filterByEventTypes(filtered, filteredEventTypes);
+    console.log(filtered)
     filtered = filterBySearch(filtered, search);
     filtered = filterByDate(filtered, startDate, endDate);
     filtered = sortByDate(filtered, sortBy);
@@ -148,7 +147,7 @@ export default function HistoryTable2({ history }) {
                     <Box
                       fontSize="sm"
                     >
-                      {new Date(item.visitTime).toLocaleString()}
+                      {item.visitTimeFormatted}
                     </Box>
                   </Table.Cell>
                   <Table.Cell color="gray.500" p={5}>

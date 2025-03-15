@@ -20,6 +20,10 @@ const processVisitTimestamp = (timestamp) => {
   return timestamp;
 };
 
+const formatDate = (timestamp) => {
+  return new Date(timestamp).toLocaleString();
+};
+
 const columnMap = {
   lastVisitTime: "visitTime",
   title: "title",
@@ -51,6 +55,7 @@ export const processHistoryResults = (results) => {
         stats.set(url, (stats.get(url) || 0) + 1);
       } else if (column === "lastVisitTime") {
         historyObject["visitTime"] = processVisitTimestamp(value);
+        historyObject["visitTimeFormatted"] = formatDate(historyObject["visitTime"]);
       } else if (column === "referrer" && value === "") {
         return;
       } else if (columnMap[column]) {
