@@ -5,13 +5,13 @@ export default function HowToTimeline({ instructions }) {
   return (
     <VStack gap={7} alignItems="start">
       <VStack gap={2} alignItems="start">
-        <Heading size="3xl">How To Use WebViewer</Heading>
+        <Heading size="3xl">How To Use</Heading>
         <Text color="gray.500" fontSize="sm">
           This tool was designed to be simple to use.
         </Text>
       </VStack>
       <VStack gap={2} alignItems="start">
-        <Timeline.Root size="lg">
+        <Timeline.Root size="xl">
           {instructions.map((instruction, index) => (
             <Timeline.Item key={instruction.title}>
               <Timeline.Connector>
@@ -19,7 +19,7 @@ export default function HowToTimeline({ instructions }) {
                 <Timeline.Indicator>{instruction.icon}</Timeline.Indicator>
               </Timeline.Connector>
               <Timeline.Content>
-                <Timeline.Title>{instruction.title}</Timeline.Title>
+                <Timeline.Title fontSize="md">{instruction.title}</Timeline.Title>
                 <Timeline.Description>
                   {instruction.description}
                 </Timeline.Description>
@@ -28,12 +28,20 @@ export default function HowToTimeline({ instructions }) {
           ))}
         </Timeline.Root>
         <HStack gap={2} alignItems="center">
-          <Icon color="gray.500">
+          <Icon color="orange.500">
             <FaInfoCircle />
           </Icon>
-          <Text fontSize="sm" color="gray.500">
+          <Text fontSize="sm" fontWeight="medium">
             You will need to append .db or .sqlite to the end of the file
             name to upload it.
+          </Text>
+        </HStack>
+        <HStack gap={2} alignItems="center">
+          <Icon color="orange.500">
+            <FaInfoCircle />
+          </Icon>
+          <Text fontSize="sm" fontWeight="medium">
+            Browser history files are trimmed to the most recent 25,000 entries.
           </Text>
         </HStack>
       </VStack>

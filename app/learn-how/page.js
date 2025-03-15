@@ -19,7 +19,8 @@ const instructions = [
   },
   {
     title: "View your browser history",
-    description: "Browser history is displayed in a table format, which can be filtered by date, event type, and more.",
+    description:
+      "Browser history is displayed in a table format, which can be filtered by date, event type, and more.",
     gif: "/images/view-browser-history.gif",
     icon: <FaEye />,
   },
@@ -30,44 +31,66 @@ const supportedBrowsers = [
     name: "Chromium",
     supported: true,
     fileName: "History",
-    filePath: ["Windows: AppData/Local/Google/Chrome/User Data/Default/History", "macOS: Library/Application Support/Google/Chrome/Default/History"],
+    filePath: [
+      "Windows: AppData/Local/Google/Chrome/User Data/Default/History",
+      "macOS: Library/Application Support/Google/Chrome/Default/History",
+    ],
   },
   {
     name: "Firefox",
     supported: true,
     fileName: "places.sqlite",
-    filePath: ["Windows: AppData/Local/Mozilla/Firefox/Profiles/Default/places.sqlite", "macOS: Library/Application Support/Mozilla/Firefox/Profiles/Default/places.sqlite"],
+    filePath: [
+      "Windows: AppData/Local/Mozilla/Firefox/Profiles/Default/places.sqlite",
+      "macOS: Library/Application Support/Mozilla/Firefox/Profiles/Default/places.sqlite",
+    ],
   },
   {
     name: "Edge",
     supported: true,
     fileName: "History",
-    filePath: ["Windows: AppData/Local/Microsoft/Edge/User Data/Default/History", "macOS: Library/Application Support/Microsoft/Edge/Default/History"],
+    filePath: [
+      "Windows: AppData/Local/Microsoft/Edge/User Data/Default/History",
+      "macOS: Library/Application Support/Microsoft/Edge/Default/History",
+    ],
   },
   {
     name: "Safari",
     supported: false,
     fileName: "History",
-    filePath: ["Windows: AppData/Local/Apple Computer/Safari/History", "macOS: Library/Application Support/Apple/Safari/History"],
+    filePath: [
+      "Windows: AppData/Local/Apple Computer/Safari/History",
+      "macOS: Library/Application Support/Apple/Safari/History",
+    ],
   },
   {
     name: "Opera (Not Tested)",
     supported: false,
     fileName: "History",
-    filePath: ["Windows: AppData/Local/Opera Software/Opera Stable/History", "macOS: Library/Application Support/Opera Software/Opera Stable/History"],
+    filePath: [
+      "Windows: AppData/Local/Opera Software/Opera Stable/History",
+      "macOS: Library/Application Support/Opera Software/Opera Stable/History",
+    ],
   },
   {
     name: "Brave (Not Tested)",
     supported: false,
     fileName: "History",
-    filePath: ["Windows: AppData/Local/BraveSoftware/Brave-Browser/User Data/Default/History", "macOS: Library/Application Support/BraveSoftware/Brave-Browser/Default/History"],
+    filePath: [
+      "Windows: AppData/Local/BraveSoftware/Brave-Browser/User Data/Default/History",
+      "macOS: Library/Application Support/BraveSoftware/Brave-Browser/Default/History",
+    ],
   },
 ];
 
 export default function How() {
   return (
-    <Center p={10} borderLeft>
-      <Box borderLeft="1px solid" borderRight="1px solid" borderColor="gray.800" pl={10} pr={10}>
+    <Center p={10}>
+      <Box
+        borderColor="gray.800"
+        pl={10}
+        pr={10}
+      >
         <VStack gap={10} p={10} alignItems="start">
           <HowToTimeline instructions={instructions} />
           <Separator />
