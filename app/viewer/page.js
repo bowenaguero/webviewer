@@ -1,11 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { Box, Center, Spinner, Text, VStack } from "@chakra-ui/react";
 import { Suspense } from "react";
 import HistoryTable from "@/components/table/HistoryTable";
 import indexedDb from "@/components/utils/indexedDb";
 import { useLiveQuery } from "dexie-react-hooks";
-import { toaster } from "@/components/ui/toaster";
 
 export default function ViewerPage() {
   return (

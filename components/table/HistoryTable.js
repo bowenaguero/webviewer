@@ -18,14 +18,7 @@ export default function HistoryTable2({ history }) {
   const [search, setSearch] = useState("");
   const [searching, setSearching] = useState(false);
 
-  const processedHistory = useMemo(() => {
-    let filtered = [...history];
-    filtered = filterByEventTypes(filtered, filteredEventTypes);
-    filtered = filterBySearch(filtered, search);
-    filtered = filterByDate(filtered, startDate, endDate);
-    filtered = sortByDate(filtered, sortBy);
-    return filtered;
-  }, [history, sortBy, filteredEventTypes, search, startDate, endDate]);
+  const processedHistory = history
 
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;

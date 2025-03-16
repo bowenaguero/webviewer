@@ -5,25 +5,16 @@ import FileUpload from "@/components/fileupload/FileUpload";
 import { Box, Text, VStack, IconButton, Spinner } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { FaRegQuestionCircle } from "react-icons/fa";
-import { toaster } from "@/components/ui/toaster";
 import Link from "next/link";
 import Supports from "@/components/fileupload/Supports";
 
 export default function Home() {
   const router = useRouter();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [processingStatus, setProcessingStatus] = useState(null);
 
-  const handleHistoryLoaded = (data) => {
-    try {
-      router.push("/viewer");
-    } catch (error) {
-      console.error("Error processing history:", error);
-      toaster.create({
-        title: "Error",
-        description: "Error processing history",
-        type: "error",
-      });
-    }
+  const handleHistoryLoaded = () => {
+    router.push("/viewer");
   };
 
   return (
@@ -62,11 +53,12 @@ export default function Home() {
         </Box>
         <Box>
           {isProcessing ? (
-            <ProcessingSpinner />
+            <ProcessingSpinner processingStatus={processingStatus} />
           ) : (
             <FileUpload
               onHistoryLoaded={handleHistoryLoaded}
               setIsProcessing={setIsProcessing}
+              setProcessingStatus={setProcessingStatus}
             />
           )}
         </Box>
@@ -78,11 +70,11 @@ export default function Home() {
   );
 }
 
-function ProcessingSpinner() {
+function ProcessingSpinner({ processingStatus }) {
   return (
     <VStack display="flex" justifyContent="center" m={5} gap={5}>
       <Spinner size="sm" />
-      <Text fontSize={["xs", "sm"]}>Processing your history...</Text>
+      <Text fontSize={["xs", "sm"]}>{processingStatus}</Text>
     </VStack>
   );
 }
