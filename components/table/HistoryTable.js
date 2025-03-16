@@ -21,7 +21,6 @@ export default function HistoryTable2({ history }) {
   const processedHistory = useMemo(() => {
     let filtered = [...history];
     filtered = filterByEventTypes(filtered, filteredEventTypes);
-    console.log(filtered)
     filtered = filterBySearch(filtered, search);
     filtered = filterByDate(filtered, startDate, endDate);
     filtered = sortByDate(filtered, sortBy);
