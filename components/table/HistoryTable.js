@@ -1,54 +1,12 @@
-import { useState, useMemo } from "react";
-import { HStack, Box, Table, Text, Spinner } from "@chakra-ui/react";
-import PaginationMenu from "./PaginationMenu";
+import { Box, Table, Text, Spinner } from "@chakra-ui/react";
 import EventIcon from "../event/EventIcon";
-import ToolBar from "../toolbar/ToolBar";
 import { Tooltip } from "../ui/tooltip";
 import ActionsMenu from "./ActionsMenu";
-import { filterByEventTypes, filterBySearch, sortByDate, filterByDate } from "../utils/filterBrowserHistory";
 import { capitalizeFirstLetter } from "../utils/helpers";
 
-export default function HistoryTable2({ history }) {
-  const [page, setPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [sortBy, setSortBy] = useState("desc");
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const [filteredEventTypes, setFilteredEventTypes] = useState({ value: [] });
-  const [search, setSearch] = useState("");
-  const [searching, setSearching] = useState(false);
-
-  const processedHistory = history
-
-  const startIndex = (page - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentItems = processedHistory.slice(startIndex, endIndex);
-  const totalCount = processedHistory.length;
+export default function HistoryTable2({ currentItems, searching }) {
 
   return (
-    <>
-      <Box w="100%" h="100%" mb={5}>
-        <ToolBar
-          itemsPerPage={itemsPerPage}
-          setItemsPerPage={setItemsPerPage}
-          sortBy={sortBy}
-          setSortBy={setSortBy}
-          page={page}
-          setPage={setPage}
-          count={totalCount}
-          startDate={startDate}
-          setStartDate={setStartDate}
-          endDate={endDate}
-          setEndDate={setEndDate}
-          filteredEventTypes={filteredEventTypes}
-          setFilteredEventTypes={setFilteredEventTypes}
-          setSearch={setSearch}
-          setSearching={setSearching}
-          search={search}
-          history={history}
-          processedHistory={processedHistory}
-        />
-      </Box>
       <Box
         bg="gray.950"
         border={"2px solid"}
@@ -217,18 +175,5 @@ export default function HistoryTable2({ history }) {
           </Table.Body>
         </Table.Root>
       </Box>
-      <HStack justifyContent="space-between" mt={5} mb={5}>
-        <Box />
-        <Box>
-          <PaginationMenu
-            page={page}
-            setPage={setPage}
-            itemsPerPage={itemsPerPage}
-            count={totalCount}
-          />
-        </Box>
-        <Box />
-      </HStack>
-    </>
   );
 }

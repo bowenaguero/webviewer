@@ -1,3 +1,5 @@
+import indexedDb from "@/components/utils/indexedDb";
+
 export const filterByEventTypes = (filtered, filteredEventTypes) => {
   if (filteredEventTypes.value.length > 0) {
     filtered = filtered.filter((item) =>
@@ -34,6 +36,8 @@ export const filterBySearch = (filtered, search) => {
 };
 
 export const sortByDate = (filtered, sortBy) => {
+  if (!filtered) return [];
+  
   if (sortBy === "desc") {
     filtered = filtered.sort(
       (a, b) => new Date(b.visitTime) - new Date(a.visitTime)
@@ -56,3 +60,22 @@ export const filterByDate = (filtered, startDate, endDate) => {
 
   return filtered;
 };
+
+// export const filterByEventTypes = (collection, eventTypes) => {
+//   if (eventTypes.length > 0) {
+//     return collection.where("eventType").anyOf(eventTypes);
+//   }
+
+//   return collection;
+// };
+
+// export const filterBySearch = (collection, search) => {
+//   if (search) {
+//     return collection.where("url").startsWith(search);
+//   }
+
+//   return collection;
+// };
+
+
+
