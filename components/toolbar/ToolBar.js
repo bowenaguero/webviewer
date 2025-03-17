@@ -7,7 +7,7 @@ import SortBy from "./SortBy";
 import PaginationMenu from "../table/PaginationMenu";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { FaCalendarAlt } from "react-icons/fa";
+import { FaCalendarAlt, FaWindowClose } from "react-icons/fa";
 import { CloseButton } from "@chakra-ui/react";
 
 export default function ToolBar({
@@ -84,7 +84,11 @@ export default function ToolBar({
         <SortBy sortBy={sortBy} setSortBy={setSortBy} />
       </Box>
       <Box w="30%" display="flex" justifyContent="center" gap={3}>
-        <SearchBar setSearch={setSearch} setSearching={setSearching} search={search} />
+        <SearchBar
+          setSearch={setSearch}
+          setSearching={setSearching}
+          search={search}
+        />
       </Box>
       <Box
         display="flex"
@@ -102,14 +106,20 @@ export default function ToolBar({
               size="sm"
               color="gray.400"
             >
-              <FaCalendarAlt />
+              {startDate && endDate ? <FaWindowClose /> : <FaCalendarAlt />}
             </IconButton>
             {startDate && endDate && (
-              <Box display="flex" alignItems="center" gap={2} whiteSpace="nowrap">
+              <Box
+                display="flex"
+                alignItems="center"
+                gap={2}
+                whiteSpace="nowrap"
+              >
                 <Text color="gray.400" fontSize="sm" whiteSpace="nowrap">
-                  {startDate.toLocaleDateString()} - {endDate.toLocaleDateString()}
+                  {startDate.toLocaleDateString()} -{" "}
+                  {endDate.toLocaleDateString()}
                 </Text>
-                <CloseButton 
+                <CloseButton
                   size="xs"
                   onClick={handleClearDate}
                   _hover={{ bg: "gray.800" }}

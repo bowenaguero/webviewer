@@ -8,7 +8,12 @@ import indexedDb from "@/components/utils/indexedDb";
 import { useLiveQuery } from "dexie-react-hooks";
 import ToolBar from "@/components/toolbar/ToolBar";
 import PaginationMenu from "@/components/table/PaginationMenu";
-import { filterByEventTypes, filterBySearch, sortByDate, filterByDate } from "@/components/utils/filterBrowserHistory";
+import {
+  filterByEventTypes,
+  filterBySearch,
+  sortByDate,
+  filterByDate,
+} from "@/components/utils/filterBrowserHistory";
 
 export default function ViewerPage() {
   return (
@@ -32,8 +37,7 @@ function ViewerContent() {
   const endIndex = startIndex + itemsPerPage;
 
   const history = useLiveQuery(() => {
-    return indexedDb.history
-      .toArray();
+    return indexedDb.history.toArray();
   }, []);
 
   const filteredByEventTypes = useMemo(() => {
@@ -81,17 +85,17 @@ function ViewerContent() {
             setSearching={setSearching}
             search={search}
             history={history}
-            processedHistory={currentItems}
+            processedHistory={sortedByDate}
           />
         </Box>
         <HistoryTable currentItems={currentItems} searching={searching} />
-        <Box mt={5} w="100%" display="flex" justifyContent="center">
-            <PaginationMenu
-              page={page}
-              setPage={setPage}
-              itemsPerPage={itemsPerPage}
-              count={totalCount}
-            />
+        <Box my={5} w="100%" display="flex" justifyContent="center">
+          <PaginationMenu
+            page={page}
+            setPage={setPage}
+            itemsPerPage={itemsPerPage}
+            count={totalCount}
+          />
         </Box>
       </Box>
     </Center>
