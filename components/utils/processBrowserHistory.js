@@ -46,7 +46,12 @@ export const processHistoryResults = (results) => {
       
       if (column === "url") {
         const url = value;
-        const domain = urlToDomain(url);
+        let domain;
+        try {
+          domain = urlToDomain(url);
+        } catch {
+          domain = "None";
+        }
 
         historyObject["url"] = url;
         historyObject["domain"] = domain;
