@@ -1,11 +1,11 @@
-import db from "./indexedDb";
+import db from './indexedDb';
 
 const urlToDomain = (url) => {
   return new URL(url).hostname;
 };
 
 const processVisitTimestamp = (timestamp) => {
-  if (typeof timestamp === "number") {
+  if (typeof timestamp === 'number') {
     if (timestamp > 11644473600000000) {
       // Chrome/Edge timestamp (Windows epoch)
       return (timestamp - 11644473600000000) / 1000;
@@ -25,12 +25,12 @@ const formatDate = (timestamp) => {
 };
 
 const columnMap = {
-  lastVisitTime: "visitTime",
-  title: "title",
-  eventType: "eventType",
-  eventEntity: "eventEntity",
-  browser: "browser",
-  eventEntityType: "eventEntityType",
+  lastVisitTime: 'visitTime',
+  title: 'title',
+  eventType: 'eventType',
+  eventEntity: 'eventEntity',
+  browser: 'browser',
+  eventEntityType: 'eventEntityType',
 };
 
 export const processHistoryResults = (results) => {
@@ -39,34 +39,36 @@ export const processHistoryResults = (results) => {
 
   results.values.forEach((row) => {
     let historyObject = {};
-    historyObject["additionalFields"] = {};
+    historyObject['additionalFields'] = {};
 
     results.columns.forEach((column, index) => {
       let value = row[index];
-      
-      if (column === "url") {
+
+      if (column === 'url') {
         const url = value;
         let domain;
         try {
           domain = urlToDomain(url);
         } catch {
-          domain = "None";
+          domain = 'None';
         }
 
-        historyObject["url"] = url;
-        historyObject["domain"] = domain;
+        historyObject['url'] = url;
+        historyObject['domain'] = domain;
 
         stats.set(domain, (stats.get(domain) || 0) + 1);
         stats.set(url, (stats.get(url) || 0) + 1);
-      } else if (column === "lastVisitTime") {
-        historyObject["visitTime"] = processVisitTimestamp(value);
-        historyObject["visitTimeFormatted"] = formatDate(historyObject["visitTime"]);
-      } else if (column === "referrer" && value === "") {
+      } else if (column === 'lastVisitTime') {
+        historyObject['visitTime'] = processVisitTimestamp(value);
+        historyObject['visitTimeFormatted'] = formatDate(
+          historyObject['visitTime'],
+        );
+      } else if (column === 'referrer' && value === '') {
         return;
       } else if (columnMap[column]) {
         historyObject[columnMap[column]] = value;
       } else {
-        historyObject["additionalFields"][column] = value;
+        historyObject['additionalFields'][column] = value;
       }
     });
 
@@ -74,13 +76,11 @@ export const processHistoryResults = (results) => {
   });
 
   historyArray.forEach((historyObject) => {
-    historyObject["domain_count"] = stats.get(historyObject["domain"]);
-    historyObject["url_count"] = stats.get(historyObject["url"]);
+    historyObject['domain_count'] = stats.get(historyObject['domain']);
+    historyObject['url_count'] = stats.get(historyObject['url']);
 
     db.history.add(historyObject);
   });
-
-
 
   return historyArray;
 };

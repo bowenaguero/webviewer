@@ -1,5 +1,5 @@
-import { processHistoryResults } from "@/components/utils/processBrowserHistory";
-import indexedDb from "@/components/utils/indexedDb";
+import indexedDb from '@/components/utils/indexedDb';
+import { processHistoryResults } from '@/components/utils/processBrowserHistory';
 
 let rowLimit = 25000;
 

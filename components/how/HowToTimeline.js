@@ -1,27 +1,34 @@
-import { Timeline, VStack, Heading, Text, Icon, HStack } from "@chakra-ui/react";
-import { FaInfoCircle, FaFileDownload, FaUpload, FaEye } from "react-icons/fa";
+import {
+  Timeline,
+  VStack,
+  Heading,
+  Text,
+  Icon,
+  HStack,
+} from '@chakra-ui/react';
+import { FaInfoCircle, FaFileDownload, FaUpload, FaEye } from 'react-icons/fa';
 
 const instructions = [
-    {
-      title: "Fetch your browser history file",
-      description: "Supported browser history files are listed below.",
-      gif: "/images/fetch-browser-history-file.gif",
-      icon: <FaFileDownload />,
-    },
-    {
-      title: "Upload your browser history file",
-      description: "Upload your browser history file to WebViewer.",
-      gif: "/images/upload-browser-history-file.gif",
-      icon: <FaUpload />,
-    },
-    {
-      title: "View your browser history",
-      description:
-        "Browser history is displayed in a table format, which can be filtered by date, event type, and more.",
-      gif: "/images/view-browser-history.gif",
-      icon: <FaEye />,
-    },
-  ];
+  {
+    title: 'Fetch your browser history file',
+    description: 'Supported browser history files are listed below.',
+    gif: '/images/fetch-browser-history-file.gif',
+    icon: <FaFileDownload />,
+  },
+  {
+    title: 'Upload your browser history file',
+    description: 'Upload your browser history file to WebViewer.',
+    gif: '/images/upload-browser-history-file.gif',
+    icon: <FaUpload />,
+  },
+  {
+    title: 'View your browser history',
+    description:
+      'Browser history is displayed in a table format, which can be filtered by date, event type, and more.',
+    gif: '/images/view-browser-history.gif',
+    icon: <FaEye />,
+  },
+];
 
 export default function HowToTimeline() {
   return (
@@ -41,7 +48,9 @@ export default function HowToTimeline() {
                 <Timeline.Indicator>{instruction.icon}</Timeline.Indicator>
               </Timeline.Connector>
               <Timeline.Content>
-                <Timeline.Title fontSize="md">{instruction.title}</Timeline.Title>
+                <Timeline.Title fontSize="md">
+                  {instruction.title}
+                </Timeline.Title>
                 <Timeline.Description>
                   {instruction.description}
                 </Timeline.Description>
@@ -54,8 +63,8 @@ export default function HowToTimeline() {
             <FaInfoCircle />
           </Icon>
           <Text fontSize="sm" fontWeight="medium">
-            You will need to append .db or .sqlite to the end of the file
-            name to upload it.
+            You will need to append .db or .sqlite to the end of the file name
+            to upload it.
           </Text>
         </HStack>
         <HStack gap={2} alignItems="center">

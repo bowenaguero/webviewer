@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import FileUpload from "@/components/fileupload/FileUpload";
-import { Box, Text, VStack, IconButton, Spinner } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
-import { FaRegQuestionCircle } from "react-icons/fa";
-import { toaster } from "@/components/ui/toaster";
-import Link from "next/link";
-import Supports from "@/components/fileupload/Supports";
+import FileUpload from '@/components/fileupload/FileUpload';
+import Supports from '@/components/fileupload/Supports';
+import { toaster } from '@/components/ui/toaster';
+import { Box, Text, VStack, IconButton, Spinner } from '@chakra-ui/react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { FaRegQuestionCircle } from 'react-icons/fa';
 
 export default function Home() {
   const router = useRouter();
@@ -15,13 +15,13 @@ export default function Home() {
 
   const handleHistoryLoaded = (data) => {
     try {
-      router.push("/viewer");
+      router.push('/viewer');
     } catch (error) {
-      console.error("Error processing history:", error);
+      console.error('Error processing history:', error);
       toaster.create({
-        title: "Error",
-        description: "Error processing history",
-        type: "error",
+        title: 'Error',
+        description: 'Error processing history',
+        type: 'error',
       });
     }
   };
@@ -38,7 +38,7 @@ export default function Home() {
       <VStack gap={5}>
         <Box display="flex" flexDirection="column" alignItems="center">
           <Text
-            fontSize={["3xl", "4xl", "5xl"]}
+            fontSize={['3xl', '4xl', '5xl']}
             fontWeight="bold"
             letterSpacing="tight"
           >
@@ -48,14 +48,14 @@ export default function Home() {
             <Link href="/learn-how">
               <IconButton
                 color="gray.500"
-                _hover={{ color: "gray.700" }}
+                _hover={{ color: 'gray.700' }}
                 variant="ghost"
-                size={["xs", "sm"]}
+                size={['xs', 'sm']}
               >
                 <FaRegQuestionCircle />
               </IconButton>
             </Link>
-            <Text fontSize={["xs", "sm", "md", "lg"]}>
+            <Text fontSize={['xs', 'sm', 'md', 'lg']}>
               Upload your browser history file for secure, local analysis.
             </Text>
           </Box>
@@ -82,7 +82,7 @@ function ProcessingSpinner() {
   return (
     <VStack display="flex" justifyContent="center" m={5} gap={5}>
       <Spinner size="sm" />
-      <Text fontSize={["xs", "sm"]}>Processing your history...</Text>
+      <Text fontSize={['xs', 'sm']}>Processing your history...</Text>
     </VStack>
   );
 }

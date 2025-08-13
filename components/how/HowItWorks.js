@@ -1,4 +1,4 @@
-import { VStack, Heading, Text, Box, List } from "@chakra-ui/react";
+import { VStack, Heading, Text, Box, List } from '@chakra-ui/react';
 
 export default function HowItWorks() {
   return (
@@ -18,7 +18,8 @@ export default function HowItWorks() {
             The data is stored in your browser&apos;s native storage, IndexedDB.
           </List.Item>
           <List.Item>
-            The local database is then read from IndexedDB and displayed in the GUI.
+            The local database is then read from IndexedDB and displayed in the
+            GUI.
           </List.Item>
           <List.Item>
             Aisde from Vercel analytics, no data ever leaves your browser.

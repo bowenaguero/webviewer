@@ -1,7 +1,7 @@
-import { Center, VStack, Separator } from "@chakra-ui/react";
-import HowToTimeline from "@/components/how/HowToTimeline";
-import SupportedBrowsersTable from "@/components/how/SupportedBrowsersTable";
-import HowItWorks from "@/components/how/HowItWorks";
+import HowItWorks from '@/components/how/HowItWorks';
+import HowToTimeline from '@/components/how/HowToTimeline';
+import SupportedBrowsersTable from '@/components/how/SupportedBrowsersTable';
+import { Center, VStack, Separator } from '@chakra-ui/react';
 
 export default function How() {
   return (

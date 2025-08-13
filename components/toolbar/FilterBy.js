@@ -1,21 +1,26 @@
-import { createListCollection } from "@chakra-ui/react";
+import EventIcon from '../event/EventIcon';
+import { capitalizeFirstLetter } from '../utils/helpers';
 import {
   SelectContent,
   SelectItem,
   SelectRoot,
   SelectTrigger,
   SelectValueText,
-} from "@/components/ui/select";
-import EventIcon from "../event/EventIcon";
-import { HStack } from "@chakra-ui/react";
-import { capitalizeFirstLetter } from "../utils/helpers";
+} from '@/components/ui/select';
+import { createListCollection } from '@chakra-ui/react';
+import { HStack } from '@chakra-ui/react';
 
-export default function FilterBy({ eventTypes, setFilteredEventTypes, filteredEventTypes, setPage }) {
+export default function FilterBy({
+  eventTypes,
+  setFilteredEventTypes,
+  filteredEventTypes,
+  setPage,
+}) {
   const eventTypeMap = createListCollection({
-    items: eventTypes.map(type => ({
+    items: eventTypes.map((type) => ({
       label: capitalizeFirstLetter(type),
-      value: type
-    }))
+      value: type,
+    })),
   });
 
   const handleValueChange = (value) => {
@@ -27,12 +32,14 @@ export default function FilterBy({ eventTypes, setFilteredEventTypes, filteredEv
     <SelectRoot
       borderRadius="sm"
       border="1px solid"
-      borderColor={filteredEventTypes.value.length > 0 ? "gray.300" : "gray.800"}
+      borderColor={
+        filteredEventTypes.value.length > 0 ? 'gray.300' : 'gray.800'
+      }
       multiple
       collection={eventTypeMap}
       height="100%"
       onValueChange={handleValueChange}
-      _hover={{ borderColor: "gray.700" }}
+      _hover={{ borderColor: 'gray.700' }}
     >
       <SelectTrigger clearable>
         <SelectValueText placeholder="Filter" />

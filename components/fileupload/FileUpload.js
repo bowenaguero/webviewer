@@ -1,28 +1,28 @@
-"use client";
+'use client';
 
-import { useCallback, useState } from "react";
-import { useDropzone } from "react-dropzone";
-import { Box, Text, VStack } from "@chakra-ui/react";
-import { FaUpload } from "react-icons/fa";
-import initSqlJs from "sql.js";
-import { queryBrowserHistory } from "@/components/utils/queryBrowserHistory";
-import { toaster } from "../ui/toaster";
+import { toaster } from '../ui/toaster';
+import { queryBrowserHistory } from '@/components/utils/queryBrowserHistory';
+import { Box, Text, VStack } from '@chakra-ui/react';
+import { useCallback, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { FaUpload } from 'react-icons/fa';
+import initSqlJs from 'sql.js';
 
 export default function FileUpload({ onHistoryLoaded, setIsProcessing }) {
   const onDrop = useCallback(
     async (acceptedFiles, rejectedFiles) => {
       if (rejectedFiles.length > 0) {
         toaster.create({
-          title: "Error",
-          description: "Invalid file type",
-          type: "error",
+          title: 'Error',
+          description: 'Invalid file type',
+          type: 'error',
         });
         return;
       } else if (acceptedFiles.length === 0) {
         toaster.create({
-          title: "Error",
-          description: "No file selected",
-          type: "error",
+          title: 'Error',
+          description: 'No file selected',
+          type: 'error',
         });
         return;
       }
@@ -41,23 +41,23 @@ export default function FileUpload({ onHistoryLoaded, setIsProcessing }) {
 
         onHistoryLoaded({ history });
       } catch (error) {
-        console.error("Error processing file:", error);
+        console.error('Error processing file:', error);
         toaster.create({
-          title: "Error",
-          description: "Error processing file",
-          type: "error",
+          title: 'Error',
+          description: 'Error processing file',
+          type: 'error',
         });
       } finally {
         setIsProcessing(false);
       }
     },
-    [onHistoryLoaded, setIsProcessing]
+    [onHistoryLoaded, setIsProcessing],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      "application/x-sqlite3": [".db", ".sqlite"],
+      'application/x-sqlite3': ['.db', '.sqlite'],
     },
     multiple: false,
   });
@@ -65,15 +65,15 @@ export default function FileUpload({ onHistoryLoaded, setIsProcessing }) {
   return (
     <Box
       {...getRootProps()}
-      width={["300px", "400px", "500px"]}
+      width={['300px', '400px', '500px']}
       height="300px"
       borderWidth={2}
       borderRadius="lg"
       borderStyle="dashed"
       cursor="pointer"
       _hover={{
-        borderColor: "blue.500",
-        backgroundColor: { base: "gray.100", _dark: "gray.900" },
+        borderColor: 'blue.500',
+        backgroundColor: { base: 'gray.100', _dark: 'gray.900' },
       }}
       transition="all 0.2s"
       display="flex"
@@ -83,10 +83,10 @@ export default function FileUpload({ onHistoryLoaded, setIsProcessing }) {
       <input {...getInputProps()} />
       <VStack gap={3}>
         <FaUpload size={40} />
-        <Text color="gray.500" fontSize={["xs", "sm"]}>
+        <Text color="gray.500" fontSize={['xs', 'sm']}>
           {isDragActive
-            ? "Drop to analyze"
-            : "Drag and drop or click to upload"}
+            ? 'Drop to analyze'
+            : 'Drag and drop or click to upload'}
         </Text>
       </VStack>
     </Box>

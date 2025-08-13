@@ -1,21 +1,26 @@
-import { useState, useMemo } from "react";
-import { HStack, Box, Table, Text, Spinner } from "@chakra-ui/react";
-import PaginationMenu from "./PaginationMenu";
-import EventIcon from "../event/EventIcon";
-import ToolBar from "../toolbar/ToolBar";
-import { Tooltip } from "../ui/tooltip";
-import ActionsMenu from "./ActionsMenu";
-import { filterByEventTypes, filterBySearch, sortByDate, filterByDate } from "../utils/filterBrowserHistory";
-import { capitalizeFirstLetter } from "../utils/helpers";
+import EventIcon from '../event/EventIcon';
+import ToolBar from '../toolbar/ToolBar';
+import { Tooltip } from '../ui/tooltip';
+import {
+  filterByEventTypes,
+  filterBySearch,
+  sortByDate,
+  filterByDate,
+} from '../utils/filterBrowserHistory';
+import { capitalizeFirstLetter } from '../utils/helpers';
+import ActionsMenu from './ActionsMenu';
+import PaginationMenu from './PaginationMenu';
+import { HStack, Box, Table, Text, Spinner } from '@chakra-ui/react';
+import { useState, useMemo } from 'react';
 
 export default function HistoryTable2({ history }) {
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [sortBy, setSortBy] = useState("desc");
+  const [sortBy, setSortBy] = useState('desc');
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [filteredEventTypes, setFilteredEventTypes] = useState({ value: [] });
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [searching, setSearching] = useState(false);
 
   const processedHistory = useMemo(() => {
@@ -58,9 +63,9 @@ export default function HistoryTable2({ history }) {
       </Box>
       <Box
         bg="gray.950"
-        border={"2px solid"}
+        border={'2px solid'}
         borderColor="gray.800"
-        borderRadius={"md"}
+        borderRadius={'md'}
       >
         <Table.Root tableLayout="fixed">
           <Table.Header>
@@ -137,17 +142,13 @@ export default function HistoryTable2({ history }) {
                 <Table.Row
                   key={index}
                   bg="transparent"
-                  _hover={{ bg: "gray.800" }}
+                  _hover={{ bg: 'gray.800' }}
                 >
                   <Table.Cell color="gray.500" p={5}>
                     <ActionsMenu event={item} />
                   </Table.Cell>
                   <Table.Cell color="gray.500" p={5}>
-                    <Box
-                      fontSize="sm"
-                    >
-                      {item.visitTimeFormatted}
-                    </Box>
+                    <Box fontSize="sm">{item.visitTimeFormatted}</Box>
                   </Table.Cell>
                   <Table.Cell color="gray.500" p={5}>
                     <Box display="flex" alignItems="center" gap={2}>
@@ -166,7 +167,7 @@ export default function HistoryTable2({ history }) {
                       <Tooltip content={item.url}>
                         <Text
                           fontSize="sm"
-                          fontWeight={"medium"}
+                          fontWeight={'medium'}
                           overflow="hidden"
                           textOverflow="ellipsis"
                           whiteSpace="nowrap"
@@ -178,15 +179,15 @@ export default function HistoryTable2({ history }) {
                   </Table.Cell>
                   <Table.Cell color="gray.500" p={5}>
                     <Box>
-                      <Tooltip content={item.title || "Untitled"}>
+                      <Tooltip content={item.title || 'Untitled'}>
                         <Text
                           overflow="hidden"
                           textOverflow="ellipsis"
                           whiteSpace="nowrap"
                           fontSize="sm"
-                          fontWeight={"medium"}
+                          fontWeight={'medium'}
                         >
-                          {item.title || "Untitled"}
+                          {item.title || 'Untitled'}
                         </Text>
                       </Tooltip>
                     </Box>
@@ -194,9 +195,11 @@ export default function HistoryTable2({ history }) {
                   <Table.Cell color="gray.500" p={5}>
                     <Box>
                       <Text color="gray.300">
-                        {item.eventType != "Visit" && (
+                        {item.eventType != 'Visit' && (
                           <>
-                            <Text color="gray.500">{item.eventEntityType}:</Text>
+                            <Text color="gray.500">
+                              {item.eventEntityType}:
+                            </Text>
                             <Text color="gray.300">{item.eventEntity}</Text>
                           </>
                         )}
@@ -211,7 +214,9 @@ export default function HistoryTable2({ history }) {
                           {Object.keys(item.additionalFields).map((key) => (
                             <Box key={key}>
                               <Text color="gray.500">{key}:</Text>
-                              <Text color="gray.300">{item.additionalFields[key]}</Text>
+                              <Text color="gray.300">
+                                {item.additionalFields[key]}
+                              </Text>
                             </Box>
                           ))}
                         </Text>

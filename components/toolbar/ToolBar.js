@@ -1,14 +1,14 @@
-import { useState, useMemo } from "react";
-import { Flex, Box, IconButton, Text } from "@chakra-ui/react";
-import SearchBar from "./SearchBar";
-import FilterBy from "./FilterBy";
-import ItemsPerPage from "./ItemsPerPage";
-import SortBy from "./SortBy";
-import PaginationMenu from "../table/PaginationMenu";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { FaCalendarAlt } from "react-icons/fa";
-import { CloseButton } from "@chakra-ui/react";
+import PaginationMenu from '../table/PaginationMenu';
+import FilterBy from './FilterBy';
+import ItemsPerPage from './ItemsPerPage';
+import SearchBar from './SearchBar';
+import SortBy from './SortBy';
+import { Flex, Box, IconButton, Text } from '@chakra-ui/react';
+import { CloseButton } from '@chakra-ui/react';
+import { useState, useMemo } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { FaCalendarAlt } from 'react-icons/fa';
 
 export default function ToolBar({
   itemsPerPage,
@@ -84,7 +84,11 @@ export default function ToolBar({
         <SortBy sortBy={sortBy} setSortBy={setSortBy} />
       </Box>
       <Box w="30%" display="flex" justifyContent="center" gap={3}>
-        <SearchBar setSearch={setSearch} setSearching={setSearching} search={search} />
+        <SearchBar
+          setSearch={setSearch}
+          setSearching={setSearching}
+          search={search}
+        />
       </Box>
       <Box
         display="flex"
@@ -98,21 +102,27 @@ export default function ToolBar({
             <IconButton
               onClick={handleCalendarClick}
               variant="ghost"
-              _hover={{ bg: "gray.800" }}
+              _hover={{ bg: 'gray.800' }}
               size="sm"
               color="gray.400"
             >
               <FaCalendarAlt />
             </IconButton>
             {startDate && endDate && (
-              <Box display="flex" alignItems="center" gap={2} whiteSpace="nowrap">
+              <Box
+                display="flex"
+                alignItems="center"
+                gap={2}
+                whiteSpace="nowrap"
+              >
                 <Text color="gray.400" fontSize="sm" whiteSpace="nowrap">
-                  {startDate.toLocaleDateString()} - {endDate.toLocaleDateString()}
+                  {startDate.toLocaleDateString()} -{' '}
+                  {endDate.toLocaleDateString()}
                 </Text>
-                <CloseButton 
+                <CloseButton
                   size="xs"
                   onClick={handleClearDate}
-                  _hover={{ bg: "gray.800" }}
+                  _hover={{ bg: 'gray.800' }}
                 />
               </Box>
             )}

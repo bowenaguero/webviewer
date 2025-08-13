@@ -1,7 +1,7 @@
 export const filterByEventTypes = (filtered, filteredEventTypes) => {
   if (filteredEventTypes.value.length > 0) {
     filtered = filtered.filter((item) =>
-      filteredEventTypes.value.includes(item.eventType)
+      filteredEventTypes.value.includes(item.eventType),
     );
   }
 
@@ -11,13 +11,13 @@ export const filterByEventTypes = (filtered, filteredEventTypes) => {
 export const filterBySearch = (filtered, search) => {
   if (search) {
     try {
-      const regex = new RegExp(search, "i");
+      const regex = new RegExp(search, 'i');
       filtered = filtered.filter(
         (item) =>
           regex.test(item.url) ||
           regex.test(item.title) ||
           regex.test(item.eventType) ||
-          regex.test(item.additionalFields)
+          regex.test(item.additionalFields),
       );
     } catch (e) {
       const searchLower = search.toLowerCase();
@@ -25,7 +25,7 @@ export const filterBySearch = (filtered, search) => {
         (item) =>
           item.url.toLowerCase().includes(searchLower) ||
           (item.title && item.title.toLowerCase().includes(searchLower)) ||
-          item.eventType.toLowerCase().includes(searchLower)
+          item.eventType.toLowerCase().includes(searchLower),
       );
     }
   }
@@ -34,13 +34,13 @@ export const filterBySearch = (filtered, search) => {
 };
 
 export const sortByDate = (filtered, sortBy) => {
-  if (sortBy === "desc") {
+  if (sortBy === 'desc') {
     filtered = filtered.sort(
-      (a, b) => new Date(b.visitTime) - new Date(a.visitTime)
+      (a, b) => new Date(b.visitTime) - new Date(a.visitTime),
     );
   } else {
     filtered = filtered.sort(
-      (a, b) => new Date(a.visitTime) - new Date(b.visitTime)
+      (a, b) => new Date(a.visitTime) - new Date(b.visitTime),
     );
   }
 
@@ -50,7 +50,7 @@ export const sortByDate = (filtered, sortBy) => {
 export const filterByDate = (filtered, startDate, endDate) => {
   if (startDate && endDate) {
     filtered = filtered.filter(
-      (item) => item.visitTime >= startDate && item.visitTime <= endDate
+      (item) => item.visitTime >= startDate && item.visitTime <= endDate,
     );
   }
 

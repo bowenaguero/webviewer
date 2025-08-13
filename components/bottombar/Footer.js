@@ -1,5 +1,5 @@
-import { FaGithub, FaCoffee } from "react-icons/fa";
-import { Box, Flex, Link, Text, Icon } from "@chakra-ui/react";
+import { Box, Flex, Link, Text, Icon } from '@chakra-ui/react';
+import { FaGithub, FaCoffee } from 'react-icons/fa';
 
 export default function Footer() {
   return (
@@ -9,17 +9,17 @@ export default function Footer() {
       bottom={0}
       width="100%"
       py={4}
-      textAlign={"center"}
-      alignItems={"center"}
+      textAlign={'center'}
+      alignItems={'center'}
       bg="gray.900"
     >
-      <Flex bg={"gray.900"} justifyContent={"center"} gap={4}>
+      <Flex bg={'gray.900'} justifyContent={'center'} gap={4}>
         <Link
-          href={"https://buymeacoffee.com/bowenaguero"}
+          href={'https://buymeacoffee.com/bowenaguero'}
           target="_blank"
-          color={"gray.700"}
+          color={'gray.700'}
         >
-          <Box display={"flex"} alignItems={"center"} gap={2}>
+          <Box display={'flex'} alignItems={'center'} gap={2}>
             <Icon>
               <FaCoffee size={14} />
             </Icon>

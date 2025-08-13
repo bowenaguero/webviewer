@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
 import {
   MenuContent,
   MenuItem,
   MenuRoot,
   MenuTrigger,
-} from "@/components/ui/menu";
-import { Button } from "@chakra-ui/react";
-import { FaChevronDown } from "react-icons/fa";
+} from '@/components/ui/menu';
+import { Button } from '@chakra-ui/react';
+import { FaChevronDown } from 'react-icons/fa';
 
 export default function ItemsPerPage({ itemsPerPage, setItemsPerPage }) {
   return (
@@ -16,7 +16,7 @@ export default function ItemsPerPage({ itemsPerPage, setItemsPerPage }) {
         <Button
           variant="transparent"
           color="gray.500"
-          _hover={{ bg: "gray.800" }}
+          _hover={{ bg: 'gray.800' }}
         >
           {`${itemsPerPage} items per page`}
           <FaChevronDown />
