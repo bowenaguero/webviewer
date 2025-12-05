@@ -7,6 +7,7 @@ const nextConfig = {
     if (!isServer) {
       config.resolve.fallback = {
         fs: false,
+        path: false,
       };
     }
     return config;
