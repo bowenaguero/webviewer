@@ -12,7 +12,7 @@ Client-side browser history analysis. Your data never leaves your browser.
 ## Usage
 
 1. Copy your browser history file (rename to `.db` or `.sqlite`)
-2. Upload at [webviewer.vercel.app](https://webviewer.vercel.app)
+2. Upload at [viewer.websec.tools](https://viewer.websec.tools)
 3. Browse, filter, and analyze
 
 ## History File Locations
