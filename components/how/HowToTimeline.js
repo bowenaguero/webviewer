@@ -2,19 +2,18 @@ import { FaInfoCircle, FaFileDownload, FaUpload, FaEye } from 'react-icons/fa';
 
 const instructions = [
   {
-    title: 'Fetch your browser history file',
-    description: 'Supported browser history files are listed below.',
+    title: 'Fetch the file',
+    description: 'Supported files are listed below',
     icon: FaFileDownload,
   },
   {
-    title: 'Upload your browser history file',
-    description: 'Upload your browser history file to WebViewer.',
+    title: 'Upload the file',
+    description: 'Drag and drop or click to upload',
     icon: FaUpload,
   },
   {
     title: 'View your browser history',
-    description:
-      'Browser history is displayed in a table format, which can be filtered by date, event type, and more.',
+    description: 'Search, filter, and more',
     icon: FaEye,
   },
 ];
@@ -24,9 +23,6 @@ export default function HowToTimeline() {
     <div className="flex flex-col gap-7 items-start">
       <div className="flex flex-col gap-2 items-start">
         <h2 className="text-3xl font-bold">How To Use</h2>
-        <p className="text-gray-500 text-sm">
-          This tool was designed to be simple to use.
-        </p>
       </div>
       <div className="flex flex-col gap-4 items-start">
         {/* Timeline */}
@@ -46,7 +42,9 @@ export default function HowToTimeline() {
                 {/* Content */}
                 <div className="pb-2">
                   <h3 className="font-medium">{instruction.title}</h3>
-                  <p className="text-gray-500 text-sm">{instruction.description}</p>
+                  <p className="text-gray-500 text-sm">
+                    {instruction.description}
+                  </p>
                 </div>
               </div>
             );
@@ -57,15 +55,12 @@ export default function HowToTimeline() {
         <div className="flex gap-2 items-center">
           <FaInfoCircle className="text-orange-500 size-4" />
           <span className="text-sm font-medium">
-            You will need to append .db or .sqlite to the end of the file name
-            to upload it.
+            Append .db or .sqlite to be recognized
           </span>
         </div>
         <div className="flex gap-2 items-center">
           <FaInfoCircle className="text-orange-500 size-4" />
-          <span className="text-sm font-medium">
-            Browser history files can contain up to 500,000 entries.
-          </span>
+          <span className="text-sm font-medium">Row limit of 500,000</span>
         </div>
       </div>
     </div>

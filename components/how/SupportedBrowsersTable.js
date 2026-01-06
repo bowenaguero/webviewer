@@ -22,7 +22,7 @@ const supportedBrowsers = [
     supported: true,
     fileName: 'places.sqlite',
     filePath: [
-      'Windows: AppData/Local/Mozilla/Firefox/Profiles/Default/places.sqlite',
+      'Windows: AppData/Roaming/Mozilla/Firefox/Profiles/<your_profile>/places.sqlite',
       'macOS: Library/Application Support/Mozilla/Firefox/Profiles/Default/places.sqlite',
     ],
   },
@@ -85,9 +85,14 @@ export default function SupportedBrowsersTable() {
           </TableHeader>
           <TableBody>
             {supportedBrowsers.map((browser) => (
-              <TableRow key={browser.name} className="bg-gray-950 hover:bg-gray-900">
+              <TableRow
+                key={browser.name}
+                className="bg-gray-950 hover:bg-gray-900"
+              >
                 <TableCell className="p-4">{browser.name}</TableCell>
-                <TableCell className={`p-4 ${browser.supported ? 'text-green-500' : 'text-red-500'}`}>
+                <TableCell
+                  className={`p-4 ${browser.supported ? 'text-green-500' : 'text-red-500'}`}
+                >
                   {browser.supported ? 'Yes' : 'No'}
                 </TableCell>
                 <TableCell className="p-4">{browser.fileName}</TableCell>
