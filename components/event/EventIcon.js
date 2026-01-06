@@ -1,5 +1,4 @@
 import { EVENT_TYPE_COLORS, ICON_SIZES } from '../utils/constants';
-import { Icon, Image } from '@chakra-ui/react';
 import {
   FaEye,
   FaDownload,
@@ -7,6 +6,7 @@ import {
   FaBookmark,
   FaSearch,
 } from 'react-icons/fa';
+import Image from 'next/image';
 
 const EVENT_TYPE_ICONS = {
   Visit: FaEye,
@@ -23,6 +23,7 @@ const BROWSER_LOGOS = {
 
 export default function EventIcon({ eventType, size = 'md' }) {
   const sizeInPx = ICON_SIZES[size] || ICON_SIZES.default;
+  const numericSize = parseInt(sizeInPx, 10);
 
   const browserLogo = BROWSER_LOGOS[eventType];
   if (browserLogo) {
@@ -30,8 +31,8 @@ export default function EventIcon({ eventType, size = 'md' }) {
       <Image
         src={browserLogo.src}
         alt={browserLogo.alt}
-        w={sizeInPx}
-        h={sizeInPx}
+        width={numericSize}
+        height={numericSize}
       />
     );
   }
@@ -42,6 +43,12 @@ export default function EventIcon({ eventType, size = 'md' }) {
   }
 
   return (
-    <Icon size={size} as={IconComponent} color={EVENT_TYPE_COLORS[eventType]} />
+    <IconComponent
+      style={{
+        width: sizeInPx,
+        height: sizeInPx,
+        color: EVENT_TYPE_COLORS[eventType],
+      }}
+    />
   );
 }

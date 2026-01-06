@@ -1,15 +1,18 @@
+'use client';
+
 import PaginationMenu from '../table/PaginationMenu';
 import FilterBy from './FilterBy';
 import ItemsPerPage from './ItemsPerPage';
 import SearchBar from './SearchBar';
 import SortBy from './SortBy';
 import { useHistory } from '../context/HistoryContext';
+import { Button } from '../ui/button';
 import { MS_PER_DAY } from '../utils/constants';
-import { Flex, Box, IconButton, Text, CloseButton } from '@chakra-ui/react';
 import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FaCalendarAlt } from 'react-icons/fa';
+import { X } from 'lucide-react';
 
 export default function ToolBar() {
   const {
@@ -26,7 +29,6 @@ export default function ToolBar() {
     setEndDate,
     setFilteredEventTypes,
     setSearch,
-    setSearching,
     search,
     filteredEventTypes,
     eventTypes,
@@ -34,28 +36,18 @@ export default function ToolBar() {
   } = useHistory();
 
   return (
-    <Flex justifyContent="space-between" gap={5} mt={5} alignItems="center">
-      <Box w="30%" display="flex" justifyContent="flex-start" gap={3}>
+    <div className="flex justify-between gap-5 mt-5 items-center">
+      <div className="w-[30%] flex justify-start gap-3">
         <ItemsPerPage
           itemsPerPage={itemsPerPage}
           setItemsPerPage={setItemsPerPage}
         />
         <SortBy sortBy={sortBy} setSortBy={setSortBy} />
-      </Box>
-      <Box w="30%" display="flex" justifyContent="center" gap={3}>
-        <SearchBar
-          setSearch={setSearch}
-          setSearching={setSearching}
-          search={search}
-        />
-      </Box>
-      <Box
-        display="flex"
-        justifyContent="flex-end"
-        alignItems="center"
-        gap={5}
-        w="30%"
-      >
+      </div>
+      <div className="w-[30%] flex justify-center gap-3">
+        <SearchBar setSearch={setSearch} search={search} />
+      </div>
+      <div className="flex justify-end items-center gap-5 w-[30%]">
         <DateRangePicker
           startDate={startDate}
           setStartDate={setStartDate}
@@ -64,14 +56,14 @@ export default function ToolBar() {
           dateRange={dateRange}
           setPage={setPage}
         />
-        <Box w="40%">
+        <div className="w-[40%]">
           <FilterBy
             eventTypes={eventTypes}
             setFilteredEventTypes={setFilteredEventTypes}
             filteredEventTypes={filteredEventTypes}
             setPage={setPage}
           />
-        </Box>
+        </div>
         <PaginationMenu
           page={page}
           setPage={setPage}
@@ -79,8 +71,8 @@ export default function ToolBar() {
           count={totalCount}
           style="compact"
         />
-      </Box>
-    </Flex>
+      </div>
+    </div>
   );
 }
 
@@ -114,39 +106,34 @@ function DateRangePicker({
   };
 
   return (
-    <Box position="relative">
-      <Box display="flex" alignItems="center" gap={2}>
-        <IconButton
-          onClick={handleCalendarClick}
+    <div className="relative">
+      <div className="flex items-center gap-2">
+        <Button
           variant="ghost"
-          _hover={{ bg: 'gray.800' }}
-          size="sm"
-          color="gray.400"
+          size="icon-sm"
+          onClick={handleCalendarClick}
+          className="text-gray-400 hover:bg-gray-800"
         >
-          <FaCalendarAlt />
-        </IconButton>
+          <FaCalendarAlt className="size-4" />
+        </Button>
         {startDate && endDate && (
-          <Box display="flex" alignItems="center" gap={2} whiteSpace="nowrap">
-            <Text color="gray.400" fontSize="sm" whiteSpace="nowrap">
+          <div className="flex items-center gap-2 whitespace-nowrap">
+            <span className="text-gray-400 text-sm whitespace-nowrap">
               {startDate.toLocaleDateString()} - {endDate.toLocaleDateString()}
-            </Text>
-            <CloseButton
-              size="xs"
+            </span>
+            <Button
+              variant="ghost"
+              size="icon-sm"
               onClick={handleClearDate}
-              _hover={{ bg: 'gray.800' }}
-            />
-          </Box>
+              className="hover:bg-gray-800"
+            >
+              <X className="size-3" />
+            </Button>
+          </div>
         )}
-      </Box>
+      </div>
       {isOpen && (
-        <Box
-          position="absolute"
-          top="100%"
-          left="0"
-          zIndex="1000"
-          bg="gray.950"
-          p={2}
-        >
+        <div className="absolute top-full left-0 z-[1000] bg-gray-950 p-2">
           <DatePicker
             inline
             selectsRange
@@ -168,8 +155,8 @@ function DateRangePicker({
               },
             ]}
           />
-        </Box>
+        </div>
       )}
-    </Box>
+    </div>
   );
 }

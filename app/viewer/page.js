@@ -2,8 +2,8 @@
 
 import HistoryTable from '@/components/table/HistoryTable';
 import indexedDb from '@/components/utils/indexedDb';
-import { Box, Center, Spinner, Text, VStack } from '@chakra-ui/react';
 import { useLiveQuery } from 'dexie-react-hooks';
+import { Loader2 } from 'lucide-react';
 import { Suspense } from 'react';
 
 export default function ViewerPage() {
@@ -19,24 +19,24 @@ function ViewerContent() {
 
   if (!history) {
     return <LoadingSpinner />;
-  } else {
-    return (
-      <Center>
-        <Box w="90%">
-          <HistoryTable history={history} />
-        </Box>
-      </Center>
-    );
   }
+
+  return (
+    <div className="flex justify-center">
+      <div className="w-[90%]">
+        <HistoryTable history={history} />
+      </div>
+    </div>
+  );
 }
 
 function LoadingSpinner() {
   return (
-    <Center h="calc(100vh - 120px)">
-      <VStack gap={5}>
-        <Spinner size="xl" />
-        <Text fontSize={['xs', 'sm']}>Loading your history...</Text>
-      </VStack>
-    </Center>
+    <div className="flex items-center justify-center h-[calc(100vh-120px)]">
+      <div className="flex flex-col items-center gap-5">
+        <Loader2 className="size-12 animate-spin" />
+        <span className="text-xs sm:text-sm">Loading your history...</span>
+      </div>
+    </div>
   );
 }

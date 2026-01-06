@@ -1,30 +1,28 @@
-import { Box, IconButton } from '@chakra-ui/react';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { FaGithub, FaCoffee } from 'react-icons/fa';
 
 export default function Socials() {
   return (
-    <Box display={'flex'} gap={1} alignItems={'center'}>
-      <Link href={'https://github.com/bowenaguero/webviewer'} target="_blank">
-        <IconButton
-          _hover={{ opacity: 0.8 }}
-          color={'gray.500'}
-          variant={'ghost'}
-          size={'sm'}
+    <div className="flex gap-1 items-center">
+      <Link href="https://github.com/bowenaguero/webviewer" target="_blank">
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          className="text-gray-500 hover:opacity-80"
         >
-          <FaGithub />
-        </IconButton>
+          <FaGithub className="size-4" />
+        </Button>
       </Link>
-      <Link href={'https://buymeacoffee.com/bowenaguero'} target="_blank">
-        <IconButton
-          _hover={{ opacity: 0.8 }}
-          color={'gray.500'}
-          variant={'ghost'}
-          size={'sm'}
+      <Link href="https://buymeacoffee.com/bowenaguero" target="_blank">
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          className="text-gray-500 hover:opacity-80"
         >
-          <FaCoffee />
-        </IconButton>
+          <FaCoffee className="size-4" />
+        </Button>
       </Link>
-    </Box>
+    </div>
   );
 }

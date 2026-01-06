@@ -1,14 +1,16 @@
+'use client';
+
 import EventIcon from '../event/EventIcon';
 import { capitalizeFirstLetter } from '../utils/helpers';
+import { Button } from '../ui/button';
+import { Checkbox } from '../ui/checkbox';
 import {
-  SelectContent,
-  SelectItem,
-  SelectRoot,
-  SelectTrigger,
-  SelectValueText,
-} from '@/components/ui/select';
-import { createListCollection } from '@chakra-ui/react';
-import { HStack } from '@chakra-ui/react';
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '../ui/popover';
+import { FaFilter } from 'react-icons/fa';
+import { X } from 'lucide-react';
 
 export default function FilterBy({
   eventTypes,
@@ -16,44 +18,64 @@ export default function FilterBy({
   filteredEventTypes,
   setPage,
 }) {
-  const eventTypeMap = createListCollection({
-    items: eventTypes.map((type) => ({
-      label: capitalizeFirstLetter(type),
-      value: type,
-    })),
-  });
+  const selectedTypes = filteredEventTypes.value || [];
+  const hasFilters = selectedTypes.length > 0;
 
-  const handleValueChange = (value) => {
-    setFilteredEventTypes(value);
+  const handleToggle = (eventType) => {
+    const newValue = selectedTypes.includes(eventType)
+      ? selectedTypes.filter((t) => t !== eventType)
+      : [...selectedTypes, eventType];
+
+    setFilteredEventTypes({ value: newValue });
+    setPage(1);
+  };
+
+  const handleClear = (e) => {
+    e.stopPropagation();
+    setFilteredEventTypes({ value: [] });
     setPage(1);
   };
 
   return (
-    <SelectRoot
-      borderRadius="sm"
-      border="1px solid"
-      borderColor={
-        filteredEventTypes.value.length > 0 ? 'gray.300' : 'gray.800'
-      }
-      multiple
-      collection={eventTypeMap}
-      height="100%"
-      onValueChange={handleValueChange}
-      _hover={{ borderColor: 'gray.700' }}
-    >
-      <SelectTrigger clearable>
-        <SelectValueText placeholder="Filter" />
-      </SelectTrigger>
-      <SelectContent>
-        {eventTypeMap.items.map((item) => (
-          <SelectItem key={item.value} item={item}>
-            <HStack>
-              <EventIcon eventType={item.value} size="sm" />
-              {item.label}
-            </HStack>
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </SelectRoot>
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          className={`justify-between gap-2 ${
+            hasFilters
+              ? 'border-gray-300 text-gray-300'
+              : 'border-gray-800 text-gray-500'
+          } hover:border-gray-700 hover:bg-transparent`}
+        >
+          <FaFilter className="size-3" />
+          <span>
+            {hasFilters ? `${selectedTypes.length} selected` : 'Filter'}
+          </span>
+          {hasFilters && (
+            <X
+              className="size-4 hover:opacity-70"
+              onClick={handleClear}
+            />
+          )}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-48 p-2">
+        <div className="flex flex-col gap-2">
+          {eventTypes.map((type) => (
+            <label
+              key={type}
+              className="flex items-center gap-2 px-2 py-1.5 rounded-sm hover:bg-accent cursor-pointer"
+            >
+              <Checkbox
+                checked={selectedTypes.includes(type)}
+                onCheckedChange={() => handleToggle(type)}
+              />
+              <EventIcon eventType={type} size="sm" />
+              <span className="text-sm">{capitalizeFirstLetter(type)}</span>
+            </label>
+          ))}
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 }

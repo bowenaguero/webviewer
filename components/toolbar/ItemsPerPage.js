@@ -1,33 +1,38 @@
 'use client';
 
 import {
-  MenuContent,
-  MenuItem,
-  MenuRoot,
-  MenuTrigger,
-} from '@/components/ui/menu';
-import { Button } from '@chakra-ui/react';
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu';
+import { Button } from '../ui/button';
 import { FaChevronDown } from 'react-icons/fa';
+
+const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
 
 export default function ItemsPerPage({ itemsPerPage, setItemsPerPage }) {
   return (
-    <MenuRoot onSelect={(e) => setItemsPerPage(e.value)}>
-      <MenuTrigger asChild>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
         <Button
-          variant="transparent"
-          color="gray.500"
-          _hover={{ bg: 'gray.800' }}
+          variant="ghost"
+          className="text-gray-500 hover:bg-gray-800"
         >
           {`${itemsPerPage} items per page`}
-          <FaChevronDown />
+          <FaChevronDown className="size-3 ml-1" />
         </Button>
-      </MenuTrigger>
-      <MenuContent>
-        <MenuItem value={10}>10 items per page</MenuItem>
-        <MenuItem value={25}>25 items per page</MenuItem>
-        <MenuItem value={50}>50 items per page</MenuItem>
-        <MenuItem value={100}>100 items per page</MenuItem>
-      </MenuContent>
-    </MenuRoot>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        {PAGE_SIZE_OPTIONS.map((size) => (
+          <DropdownMenuItem
+            key={size}
+            onClick={() => setItemsPerPage(size)}
+          >
+            {size} items per page
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

@@ -1,18 +1,17 @@
 import HowItWorks from '@/components/how/HowItWorks';
 import HowToTimeline from '@/components/how/HowToTimeline';
 import SupportedBrowsersTable from '@/components/how/SupportedBrowsersTable';
-import { Center, VStack, Separator } from '@chakra-ui/react';
 
 export default function How() {
   return (
-    <Center p={10}>
-      <VStack gap={10} p={10} alignItems="start">
+    <div className="flex justify-center p-10">
+      <div className="flex flex-col gap-10 p-10 items-start">
         <HowToTimeline />
-        <Separator />
+        <hr className="w-full border-gray-700" />
         <SupportedBrowsersTable />
-        <Separator />
+        <hr className="w-full border-gray-700" />
         <HowItWorks />
-      </VStack>
-    </Center>
+      </div>
+    </div>
   );
 }

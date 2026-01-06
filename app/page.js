@@ -2,7 +2,8 @@
 
 import FileUpload from '@/components/fileupload/FileUpload';
 import Supports from '@/components/fileupload/Supports';
-import { Box, Text, VStack, IconButton, Progress } from '@chakra-ui/react';
+import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -18,55 +19,43 @@ export default function Home() {
   };
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      minHeight="calc(100vh - 120px)"
-      textAlign="center"
-    >
-      <VStack gap={5}>
-        <Box display="flex" flexDirection="column" alignItems="center">
-          <Text
-            fontSize={['3xl', '4xl', '5xl']}
-            fontWeight="bold"
-            letterSpacing="tight"
-          >
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-120px)] text-center">
+      <div className="flex flex-col items-center gap-5">
+        <div className="flex flex-col items-center">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
             Browser History Viewer
-          </Text>
-          <Box display="flex" alignItems="center">
+          </h1>
+          <div className="flex items-center">
             <Link href="/learn-how">
-              <IconButton
-                color="gray.500"
-                _hover={{ color: 'gray.700' }}
+              <Button
                 variant="ghost"
-                size={['xs', 'sm']}
+                size="icon-sm"
+                className="text-gray-500 hover:text-gray-700"
               >
-                <FaRegQuestionCircle />
-              </IconButton>
+                <FaRegQuestionCircle className="size-4" />
+              </Button>
             </Link>
-            <Text fontSize={['xs', 'sm', 'md', 'lg']}>
+            <span className="text-xs sm:text-sm md:text-base lg:text-lg">
               Upload your browser history file for secure, local analysis.
-            </Text>
-          </Box>
-        </Box>
-        <Box>
+            </span>
+          </div>
+        </div>
+        <div>
           {/* Keep FileUpload mounted to preserve worker, just hide it */}
-          <Box display={isProcessing ? 'none' : 'block'}>
+          <div className={isProcessing ? 'hidden' : 'block'}>
             <FileUpload
               onHistoryLoaded={handleHistoryLoaded}
               setIsProcessing={setIsProcessing}
               setProgress={setProgress}
             />
-          </Box>
+          </div>
           {isProcessing && <ProcessingProgress progress={progress} />}
-        </Box>
-        <Box display="flex" alignItems="center">
+        </div>
+        <div className="flex items-center">
           <Supports />
-        </Box>
-      </VStack>
-    </Box>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -77,27 +66,17 @@ function ProcessingProgress({ progress }) {
   const totalRows = progress?.totalRows;
 
   return (
-    <VStack
-      display="flex"
-      justifyContent="center"
-      m={5}
-      gap={4}
-      width={['300px', '400px', '500px']}
-    >
-      <Progress.Root value={percent} width="100%" size="md">
-        <Progress.Track>
-          <Progress.Range />
-        </Progress.Track>
-      </Progress.Root>
-      <Text fontSize={['xs', 'sm']} color="gray.400">
+    <div className="flex flex-col items-center justify-center m-5 gap-4 w-[300px] sm:w-[400px] md:w-[500px]">
+      <Progress value={percent} className="w-full" />
+      <span className="text-xs sm:text-sm text-gray-400">
         {message}
-      </Text>
+      </span>
       {processedRows !== undefined && (
-        <Text fontSize="xs" color="gray.500">
+        <span className="text-xs text-gray-500">
           {processedRows.toLocaleString()}
           {totalRows ? ` / ${totalRows.toLocaleString()}` : ''} rows
-        </Text>
+        </span>
       )}
-    </VStack>
+    </div>
   );
 }
