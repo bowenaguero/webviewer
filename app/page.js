@@ -2,7 +2,7 @@
 
 import FileUpload from '@/components/fileupload/FileUpload';
 import Supports from '@/components/fileupload/Supports';
-import { Box, Text, VStack, IconButton, Spinner } from '@chakra-ui/react';
+import { Box, Text, VStack, IconButton, Progress } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -11,6 +11,7 @@ import { FaRegQuestionCircle } from 'react-icons/fa';
 export default function Home() {
   const router = useRouter();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [progress, setProgress] = useState(null);
 
   const handleHistoryLoaded = () => {
     router.push('/viewer');
@@ -51,14 +52,15 @@ export default function Home() {
           </Box>
         </Box>
         <Box>
-          {isProcessing ? (
-            <ProcessingSpinner />
-          ) : (
+          {/* Keep FileUpload mounted to preserve worker, just hide it */}
+          <Box display={isProcessing ? 'none' : 'block'}>
             <FileUpload
               onHistoryLoaded={handleHistoryLoaded}
               setIsProcessing={setIsProcessing}
+              setProgress={setProgress}
             />
-          )}
+          </Box>
+          {isProcessing && <ProcessingProgress progress={progress} />}
         </Box>
         <Box display="flex" alignItems="center">
           <Supports />
@@ -68,11 +70,34 @@ export default function Home() {
   );
 }
 
-function ProcessingSpinner() {
+function ProcessingProgress({ progress }) {
+  const percent = progress?.percent || 0;
+  const message = progress?.message || 'Processing your history...';
+  const processedRows = progress?.processedRows;
+  const totalRows = progress?.totalRows;
+
   return (
-    <VStack display="flex" justifyContent="center" m={5} gap={5}>
-      <Spinner size="sm" />
-      <Text fontSize={['xs', 'sm']}>Processing your history...</Text>
+    <VStack
+      display="flex"
+      justifyContent="center"
+      m={5}
+      gap={4}
+      width={['300px', '400px', '500px']}
+    >
+      <Progress.Root value={percent} width="100%" size="md">
+        <Progress.Track>
+          <Progress.Range />
+        </Progress.Track>
+      </Progress.Root>
+      <Text fontSize={['xs', 'sm']} color="gray.400">
+        {message}
+      </Text>
+      {processedRows !== undefined && (
+        <Text fontSize="xs" color="gray.500">
+          {processedRows.toLocaleString()}
+          {totalRows ? ` / ${totalRows.toLocaleString()}` : ''} rows
+        </Text>
+      )}
     </VStack>
   );
 }

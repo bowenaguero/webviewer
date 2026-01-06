@@ -1,7 +1,6 @@
 'use client';
 
 import HistoryTable from '@/components/table/HistoryTable';
-import { toaster } from '@/components/ui/toaster';
 import indexedDb from '@/components/utils/indexedDb';
 import { Box, Center, Spinner, Text, VStack } from '@chakra-ui/react';
 import { useLiveQuery } from 'dexie-react-hooks';

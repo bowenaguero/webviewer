@@ -1,14 +1,44 @@
 'use client';
 
-import { toaster } from '../ui/toaster';
-import { queryBrowserHistory } from '@/components/utils/queryBrowserHistory';
+import { useHistoryWorker } from '@/components/hooks/useHistoryWorker';
 import { Box, Text, VStack } from '@chakra-ui/react';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { FaUpload } from 'react-icons/fa';
-import initSqlJs from 'sql.js';
 
-export default function FileUpload({ onHistoryLoaded, setIsProcessing }) {
+import { toaster } from '../ui/toaster';
+
+export default function FileUpload({ onHistoryLoaded, setIsProcessing, setProgress }) {
+  const { parseHistory, progress, error, isProcessing } = useHistoryWorker();
+
+  // Propagate processing state to parent
+  useEffect(() => {
+    setIsProcessing?.(isProcessing);
+  }, [isProcessing, setIsProcessing]);
+
+  // Propagate progress to parent
+  useEffect(() => {
+    setProgress?.(progress);
+  }, [progress, setProgress]);
+
+  // Handle completion
+  useEffect(() => {
+    if (progress?.stage === 'complete') {
+      onHistoryLoaded?.();
+    }
+  }, [progress, onHistoryLoaded]);
+
+  // Handle errors
+  useEffect(() => {
+    if (error) {
+      toaster.create({
+        title: 'Error',
+        description: error.message || 'Error processing file',
+        type: 'error',
+      });
+    }
+  }, [error]);
+
   const onDrop = useCallback(
     async (acceptedFiles, rejectedFiles) => {
       if (rejectedFiles.length > 0) {
@@ -18,7 +48,9 @@ export default function FileUpload({ onHistoryLoaded, setIsProcessing }) {
           type: 'error',
         });
         return;
-      } else if (acceptedFiles.length === 0) {
+      }
+
+      if (acceptedFiles.length === 0) {
         toaster.create({
           title: 'Error',
           description: 'No file selected',
@@ -27,31 +59,10 @@ export default function FileUpload({ onHistoryLoaded, setIsProcessing }) {
         return;
       }
 
-      setIsProcessing(true);
-      try {
-        const file = acceptedFiles[0];
-        const arrayBuffer = await file.arrayBuffer();
-
-        const SQL = await initSqlJs({
-          locateFile: (file) => `/${file}`,
-        });
-
-        const db = new SQL.Database(new Uint8Array(arrayBuffer));
-        const { history } = await queryBrowserHistory(db);
-
-        onHistoryLoaded({ history });
-      } catch (error) {
-        console.error('Error processing file:', error);
-        toaster.create({
-          title: 'Error',
-          description: 'Error processing file',
-          type: 'error',
-        });
-      } finally {
-        setIsProcessing(false);
-      }
+      const file = acceptedFiles[0];
+      await parseHistory(file);
     },
-    [onHistoryLoaded, setIsProcessing],
+    [parseHistory]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

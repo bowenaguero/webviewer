@@ -1,5 +1,8 @@
-// Query limit for browser history (prevents memory issues with large DBs)
-export const QUERY_ROW_LIMIT = 25000;
+// Query limit for browser history (worker processes in chunks so higher limit is OK)
+export const QUERY_ROW_LIMIT = 500000;
+
+// Chunk size for streaming results from worker to main thread
+export const WORKER_CHUNK_SIZE = 1000;
 
 // Debounce delay for search input (milliseconds)
 export const SEARCH_DEBOUNCE_MS = 650;
