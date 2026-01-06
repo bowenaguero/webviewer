@@ -1,5 +1,10 @@
-import { Tooltip } from '@/components/ui/tooltip';
-import { Box, Icon } from '@chakra-ui/react';
+'use client';
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { FaChrome, FaFirefox, FaSafari, FaEdge, FaOpera } from 'react-icons/fa';
 
 const supportedBrowsers = new Map([
@@ -15,21 +20,31 @@ const unsupportedBrowsers = new Map([
 
 export default function Supports() {
   return (
-    <Box display="flex" alignItems="center" gap={2}>
+    <div className="flex items-center gap-2">
       {Array.from(supportedBrowsers.entries()).map(
-        ([browser, { icon, tooltip }]) => (
-          <Tooltip key={browser} content={tooltip}>
-            <Icon color="gray.500" opacity={0.8} as={icon} />
+        ([browser, { icon: Icon, tooltip }]) => (
+          <Tooltip key={browser}>
+            <TooltipTrigger asChild>
+              <span className="text-gray-500 opacity-80 cursor-default">
+                <Icon className="size-5" />
+              </span>
+            </TooltipTrigger>
+            <TooltipContent>{tooltip}</TooltipContent>
           </Tooltip>
         ),
       )}
       {Array.from(unsupportedBrowsers.entries()).map(
-        ([browser, { icon, tooltip }]) => (
-          <Tooltip key={browser} content={tooltip}>
-            <Icon color="gray.500" opacity={0.1} as={icon} />
+        ([browser, { icon: Icon, tooltip }]) => (
+          <Tooltip key={browser}>
+            <TooltipTrigger asChild>
+              <span className="text-gray-500 opacity-10 cursor-default">
+                <Icon className="size-5" />
+              </span>
+            </TooltipTrigger>
+            <TooltipContent>{tooltip}</TooltipContent>
           </Tooltip>
         ),
       )}
-    </Box>
+    </div>
   );
 }

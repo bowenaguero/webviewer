@@ -1,4 +1,11 @@
-import { Table, VStack, Heading, Text } from '@chakra-ui/react';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 const supportedBrowsers = [
   {
@@ -59,50 +66,39 @@ const supportedBrowsers = [
 
 export default function SupportedBrowsersTable() {
   return (
-    <VStack alignItems="start" gap={5}>
-      <VStack gap={2} alignItems="start">
-        <Heading size="3xl">Supported Browsers</Heading>
-        <Text color="gray.500" fontSize="sm">
+    <div className="flex flex-col items-start gap-5">
+      <div className="flex flex-col gap-2 items-start">
+        <h2 className="text-3xl font-bold">Supported Browsers</h2>
+        <p className="text-gray-500 text-sm">
           Additional browsers are planned for the future.
-        </Text>
-      </VStack>
-      <Table.Root
-        border="2px solid"
-        borderColor="gray.700"
-        borderRadius="sm"
-        showColumnBorder
-      >
-        <Table.Header>
-          <Table.Row bg="gray.950">
-            <Table.ColumnHeader p={4} w="12%">
-              Browser
-            </Table.ColumnHeader>
-            <Table.ColumnHeader p={4} w="10%">
-              Supported
-            </Table.ColumnHeader>
-            <Table.ColumnHeader p={4} w="15%">
-              File Name
-            </Table.ColumnHeader>
-            <Table.ColumnHeader p={4} w="40%">
-              File Path
-            </Table.ColumnHeader>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {supportedBrowsers.map((browser) => (
-            <Table.Row key={browser.name} bg="gray.950">
-              <Table.Cell>{browser.name}</Table.Cell>
-              <Table.Cell color={browser.supported ? 'green.500' : 'red.500'}>
-                {browser.supported ? 'Yes' : 'No'}
-              </Table.Cell>
-              <Table.Cell>{browser.fileName}</Table.Cell>
-              <Table.Cell whiteSpace="pre-wrap">
-                <code>{browser.filePath.join('\n')}</code>
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table.Root>
-    </VStack>
+        </p>
+      </div>
+      <div className="border-2 border-gray-700 rounded-sm">
+        <Table>
+          <TableHeader>
+            <TableRow className="bg-gray-950 hover:bg-gray-950">
+              <TableHead className="p-4 w-[12%]">Browser</TableHead>
+              <TableHead className="p-4 w-[10%]">Supported</TableHead>
+              <TableHead className="p-4 w-[15%]">File Name</TableHead>
+              <TableHead className="p-4 w-[40%]">File Path</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {supportedBrowsers.map((browser) => (
+              <TableRow key={browser.name} className="bg-gray-950 hover:bg-gray-900">
+                <TableCell className="p-4">{browser.name}</TableCell>
+                <TableCell className={`p-4 ${browser.supported ? 'text-green-500' : 'text-red-500'}`}>
+                  {browser.supported ? 'Yes' : 'No'}
+                </TableCell>
+                <TableCell className="p-4">{browser.fileName}</TableCell>
+                <TableCell className="p-4 whitespace-pre-wrap">
+                  <code className="text-sm">{browser.filePath.join('\n')}</code>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </div>
   );
 }

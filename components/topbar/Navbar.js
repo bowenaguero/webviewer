@@ -1,48 +1,30 @@
-import { Box, Text, Link, Flex, Image } from '@chakra-ui/react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Navbar() {
   return (
-    <Box display={'flex'} gap={5} alignItems={'center'}>
-      <Link href={'/'}>
-        <Flex alignItems={'center'}>
-          <Image src={'/v_logo.png'} alt="BHV" width={30} height={30} />
-        </Flex>
+    <nav className="flex gap-5 items-center">
+      <Link href="/">
+        <Image src="/v_logo.png" alt="BHV" width={30} height={30} />
       </Link>
-      <Link href={'/'}>
-        <Text
-          _hover={{ opacity: 0.8 }}
-          fontWeight={'medium'}
-          fontSize={'sm'}
-          color={'gray.500'}
-        >
-          Home
-        </Text>
+      <Link
+        href="/"
+        className="font-medium text-sm text-gray-500 hover:opacity-80"
+      >
+        Home
       </Link>
-      <Link href={'/viewer'}>
-        <Text
-          _hover={{ opacity: 0.8 }}
-          fontWeight={'medium'}
-          fontSize={'sm'}
-          color={'gray.500'}
-        >
-          Viewer
-        </Text>
+      <Link
+        href="/viewer"
+        className="font-medium text-sm text-gray-500 hover:opacity-80"
+      >
+        Viewer
       </Link>
-      <Link href={'/learn-how'}>
-        <Text
-          _hover={{ opacity: 0.8 }}
-          fontWeight={'medium'}
-          fontSize={'sm'}
-          color={'gray.500'}
-        >
-          Learn
-        </Text>
+      <Link
+        href="/learn-how"
+        className="font-medium text-sm text-gray-500 hover:opacity-80"
+      >
+        Learn
       </Link>
-      {/* <Link href={"/about"}>
-          <Text _hover={{ opacity: 0.8 }} fontWeight={"bold"} fontSize={"sm"} color={"gray.500"}>
-            About
-          </Text>
-        </Link> */}
-    </Box>
+    </nav>
   );
 }

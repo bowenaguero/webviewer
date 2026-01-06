@@ -1,14 +1,18 @@
+'use client';
+
 import {
-  MenuContent,
-  MenuItem,
-  MenuRoot,
-  MenuTrigger,
-  MenuTriggerItem,
-} from '../ui/menu';
-import { toaster } from '../ui/toaster';
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu';
+import { Button } from '../ui/button';
 import { EXTERNAL_URLS } from '../utils/constants';
-import { Icon, IconButton } from '@chakra-ui/react';
 import { FaEllipsisV, FaCopy, FaExternalLinkAlt } from 'react-icons/fa';
+import { toast } from 'sonner';
 
 const COPY_TYPES = {
   event: {
@@ -37,10 +41,8 @@ export default function ActionsMenu({ event }) {
     if (!config) return;
 
     navigator.clipboard.writeText(config.getValue(event));
-    toaster.create({
-      title: 'Copied to clipboard',
+    toast.success('Copied to clipboard', {
       description: config.description,
-      type: 'success',
     });
   };
 
@@ -53,35 +55,36 @@ export default function ActionsMenu({ event }) {
   };
 
   return (
-    <MenuRoot>
-      <MenuTrigger asChild>
-        <IconButton variant="ghost" size="sm" color="gray.400">
-          <Icon as={FaEllipsisV} />
-        </IconButton>
-      </MenuTrigger>
-      <MenuContent>
-        <MenuRoot positioning={{ placement: 'right-start', gutter: 2 }}>
-          <MenuTriggerItem value="copy">Copy</MenuTriggerItem>
-          <MenuContent>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon-sm" className="text-gray-400">
+          <FaEllipsisV className="size-3" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>Copy</DropdownMenuSubTrigger>
+          <DropdownMenuSubContent>
             {Object.keys(COPY_TYPES).map((type) => (
-              <MenuItem key={type} value={type} onClick={() => handleCopy(type)}>
-                <Icon as={FaCopy} />{' '}
+              <DropdownMenuItem key={type} onClick={() => handleCopy(type)}>
+                <FaCopy className="size-3" />
                 {type.charAt(0).toUpperCase() + type.slice(1)}
-              </MenuItem>
+              </DropdownMenuItem>
             ))}
-          </MenuContent>
-        </MenuRoot>
-        <MenuRoot positioning={{ placement: 'right-start', gutter: 2 }}>
-          <MenuTriggerItem value="send-to">Send to</MenuTriggerItem>
-          <MenuContent>
+          </DropdownMenuSubContent>
+        </DropdownMenuSub>
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>Send to</DropdownMenuSubTrigger>
+          <DropdownMenuSubContent>
             {Object.entries(SEND_TO_PROVIDERS).map(([key, config]) => (
-              <MenuItem key={key} value={key} onClick={() => handleSendTo(key)}>
-                <Icon as={FaExternalLinkAlt} /> {config.label}
-              </MenuItem>
+              <DropdownMenuItem key={key} onClick={() => handleSendTo(key)}>
+                <FaExternalLinkAlt className="size-3" />
+                {config.label}
+              </DropdownMenuItem>
             ))}
-          </MenuContent>
-        </MenuRoot>
-      </MenuContent>
-    </MenuRoot>
+          </DropdownMenuSubContent>
+        </DropdownMenuSub>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

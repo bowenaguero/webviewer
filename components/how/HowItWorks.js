@@ -1,31 +1,29 @@
-import { VStack, Heading, Text, Box, List } from '@chakra-ui/react';
-
 export default function HowItWorks() {
   return (
-    <VStack alignItems="start" gap={2}>
-      <VStack gap={2} alignItems="start">
-        <Heading size="3xl">How It Works</Heading>
-        <Text color="gray.500" fontSize="sm">
+    <div className="flex flex-col items-start gap-2">
+      <div className="flex flex-col gap-2 items-start">
+        <h2 className="text-3xl font-bold">How It Works</h2>
+        <p className="text-gray-500 text-sm">
           This tool uses WebAssembly to read and parse the browser history file.
-        </Text>
-      </VStack>
-      <Box p={3}>
-        <List.Root gap={1}>
-          <List.Item>
+        </p>
+      </div>
+      <div className="p-3">
+        <ul className="list-disc list-inside space-y-1 text-sm">
+          <li>
             Sql.js WASM is used to read the browser history file.
-          </List.Item>
-          <List.Item>
+          </li>
+          <li>
             The data is stored in your browser&apos;s native storage, IndexedDB.
-          </List.Item>
-          <List.Item>
+          </li>
+          <li>
             The local database is then read from IndexedDB and displayed in the
             GUI.
-          </List.Item>
-          <List.Item>
-            Aisde from Vercel analytics, no data ever leaves your browser.
-          </List.Item>
-        </List.Root>
-      </Box>
-    </VStack>
+          </li>
+          <li>
+            Aside from Vercel analytics, no data ever leaves your browser.
+          </li>
+        </ul>
+      </div>
+    </div>
   );
 }

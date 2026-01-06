@@ -1,12 +1,10 @@
 'use client';
 
 import { useHistoryWorker } from '@/components/hooks/useHistoryWorker';
-import { Box, Text, VStack } from '@chakra-ui/react';
 import { useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { FaUpload } from 'react-icons/fa';
-
-import { toaster } from '../ui/toaster';
+import { toast } from 'sonner';
 
 export default function FileUpload({ onHistoryLoaded, setIsProcessing, setProgress }) {
   const { parseHistory, progress, error, isProcessing } = useHistoryWorker();
@@ -31,10 +29,8 @@ export default function FileUpload({ onHistoryLoaded, setIsProcessing, setProgre
   // Handle errors
   useEffect(() => {
     if (error) {
-      toaster.create({
-        title: 'Error',
+      toast.error('Error', {
         description: error.message || 'Error processing file',
-        type: 'error',
       });
     }
   }, [error]);
@@ -42,19 +38,15 @@ export default function FileUpload({ onHistoryLoaded, setIsProcessing, setProgre
   const onDrop = useCallback(
     async (acceptedFiles, rejectedFiles) => {
       if (rejectedFiles.length > 0) {
-        toaster.create({
-          title: 'Error',
+        toast.error('Error', {
           description: 'Invalid file type',
-          type: 'error',
         });
         return;
       }
 
       if (acceptedFiles.length === 0) {
-        toaster.create({
-          title: 'Error',
+        toast.error('Error', {
           description: 'No file selected',
-          type: 'error',
         });
         return;
       }
@@ -74,32 +66,19 @@ export default function FileUpload({ onHistoryLoaded, setIsProcessing, setProgre
   });
 
   return (
-    <Box
+    <div
       {...getRootProps()}
-      width={['300px', '400px', '500px']}
-      height="300px"
-      borderWidth={2}
-      borderRadius="lg"
-      borderStyle="dashed"
-      cursor="pointer"
-      _hover={{
-        borderColor: 'blue.500',
-        backgroundColor: { base: 'gray.100', _dark: 'gray.900' },
-      }}
-      transition="all 0.2s"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
+      className="w-[300px] sm:w-[400px] md:w-[500px] h-[300px] border-2 border-dashed rounded-lg cursor-pointer hover:border-blue-500 hover:bg-gray-900 transition-all duration-200 flex items-center justify-center"
     >
       <input {...getInputProps()} />
-      <VStack gap={3}>
+      <div className="flex flex-col items-center gap-3">
         <FaUpload size={40} />
-        <Text color="gray.500" fontSize={['xs', 'sm']}>
+        <span className="text-gray-500 text-xs sm:text-sm">
           {isDragActive
             ? 'Drop to analyze'
             : 'Drag and drop or click to upload'}
-        </Text>
-      </VStack>
-    </Box>
+        </span>
+      </div>
+    </div>
   );
 }

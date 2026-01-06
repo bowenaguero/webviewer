@@ -1,10 +1,9 @@
+import './globals.css';
 import { ReactScan } from './ReactScan';
 import Topbar from '@/components/topbar/Topbar';
-import { Provider } from '@/components/ui/provider';
-import { Toaster } from '@/components/ui/toaster';
-// import Footer from "@/components/general/Footer";
-import { Box } from '@chakra-ui/react';
+import { Toaster } from '@/components/ui/sonner';
 import { Analytics } from '@vercel/analytics/react';
+import { ThemeProvider } from 'next-themes';
 import { Inter } from 'next/font/google';
 
 const inter = Inter({
@@ -39,14 +38,13 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         {/* <ReactScan/> */}
         <Analytics />
-        <Provider>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <Toaster />
-          <Box minH={'100vh'} bg="gray.900">
+          <div className="min-h-screen bg-gray-900">
             <Topbar />
             {children}
-          </Box>
-          {/* <Footer /> */}
-        </Provider>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );

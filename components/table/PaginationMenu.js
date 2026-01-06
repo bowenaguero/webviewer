@@ -1,10 +1,7 @@
-import {
-  PaginationItems,
-  PaginationNextTrigger,
-  PaginationPrevTrigger,
-  PaginationRoot,
-} from '@/components/ui/pagination';
-import { HStack } from '@chakra-ui/react';
+'use client';
+
+import { Button } from '../ui/button';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function PaginationMenu({
   page,
@@ -13,21 +10,77 @@ export default function PaginationMenu({
   count,
   style,
 }) {
+  const totalPages = Math.ceil(count / itemsPerPage);
+  const canGoPrev = page > 1;
+  const canGoNext = page < totalPages;
+
+  const handlePrev = () => {
+    if (canGoPrev) setPage(page - 1);
+  };
+
+  const handleNext = () => {
+    if (canGoNext) setPage(page + 1);
+  };
+
+  // Generate page numbers to display
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisible = 5;
+
+    let start = Math.max(1, page - Math.floor(maxVisible / 2));
+    let end = Math.min(totalPages, start + maxVisible - 1);
+
+    if (end - start + 1 < maxVisible) {
+      start = Math.max(1, end - maxVisible + 1);
+    }
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+
+    return pages;
+  };
+
   return (
-    <PaginationRoot
-      count={count}
-      page={page}
-      pageSize={itemsPerPage}
-      onPageChange={(e) => setPage(e.page)}
-      type="button"
-    >
-      <HStack>
-        <PaginationPrevTrigger _hover={{ bg: 'gray.800' }} />
-        {style === 'compact' ? null : (
-          <PaginationItems _hover={{ bg: 'gray.800' }} />
-        )}
-        <PaginationNextTrigger _hover={{ bg: 'gray.800' }} />
-      </HStack>
-    </PaginationRoot>
+    <div className="flex items-center gap-1">
+      <Button
+        variant="ghost"
+        size="icon-sm"
+        onClick={handlePrev}
+        disabled={!canGoPrev}
+        className="text-gray-400 hover:bg-gray-800"
+      >
+        <ChevronLeft className="size-4" />
+      </Button>
+
+      {style !== 'compact' && (
+        <>
+          {getPageNumbers().map((pageNum) => (
+            <Button
+              key={pageNum}
+              variant={pageNum === page ? 'secondary' : 'ghost'}
+              size="sm"
+              onClick={() => setPage(pageNum)}
+              className={pageNum === page
+                ? 'bg-gray-700 text-white'
+                : 'text-gray-400 hover:bg-gray-800'
+              }
+            >
+              {pageNum}
+            </Button>
+          ))}
+        </>
+      )}
+
+      <Button
+        variant="ghost"
+        size="icon-sm"
+        onClick={handleNext}
+        disabled={!canGoNext}
+        className="text-gray-400 hover:bg-gray-800"
+      >
+        <ChevronRight className="size-4" />
+      </Button>
+    </div>
   );
 }
