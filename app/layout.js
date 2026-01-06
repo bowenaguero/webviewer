@@ -1,16 +1,9 @@
 import './globals.css';
-import { ReactScan } from './ReactScan';
 import Topbar from '@/components/topbar/Topbar';
 import { Toaster } from '@/components/ui/sonner';
 import { Analytics } from '@vercel/analytics/react';
+import { GeistSans } from 'geist/font/sans';
 import { ThemeProvider } from 'next-themes';
-import { Inter } from 'next/font/google';
-
-const inter = Inter({
-  weight: ['400', '500', '700'],
-  subsets: ['latin'],
-  variable: '--font-inter',
-});
 
 export const metadata = {
   title: 'WebViewer',
@@ -35,10 +28,14 @@ export default function RootLayout({ children }) {
           `}
         </style>
       </head>
-      <body className={inter.className}>
+      <body className={GeistSans.className}>
         {/* <ReactScan/> */}
         <Analytics />
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+        >
           <Toaster />
           <div className="min-h-screen bg-gray-900">
             <Topbar />

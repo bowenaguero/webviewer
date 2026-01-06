@@ -6,7 +6,11 @@ import { useDropzone } from 'react-dropzone';
 import { FaUpload } from 'react-icons/fa';
 import { toast } from 'sonner';
 
-export default function FileUpload({ onHistoryLoaded, setIsProcessing, setProgress }) {
+export default function FileUpload({
+  onHistoryLoaded,
+  setIsProcessing,
+  setProgress,
+}) {
   const { parseHistory, progress, error, isProcessing } = useHistoryWorker();
 
   // Propagate processing state to parent
@@ -54,7 +58,7 @@ export default function FileUpload({ onHistoryLoaded, setIsProcessing, setProgre
       const file = acceptedFiles[0];
       await parseHistory(file);
     },
-    [parseHistory]
+    [parseHistory],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -73,11 +77,6 @@ export default function FileUpload({ onHistoryLoaded, setIsProcessing, setProgre
       <input {...getInputProps()} />
       <div className="flex flex-col items-center gap-3">
         <FaUpload size={40} />
-        <span className="text-gray-500 text-xs sm:text-sm">
-          {isDragActive
-            ? 'Drop to analyze'
-            : 'Drag and drop or click to upload'}
-        </span>
       </div>
     </div>
   );
