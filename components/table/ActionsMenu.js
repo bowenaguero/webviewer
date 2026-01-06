@@ -3,54 +3,53 @@ import {
   MenuItem,
   MenuRoot,
   MenuTrigger,
-  MenuItemCommand,
   MenuTriggerItem,
 } from '../ui/menu';
 import { toaster } from '../ui/toaster';
+import { EXTERNAL_URLS } from '../utils/constants';
 import { Icon, IconButton } from '@chakra-ui/react';
-import { FaEllipsisV } from 'react-icons/fa';
-import { FaCopy, FaExternalLinkAlt } from 'react-icons/fa';
+import { FaEllipsisV, FaCopy, FaExternalLinkAlt } from 'react-icons/fa';
+
+const COPY_TYPES = {
+  event: {
+    getValue: (event) => JSON.stringify(event),
+    description: 'Event copied to clipboard',
+  },
+  url: {
+    getValue: (event) => event.url,
+    description: 'URL copied to clipboard',
+  },
+  domain: {
+    getValue: (event) => event.domain,
+    description: 'Domain copied to clipboard',
+  },
+};
+
+const SEND_TO_PROVIDERS = {
+  virustotal: { label: 'VirusTotal', getUrl: EXTERNAL_URLS.virustotal },
+  browserling: { label: 'Browserling', getUrl: EXTERNAL_URLS.browserling },
+  urlscan: { label: 'URLScan', getUrl: EXTERNAL_URLS.urlscan },
+};
 
 export default function ActionsMenu({ event }) {
   const handleCopy = (type) => {
-    if (type === 'event') {
-      navigator.clipboard.writeText(JSON.stringify(event));
-      toaster.create({
-        title: 'Copied to clipboard',
-        description: 'Event copied to clipboard',
-        type: 'success',
-      });
-    } else if (type === 'url') {
-      navigator.clipboard.writeText(event.url);
-      toaster.create({
-        title: 'Copied to clipboard',
-        description: 'URL copied to clipboard',
-        type: 'success',
-      });
-    } else if (type === 'domain') {
-      navigator.clipboard.writeText(event.domain);
-      toaster.create({
-        title: 'Copied to clipboard',
-        description: 'Domain copied to clipboard',
-        type: 'success',
-      });
-    }
+    const config = COPY_TYPES[type];
+    if (!config) return;
+
+    navigator.clipboard.writeText(config.getValue(event));
+    toaster.create({
+      title: 'Copied to clipboard',
+      description: config.description,
+      type: 'success',
+    });
   };
 
   const handleSendTo = (provider) => {
-    if (provider === 'virustotal') {
-      window.open(
-        `https://www.virustotal.com/gui/domain/${event.domain}`,
-        '_blank',
-      );
-    } else if (provider === 'browserling') {
-      window.open(
-        `https://www.browserling.com/browse/win10/chrome127/${event.url}`,
-        '_blank',
-      );
-    } else if (provider === 'urlscan') {
-      window.open(`https://urlscan.io/search/#${event.domain}`, '_blank');
-    }
+    const config = SEND_TO_PROVIDERS[provider];
+    if (!config) return;
+
+    const urlParam = provider === 'browserling' ? event.url : event.domain;
+    window.open(config.getUrl(urlParam), '_blank');
   };
 
   return (
@@ -62,39 +61,24 @@ export default function ActionsMenu({ event }) {
       </MenuTrigger>
       <MenuContent>
         <MenuRoot positioning={{ placement: 'right-start', gutter: 2 }}>
-          <MenuTriggerItem value="copy" onClick={handleCopy}>
-            Copy
-          </MenuTriggerItem>
+          <MenuTriggerItem value="copy">Copy</MenuTriggerItem>
           <MenuContent>
-            <MenuItem value="event" onClick={() => handleCopy('event')}>
-              <Icon as={FaCopy} /> Event
-            </MenuItem>
-            <MenuItem value="url" onClick={() => handleCopy('url')}>
-              <Icon as={FaCopy} /> URL
-            </MenuItem>
-            <MenuItem value="domain" onClick={() => handleCopy('domain')}>
-              <Icon as={FaCopy} /> Domain
-            </MenuItem>
+            {Object.keys(COPY_TYPES).map((type) => (
+              <MenuItem key={type} value={type} onClick={() => handleCopy(type)}>
+                <Icon as={FaCopy} />{' '}
+                {type.charAt(0).toUpperCase() + type.slice(1)}
+              </MenuItem>
+            ))}
           </MenuContent>
         </MenuRoot>
         <MenuRoot positioning={{ placement: 'right-start', gutter: 2 }}>
           <MenuTriggerItem value="send-to">Send to</MenuTriggerItem>
           <MenuContent>
-            <MenuItem
-              value="virustotal"
-              onClick={() => handleSendTo('virustotal')}
-            >
-              <Icon as={FaExternalLinkAlt} /> VirusTotal
-            </MenuItem>
-            <MenuItem
-              value="browserling"
-              onClick={() => handleSendTo('browserling')}
-            >
-              <Icon as={FaExternalLinkAlt} /> Browserling
-            </MenuItem>
-            <MenuItem value="urlscan" onClick={() => handleSendTo('urlscan')}>
-              <Icon as={FaExternalLinkAlt} /> URLScan
-            </MenuItem>
+            {Object.entries(SEND_TO_PROVIDERS).map(([key, config]) => (
+              <MenuItem key={key} value={key} onClick={() => handleSendTo(key)}>
+                <Icon as={FaExternalLinkAlt} /> {config.label}
+              </MenuItem>
+            ))}
           </MenuContent>
         </MenuRoot>
       </MenuContent>

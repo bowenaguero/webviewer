@@ -1,229 +1,60 @@
 import EventIcon from '../event/EventIcon';
 import ToolBar from '../toolbar/ToolBar';
 import { Tooltip } from '../ui/tooltip';
-import {
-  filterByEventTypes,
-  filterBySearch,
-  sortByDate,
-  filterByDate,
-} from '../utils/filterBrowserHistory';
 import { capitalizeFirstLetter } from '../utils/helpers';
 import ActionsMenu from './ActionsMenu';
 import PaginationMenu from './PaginationMenu';
+import { HistoryProvider, useHistory } from '../context/HistoryContext';
 import { HStack, Box, Table, Text, Spinner } from '@chakra-ui/react';
-import { useState, useMemo } from 'react';
 
-export default function HistoryTable2({ history }) {
-  const [page, setPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [sortBy, setSortBy] = useState('desc');
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const [filteredEventTypes, setFilteredEventTypes] = useState({ value: [] });
-  const [search, setSearch] = useState('');
-  const [searching, setSearching] = useState(false);
+const CELL_STYLE = { color: 'gray.500', p: 5 };
+const TEXT_OVERFLOW_STYLE = {
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+};
+const HEADER_STYLE = {
+  ...TEXT_OVERFLOW_STYLE,
+  color: 'gray.500',
+  px: 5,
+};
 
-  const processedHistory = useMemo(() => {
-    let filtered = [...history];
-    filtered = filterByEventTypes(filtered, filteredEventTypes);
-    filtered = filterBySearch(filtered, search);
-    filtered = filterByDate(filtered, startDate, endDate);
-    filtered = sortByDate(filtered, sortBy);
-    return filtered;
-  }, [history, sortBy, filteredEventTypes, search, startDate, endDate]);
+export default function HistoryTable({ history }) {
+  return (
+    <HistoryProvider history={history}>
+      <HistoryTableContent />
+    </HistoryProvider>
+  );
+}
 
-  const startIndex = (page - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentItems = processedHistory.slice(startIndex, endIndex);
-  const totalCount = processedHistory.length;
+function HistoryTableContent() {
+  const { currentItems, totalCount, searching, page, setPage, itemsPerPage } =
+    useHistory();
 
   return (
     <>
       <Box w="100%" h="100%" mb={5}>
-        <ToolBar
-          itemsPerPage={itemsPerPage}
-          setItemsPerPage={setItemsPerPage}
-          sortBy={sortBy}
-          setSortBy={setSortBy}
-          page={page}
-          setPage={setPage}
-          count={totalCount}
-          startDate={startDate}
-          setStartDate={setStartDate}
-          endDate={endDate}
-          setEndDate={setEndDate}
-          filteredEventTypes={filteredEventTypes}
-          setFilteredEventTypes={setFilteredEventTypes}
-          setSearch={setSearch}
-          setSearching={setSearching}
-          search={search}
-          history={history}
-          processedHistory={processedHistory}
-        />
+        <ToolBar />
       </Box>
       <Box
         bg="gray.950"
-        border={'2px solid'}
+        border="2px solid"
         borderColor="gray.800"
-        borderRadius={'md'}
+        borderRadius="md"
       >
         <Table.Root tableLayout="fixed">
           <Table.Header>
-            <Table.Row bg="transparent">
-              <Table.ColumnHeader w="3%"></Table.ColumnHeader>
-              <Table.ColumnHeader
-                overflow="hidden"
-                textOverflow="ellipsis"
-                whiteSpace="nowrap"
-                color="gray.500"
-                px={5}
-                w="12%"
-              >
-                Time
-              </Table.ColumnHeader>
-              <Table.ColumnHeader
-                overflow="hidden"
-                textOverflow="ellipsis"
-                whiteSpace="nowrap"
-                color="gray.500"
-                px={5}
-                w="8%"
-              >
-                Type
-              </Table.ColumnHeader>
-              <Table.ColumnHeader
-                overflow="hidden"
-                textOverflow="ellipsis"
-                whiteSpace="nowrap"
-                color="gray.500"
-                px={5}
-                w="30%"
-              >
-                URL
-              </Table.ColumnHeader>
-              <Table.ColumnHeader
-                overflow="hidden"
-                textOverflow="ellipsis"
-                whiteSpace="nowrap"
-                color="gray.500"
-                px={5}
-                w="30%"
-              >
-                Title
-              </Table.ColumnHeader>
-              <Table.ColumnHeader
-                overflow="hidden"
-                textOverflow="ellipsis"
-                whiteSpace="nowrap"
-                color="gray.500"
-                px={5}
-                w="20%"
-              >
-                Details
-              </Table.ColumnHeader>
-            </Table.Row>
+            <TableHeaderRow />
           </Table.Header>
           <Table.Body>
             {searching ? (
-              <Table.Row>
-                <Table.Cell p={5} colSpan={7} bg="gray.950">
-                  <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    h="100%"
-                  >
-                    <Spinner size="lg" color="gray.500" />
-                  </Box>
-                </Table.Cell>
-              </Table.Row>
+              <SearchingRow />
             ) : (
               currentItems.map((item, index) => (
-                <Table.Row
-                  key={index}
-                  bg="transparent"
-                  _hover={{ bg: 'gray.800' }}
-                >
-                  <Table.Cell color="gray.500" p={5}>
-                    <ActionsMenu event={item} />
-                  </Table.Cell>
-                  <Table.Cell color="gray.500" p={5}>
-                    <Box fontSize="sm">{item.visitTimeFormatted}</Box>
-                  </Table.Cell>
-                  <Table.Cell color="gray.500" p={5}>
-                    <Box display="flex" alignItems="center" gap={2}>
-                      <EventIcon size="sm" eventType={item.eventType} />
-                      <Text
-                        overflow="hidden"
-                        textOverflow="ellipsis"
-                        whiteSpace="nowrap"
-                      >
-                        {capitalizeFirstLetter(item.eventType)}
-                      </Text>
-                    </Box>
-                  </Table.Cell>
-                  <Table.Cell p={5}>
-                    <Box>
-                      <Tooltip content={item.url}>
-                        <Text
-                          fontSize="sm"
-                          fontWeight={'medium'}
-                          overflow="hidden"
-                          textOverflow="ellipsis"
-                          whiteSpace="nowrap"
-                        >
-                          {item.url}
-                        </Text>
-                      </Tooltip>
-                    </Box>
-                  </Table.Cell>
-                  <Table.Cell color="gray.500" p={5}>
-                    <Box>
-                      <Tooltip content={item.title || 'Untitled'}>
-                        <Text
-                          overflow="hidden"
-                          textOverflow="ellipsis"
-                          whiteSpace="nowrap"
-                          fontSize="sm"
-                          fontWeight={'medium'}
-                        >
-                          {item.title || 'Untitled'}
-                        </Text>
-                      </Tooltip>
-                    </Box>
-                  </Table.Cell>
-                  <Table.Cell color="gray.500" p={5}>
-                    <Box>
-                      <Text color="gray.300">
-                        {item.eventType != 'Visit' && (
-                          <>
-                            <Text color="gray.500">
-                              {item.eventEntityType}:
-                            </Text>
-                            <Text color="gray.300">{item.eventEntity}</Text>
-                          </>
-                        )}
-                      </Text>
-                      {Object.keys(item.additionalFields).length > 0 && (
-                        <Text
-                          overflow="hidden"
-                          textOverflow="ellipsis"
-                          whiteSpace="nowrap"
-                          fontSize="sm"
-                        >
-                          {Object.keys(item.additionalFields).map((key) => (
-                            <Box key={key}>
-                              <Text color="gray.500">{key}:</Text>
-                              <Text color="gray.300">
-                                {item.additionalFields[key]}
-                              </Text>
-                            </Box>
-                          ))}
-                        </Text>
-                      )}
-                    </Box>
-                  </Table.Cell>
-                </Table.Row>
+                <HistoryRow
+                  key={`${item.url}-${item.visitTime}-${index}`}
+                  item={item}
+                />
               ))
             )}
           </Table.Body>
@@ -231,16 +62,118 @@ export default function HistoryTable2({ history }) {
       </Box>
       <HStack justifyContent="space-between" mt={5} mb={5}>
         <Box />
-        <Box>
-          <PaginationMenu
-            page={page}
-            setPage={setPage}
-            itemsPerPage={itemsPerPage}
-            count={totalCount}
-          />
-        </Box>
+        <PaginationMenu
+          page={page}
+          setPage={setPage}
+          itemsPerPage={itemsPerPage}
+          count={totalCount}
+        />
         <Box />
       </HStack>
     </>
+  );
+}
+
+function TableHeaderRow() {
+  return (
+    <Table.Row bg="transparent">
+      <Table.ColumnHeader w="3%" />
+      <Table.ColumnHeader {...HEADER_STYLE} w="12%">
+        Time
+      </Table.ColumnHeader>
+      <Table.ColumnHeader {...HEADER_STYLE} w="8%">
+        Type
+      </Table.ColumnHeader>
+      <Table.ColumnHeader {...HEADER_STYLE} w="30%">
+        URL
+      </Table.ColumnHeader>
+      <Table.ColumnHeader {...HEADER_STYLE} w="30%">
+        Title
+      </Table.ColumnHeader>
+      <Table.ColumnHeader {...HEADER_STYLE} w="20%">
+        Details
+      </Table.ColumnHeader>
+    </Table.Row>
+  );
+}
+
+function SearchingRow() {
+  return (
+    <Table.Row>
+      <Table.Cell p={5} colSpan={7} bg="gray.950">
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          h="100%"
+        >
+          <Spinner size="lg" color="gray.500" />
+        </Box>
+      </Table.Cell>
+    </Table.Row>
+  );
+}
+
+function HistoryRow({ item }) {
+  return (
+    <Table.Row bg="transparent" _hover={{ bg: 'gray.800' }}>
+      <Table.Cell {...CELL_STYLE}>
+        <ActionsMenu event={item} />
+      </Table.Cell>
+      <Table.Cell {...CELL_STYLE}>
+        <Box fontSize="sm">{item.visitTimeFormatted}</Box>
+      </Table.Cell>
+      <Table.Cell {...CELL_STYLE}>
+        <Box display="flex" alignItems="center" gap={2}>
+          <EventIcon size="sm" eventType={item.eventType} />
+          <Text {...TEXT_OVERFLOW_STYLE}>
+            {capitalizeFirstLetter(item.eventType)}
+          </Text>
+        </Box>
+      </Table.Cell>
+      <Table.Cell p={5}>
+        <Tooltip content={item.url}>
+          <Text fontSize="sm" fontWeight="medium" {...TEXT_OVERFLOW_STYLE}>
+            {item.url}
+          </Text>
+        </Tooltip>
+      </Table.Cell>
+      <Table.Cell {...CELL_STYLE}>
+        <Tooltip content={item.title || 'Untitled'}>
+          <Text fontSize="sm" fontWeight="medium" {...TEXT_OVERFLOW_STYLE}>
+            {item.title || 'Untitled'}
+          </Text>
+        </Tooltip>
+      </Table.Cell>
+      <Table.Cell {...CELL_STYLE}>
+        <DetailsCell item={item} />
+      </Table.Cell>
+    </Table.Row>
+  );
+}
+
+function DetailsCell({ item }) {
+  const hasEventDetails = item.eventType !== 'Visit';
+  const hasAdditionalFields = Object.keys(item.additionalFields).length > 0;
+
+  return (
+    <Box>
+      {hasEventDetails && (
+        <>
+          <Text color="gray.500">{item.eventEntityType}:</Text>
+          <Text color="gray.300">{item.eventEntity}</Text>
+        </>
+      )}
+      {hasAdditionalFields && (
+        <Text {...TEXT_OVERFLOW_STYLE} fontSize="sm">
+          {Object.entries(item.additionalFields).map(([key, value]) => (
+            <Box key={key}>
+              <Text color="gray.500">{key}:</Text>
+              <Text color="gray.300">{value}</Text>
+            </Box>
+          ))}
+        </Text>
+      )}
+    </Box>
   );
 }

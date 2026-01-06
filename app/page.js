@@ -2,7 +2,6 @@
 
 import FileUpload from '@/components/fileupload/FileUpload';
 import Supports from '@/components/fileupload/Supports';
-import { toaster } from '@/components/ui/toaster';
 import { Box, Text, VStack, IconButton, Spinner } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -13,17 +12,8 @@ export default function Home() {
   const router = useRouter();
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const handleHistoryLoaded = (data) => {
-    try {
-      router.push('/viewer');
-    } catch (error) {
-      console.error('Error processing history:', error);
-      toaster.create({
-        title: 'Error',
-        description: 'Error processing history',
-        type: 'error',
-      });
-    }
+  const handleHistoryLoaded = () => {
+    router.push('/viewer');
   };
 
   return (

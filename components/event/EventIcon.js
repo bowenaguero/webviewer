@@ -1,3 +1,4 @@
+import { EVENT_TYPE_COLORS, ICON_SIZES } from '../utils/constants';
 import { Icon, Image } from '@chakra-ui/react';
 import {
   FaEye,
@@ -7,53 +8,40 @@ import {
   FaSearch,
 } from 'react-icons/fa';
 
-export default function Event({ eventType, size = 'md' }) {
-  const sizeInPx =
-    {
-      sm: '14px',
-      md: '18px',
-      lg: '26px',
-      xl: '32px',
-    }[size] || '16px';
+const EVENT_TYPE_ICONS = {
+  Visit: FaEye,
+  Download: FaDownload,
+  Autofill: FaICursor,
+  Bookmark: FaBookmark,
+  Keyword: FaSearch,
+};
 
-  if (eventType === 'chrome') {
+const BROWSER_LOGOS = {
+  chrome: { src: '/images/chrome-logo.svg', alt: 'Chrome' },
+  firefox: { src: '/images/firefox-logo.svg', alt: 'Firefox' },
+};
+
+export default function EventIcon({ eventType, size = 'md' }) {
+  const sizeInPx = ICON_SIZES[size] || ICON_SIZES.default;
+
+  const browserLogo = BROWSER_LOGOS[eventType];
+  if (browserLogo) {
     return (
       <Image
-        src="/images/chrome-logo.svg"
-        alt="Chrome"
+        src={browserLogo.src}
+        alt={browserLogo.alt}
         w={sizeInPx}
         h={sizeInPx}
       />
     );
   }
-  if (eventType === 'firefox') {
-    return (
-      <Image
-        src="/images/firefox-logo.svg"
-        alt="Firefox"
-        w={sizeInPx}
-        h={sizeInPx}
-      />
-    );
+
+  const IconComponent = EVENT_TYPE_ICONS[eventType];
+  if (!IconComponent) {
+    return null;
   }
-
-  const icons = {
-    Visit: FaEye,
-    Download: FaDownload,
-    Autofill: FaICursor,
-    Bookmark: FaBookmark,
-    Keyword: FaSearch,
-  };
-
-  const iconColor = {
-    Visit: '#AA4586',
-    Download: '#1B998B',
-    Autofill: '#F2DC5D',
-    Bookmark: '#F46036',
-    Keyword: '#468C98',
-  };
 
   return (
-    <Icon size={size} as={icons[eventType]} color={iconColor[eventType]} />
+    <Icon size={size} as={IconComponent} color={EVENT_TYPE_COLORS[eventType]} />
   );
 }

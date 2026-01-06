@@ -1,26 +1,26 @@
 import indexedDb from '@/components/utils/indexedDb';
 import { processHistoryResults } from '@/components/utils/processBrowserHistory';
+import { QUERY_ROW_LIMIT } from '@/components/utils/constants';
 
-let rowLimit = 25000;
-
-export const queryBrowserHistory = async (db) => {
+export const queryBrowserHistory = (db) => {
   indexedDb.history.clear();
-  let results = [];
+  const allResults = [];
 
-  Object.keys(BROWSER_QUERIES).forEach((key) => {
-    try {
-      Object.keys(BROWSER_QUERIES[key]).forEach((query) => {
-        const result = db.exec(BROWSER_QUERIES[key][query])[0];
-        console.log(result);
-        const processedResult = processHistoryResults(result);
-        results.push(...processedResult);
-      });
-    } catch (error) {
-      console.log(error);
-    }
+  Object.keys(BROWSER_QUERIES).forEach((browserKey) => {
+    Object.keys(BROWSER_QUERIES[browserKey]).forEach((queryKey) => {
+      try {
+        const queryResult = db.exec(BROWSER_QUERIES[browserKey][queryKey])[0];
+        if (queryResult) {
+          const processedResult = processHistoryResults(queryResult);
+          allResults.push(...processedResult);
+        }
+      } catch (error) {
+        // Query failed for this browser type - continue with others
+      }
+    });
   });
 
-  return { history: results };
+  return { history: allResults };
 };
 
 const BROWSER_QUERIES = {
@@ -41,7 +41,7 @@ const BROWSER_QUERIES = {
       WHERE
         moz_annos.content NOT LIKE '%deleted%'
       ORDER BY moz_places.last_visit_date DESC
-      LIMIT ${rowLimit}
+      LIMIT ${QUERY_ROW_LIMIT}
       `,
     visits: `
       SELECT
@@ -57,7 +57,7 @@ const BROWSER_QUERIES = {
       JOIN
           moz_historyvisits ON moz_places.id = moz_historyvisits.place_id
       ORDER BY moz_historyvisits.visit_date DESC
-      LIMIT ${rowLimit}
+      LIMIT ${QUERY_ROW_LIMIT}
       `,
     autofill: `
       SELECT
@@ -73,7 +73,7 @@ const BROWSER_QUERIES = {
       JOIN
       moz_inputhistory ON moz_places.id = moz_inputhistory.place_id
       ORDER BY moz_places.last_visit_date DESC
-      LIMIT ${rowLimit}
+      LIMIT ${QUERY_ROW_LIMIT}
     `,
     bookmarks: `
       SELECT
@@ -88,10 +88,10 @@ const BROWSER_QUERIES = {
         moz_places
       JOIN
         moz_bookmarks ON moz_places.id = moz_bookmarks.fk
-      WHERE 
+      WHERE
         moz_bookmarks.fk IS NOT NULL
       ORDER BY moz_places.last_visit_date DESC
-      LIMIT ${rowLimit}
+      LIMIT ${QUERY_ROW_LIMIT}
     `,
   },
   chrome: {
@@ -111,8 +111,8 @@ const BROWSER_QUERIES = {
         'Chrome' as browser
       FROM
         downloads
-      ORDER BY start_time DESC   
-      LIMIT ${rowLimit}
+      ORDER BY start_time DESC
+      LIMIT ${QUERY_ROW_LIMIT}
     `,
     visits: `
     SELECT
@@ -129,7 +129,7 @@ const BROWSER_QUERIES = {
     JOIN
       urls ON visits.url = urls.id
     ORDER BY visits.visit_time DESC
-    LIMIT ${rowLimit}
+    LIMIT ${QUERY_ROW_LIMIT}
     `,
     keyword_search: `
     SELECT
@@ -140,15 +140,15 @@ const BROWSER_QUERIES = {
       'Keyword' as eventEntityType,
       'Keyword' as eventType,
       'Chrome' as browser
-    FROM 
+    FROM
       content_annotations
-    JOIN 
+    JOIN
       visits ON content_annotations.visit_id = visits.id
-	  JOIN 
+	  JOIN
       urls ON urls.id = visits.url
     WHERE content_annotations.search_terms IS NOT ""
     ORDER BY visits.visit_time DESC
-    LIMIT ${rowLimit}
+    LIMIT ${QUERY_ROW_LIMIT}
     `,
   },
 };
