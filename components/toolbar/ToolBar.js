@@ -1,18 +1,18 @@
 'use client';
 
+import { useHistory } from '../context/HistoryContext';
 import PaginationMenu from '../table/PaginationMenu';
+import { Button } from '../ui/button';
+import { MS_PER_DAY } from '../utils/constants';
 import FilterBy from './FilterBy';
 import ItemsPerPage from './ItemsPerPage';
 import SearchBar from './SearchBar';
 import SortBy from './SortBy';
-import { useHistory } from '../context/HistoryContext';
-import { Button } from '../ui/button';
-import { MS_PER_DAY } from '../utils/constants';
+import { X } from 'lucide-react';
 import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FaCalendarAlt } from 'react-icons/fa';
-import { X } from 'lucide-react';
 
 export default function ToolBar() {
   const {
@@ -56,14 +56,12 @@ export default function ToolBar() {
           dateRange={dateRange}
           setPage={setPage}
         />
-        <div className="w-[40%]">
-          <FilterBy
-            eventTypes={eventTypes}
-            setFilteredEventTypes={setFilteredEventTypes}
-            filteredEventTypes={filteredEventTypes}
-            setPage={setPage}
-          />
-        </div>
+        <FilterBy
+          eventTypes={eventTypes}
+          setFilteredEventTypes={setFilteredEventTypes}
+          filteredEventTypes={filteredEventTypes}
+          setPage={setPage}
+        />
         <PaginationMenu
           page={page}
           setPage={setPage}

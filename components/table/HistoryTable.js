@@ -1,16 +1,8 @@
 'use client';
 
+import { HistoryProvider, useHistory } from '../context/HistoryContext';
 import EventIcon from '../event/EventIcon';
 import ToolBar from '../toolbar/ToolBar';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '../ui/tooltip';
-import { capitalizeFirstLetter } from '../utils/helpers';
-import ActionsMenu from './ActionsMenu';
-import PaginationMenu from './PaginationMenu';
-import { HistoryProvider, useHistory } from '../context/HistoryContext';
 import {
   Table,
   TableBody,
@@ -19,8 +11,13 @@ import {
   TableHeader,
   TableRow,
 } from '../ui/table';
-import { memo } from 'react';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { capitalizeFirstLetter } from '../utils/helpers';
+import ActionsMenu from './ActionsMenu';
+import PaginationMenu from './PaginationMenu';
+import { GeistMono } from 'geist/font/mono';
 import { Loader2 } from 'lucide-react';
+import { memo } from 'react';
 
 // Column widths (5 columns, must add up to 100%)
 const COL_WIDTHS = {
@@ -53,16 +50,24 @@ function HistoryTableContent() {
           <TableHeader>
             <TableRow className="bg-transparent border-gray-800 hover:bg-transparent">
               <TableHead className={COL_WIDTHS.actions} />
-              <TableHead className={`${COL_WIDTHS.time} text-gray-500 text-xs px-3`}>
+              <TableHead
+                className={`${COL_WIDTHS.time} text-gray-500 text-xs px-3`}
+              >
                 Time
               </TableHead>
-              <TableHead className={`${COL_WIDTHS.type} text-gray-500 text-xs px-2`}>
+              <TableHead
+                className={`${COL_WIDTHS.type} text-gray-500 text-xs px-2`}
+              >
                 Type
               </TableHead>
-              <TableHead className={`${COL_WIDTHS.url} text-gray-500 text-xs px-3`}>
+              <TableHead
+                className={`${COL_WIDTHS.url} text-gray-500 text-xs px-3`}
+              >
                 URL
               </TableHead>
-              <TableHead className={`${COL_WIDTHS.title} text-gray-500 text-xs px-3`}>
+              <TableHead
+                className={`${COL_WIDTHS.title} text-gray-500 text-xs px-3`}
+              >
                 Title
               </TableHead>
             </TableRow>
@@ -107,7 +112,8 @@ function SearchingRow() {
 
 const HistoryRow = memo(function HistoryRow({ item }) {
   const hasEventDetails = item.eventType !== 'Visit';
-  const hasAdditionalFields = Object.keys(item.additionalFields || {}).length > 0;
+  const hasAdditionalFields =
+    Object.keys(item.additionalFields || {}).length > 0;
   const hasDetails = hasEventDetails || hasAdditionalFields;
 
   // Build details string for second line
@@ -123,11 +129,15 @@ const HistoryRow = memo(function HistoryRow({ item }) {
   const detailsText = detailsParts.join(' · ');
 
   return (
-    <TableRow className="bg-transparent border-gray-800 hover:bg-gray-800/50">
+    <TableRow
+      className={`bg-transparent border-gray-800 hover:bg-gray-800/50 ${GeistMono.className}`}
+    >
       <TableCell className={`${COL_WIDTHS.actions} px-2 py-1.5`}>
         <ActionsMenu event={item} />
       </TableCell>
-      <TableCell className={`${COL_WIDTHS.time} text-gray-500 text-xs px-3 py-1.5`}>
+      <TableCell
+        className={`${COL_WIDTHS.time} text-gray-500 text-xs px-3 py-1.5`}
+      >
         <span className="truncate block">{item.visitTimeFormatted}</span>
       </TableCell>
       <TableCell className={`${COL_WIDTHS.type} px-2 py-1.5`}>
@@ -145,7 +155,7 @@ const HistoryRow = memo(function HistoryRow({ item }) {
       <TableCell className={`${COL_WIDTHS.url} px-3 py-1.5`}>
         <Tooltip>
           <TooltipTrigger asChild>
-            <span className="text-xs truncate block cursor-default">
+            <span className={'text-xs truncate block cursor-default'}>
               {item.url}
             </span>
           </TooltipTrigger>
@@ -159,7 +169,11 @@ const HistoryRow = memo(function HistoryRow({ item }) {
           {/* Line 1: Title */}
           <Tooltip>
             <TooltipTrigger asChild>
-              <span className="text-xs text-gray-500 truncate block cursor-default">
+              <span
+                className={
+                  'text-xs text-gray-500 truncate block cursor-default'
+                }
+              >
                 {item.title || 'Untitled'}
               </span>
             </TooltipTrigger>
@@ -171,7 +185,11 @@ const HistoryRow = memo(function HistoryRow({ item }) {
           {hasDetails && (
             <Tooltip>
               <TooltipTrigger asChild>
-                <span className="text-[10px] text-gray-600 truncate block cursor-default mt-0.5">
+                <span
+                  className={
+                    'text-[10px] text-gray-600 truncate block cursor-default mt-0.5'
+                  }
+                >
                   {detailsText}
                 </span>
               </TooltipTrigger>
@@ -179,18 +197,21 @@ const HistoryRow = memo(function HistoryRow({ item }) {
                 <div className="space-y-1">
                   {hasEventDetails && item.eventEntity && (
                     <p>
-                      <span className="text-gray-400">{item.eventEntityType}: </span>
+                      <span className="text-gray-400">
+                        {item.eventEntityType}:{' '}
+                      </span>
                       <span className="break-all">{item.eventEntity}</span>
                     </p>
                   )}
-                  {hasAdditionalFields && (
-                    Object.entries(item.additionalFields).map(([key, value]) => (
-                      <p key={key}>
-                        <span className="text-gray-400">{key}: </span>
-                        <span className="break-all">{String(value)}</span>
-                      </p>
-                    ))
-                  )}
+                  {hasAdditionalFields &&
+                    Object.entries(item.additionalFields).map(
+                      ([key, value]) => (
+                        <p key={key}>
+                          <span className="text-gray-400">{key}: </span>
+                          <span className="break-all">{String(value)}</span>
+                        </p>
+                      ),
+                    )}
                 </div>
               </TooltipContent>
             </Tooltip>
