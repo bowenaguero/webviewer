@@ -1,5 +1,7 @@
 # webviewer
 
+![Viewer](images/viewer.png)
+
 Client-side browser history analysis. Your data never leaves your browser.
 
 ## Features
