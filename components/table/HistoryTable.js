@@ -16,6 +16,7 @@ import { capitalizeFirstLetter } from '../utils/helpers';
 import ActionsMenu from './ActionsMenu';
 import PaginationMenu from './PaginationMenu';
 import { GeistMono } from 'geist/font/mono';
+import { GeistSans } from 'geist/font/sans';
 import { Loader2 } from 'lucide-react';
 import { memo } from 'react';
 
@@ -51,22 +52,22 @@ function HistoryTableContent() {
             <TableRow className="bg-transparent border-gray-800 hover:bg-transparent">
               <TableHead className={COL_WIDTHS.actions} />
               <TableHead
-                className={`${COL_WIDTHS.time} text-gray-500 text-xs px-3`}
+                className={`${COL_WIDTHS.time} text-gray-500 text-sm px-3`}
               >
                 Time
               </TableHead>
               <TableHead
-                className={`${COL_WIDTHS.type} text-gray-500 text-xs px-2`}
+                className={`${COL_WIDTHS.type} text-gray-500 text-sm px-2`}
               >
                 Type
               </TableHead>
               <TableHead
-                className={`${COL_WIDTHS.url} text-gray-500 text-xs px-3`}
+                className={`${COL_WIDTHS.url} text-gray-500 text-sm px-3`}
               >
                 URL
               </TableHead>
               <TableHead
-                className={`${COL_WIDTHS.title} text-gray-500 text-xs px-3`}
+                className={`${COL_WIDTHS.title} text-gray-500 text-sm px-3`}
               >
                 Title
               </TableHead>
@@ -101,7 +102,7 @@ function HistoryTableContent() {
 function SearchingRow() {
   return (
     <TableRow>
-      <TableCell colSpan={5} className="py-8 bg-gray-950">
+      <TableCell colSpan={5} className="py-8 bg-gray-900">
         <div className="flex justify-center items-center">
           <Loader2 className="size-6 text-gray-500 animate-spin" />
         </div>
@@ -130,13 +131,13 @@ const HistoryRow = memo(function HistoryRow({ item }) {
 
   return (
     <TableRow
-      className={`bg-transparent border-gray-800 hover:bg-gray-800/50 ${GeistMono.className}`}
+      className={`bg-transparent border-gray-800 hover:bg-gray-800/50 font-medium ${GeistMono.className}`}
     >
       <TableCell className={`${COL_WIDTHS.actions} px-2 py-1.5`}>
         <ActionsMenu event={item} />
       </TableCell>
       <TableCell
-        className={`${COL_WIDTHS.time} text-gray-500 text-xs px-3 py-1.5`}
+        className={`${COL_WIDTHS.time} text-gray-500 text-sm px-3 py-1.5`}
       >
         <span className="truncate block">{item.visitTimeFormatted}</span>
       </TableCell>
@@ -155,7 +156,9 @@ const HistoryRow = memo(function HistoryRow({ item }) {
       <TableCell className={`${COL_WIDTHS.url} px-3 py-1.5`}>
         <Tooltip>
           <TooltipTrigger asChild>
-            <span className={'text-xs truncate block cursor-default'}>
+            <span
+              className={'text-sm text-gray-300 truncate block cursor-default'}
+            >
               {item.url}
             </span>
           </TooltipTrigger>
@@ -171,7 +174,7 @@ const HistoryRow = memo(function HistoryRow({ item }) {
             <TooltipTrigger asChild>
               <span
                 className={
-                  'text-xs text-gray-500 truncate block cursor-default'
+                  'text-sm text-gray-400 truncate block cursor-default'
                 }
               >
                 {item.title || 'Untitled'}

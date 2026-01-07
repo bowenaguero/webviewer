@@ -1,6 +1,13 @@
 'use client';
 
-import { createContext, useContext, useState, useMemo, useDeferredValue, useTransition } from 'react';
+import {
+  createContext,
+  useContext,
+  useState,
+  useMemo,
+  useDeferredValue,
+  useTransition,
+} from 'react';
 
 const HistoryContext = createContext(null);
 
@@ -46,13 +53,13 @@ const filterBySearch = (items, search) => {
 const filterByDate = (items, startDate, endDate) => {
   if (!startDate || !endDate) return items;
   return items.filter(
-    (item) => item.visitTime >= startDate && item.visitTime <= endDate
+    (item) => item.visitTime >= startDate && item.visitTime <= endDate,
   );
 };
 
 export function HistoryProvider({ children, history }) {
   const [page, setPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(15);
   const [sortBy, setSortBy] = useState('desc');
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -100,18 +107,26 @@ export function HistoryProvider({ children, history }) {
   // Process history with filters
   const processedHistory = useMemo(() => {
     // Start with pre-sorted data (desc) or reverse for asc
-    let filtered = sortBy === 'desc' ? sortedHistory : [...sortedHistory].reverse();
+    let filtered =
+      sortBy === 'desc' ? sortedHistory : [...sortedHistory].reverse();
     filtered = filterByEventTypes(filtered, filteredEventTypes);
     filtered = filterBySearch(filtered, deferredSearch);
     filtered = filterByDate(filtered, startDate, endDate);
     return filtered;
-  }, [sortedHistory, sortBy, filteredEventTypes, deferredSearch, startDate, endDate]);
+  }, [
+    sortedHistory,
+    sortBy,
+    filteredEventTypes,
+    deferredSearch,
+    startDate,
+    endDate,
+  ]);
 
   const totalCount = processedHistory.length;
   const startIndex = (page - 1) * itemsPerPage;
   const currentItems = processedHistory.slice(
     startIndex,
-    startIndex + itemsPerPage
+    startIndex + itemsPerPage,
   );
 
   // Wrap setSearch to use transition
