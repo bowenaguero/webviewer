@@ -103,33 +103,33 @@ function DateRangePicker({
     setPage(1);
   };
 
+  const hasDateFilter = startDate && endDate;
+
   return (
     <div className="relative">
-      <div className="flex items-center gap-2">
-        <Button
-          variant="ghost"
-          size="icon-sm"
-          onClick={handleCalendarClick}
-          className="text-gray-400 hover:bg-gray-800"
-        >
-          <FaCalendarAlt className="size-4" />
-        </Button>
-        {startDate && endDate && (
-          <div className="flex items-center gap-2 whitespace-nowrap">
-            <span className="text-gray-400 text-sm whitespace-nowrap">
-              {startDate.toLocaleDateString()} - {endDate.toLocaleDateString()}
-            </span>
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              onClick={handleClearDate}
-              className="hover:bg-gray-800"
-            >
-              <X className="size-3" />
-            </Button>
-          </div>
+      <Button
+        variant="ghost"
+        onClick={handleCalendarClick}
+        className={`justify-between gap-2 ${
+          hasDateFilter
+            ? 'border-gray-300 text-gray-300'
+            : 'border-gray-800 text-gray-500'
+        } hover:border-gray-700 hover:bg-transparent`}
+      >
+        <FaCalendarAlt className="size-4" />
+        {hasDateFilter && (
+          <>
+            <span>{`${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`}</span>
+            <X
+              className="size-4 hover:opacity-70"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleClearDate();
+              }}
+            />
+          </>
         )}
-      </div>
+      </Button>
       {isOpen && (
         <div className="absolute top-full left-0 z-[1000] bg-gray-950 p-2">
           <DatePicker

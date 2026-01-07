@@ -1,16 +1,12 @@
 'use client';
 
 import EventIcon from '../event/EventIcon';
-import { capitalizeFirstLetter } from '../utils/helpers';
 import { Button } from '../ui/button';
 import { Checkbox } from '../ui/checkbox';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '../ui/popover';
-import { FaFilter } from 'react-icons/fa';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { capitalizeFirstLetter } from '../utils/helpers';
 import { X } from 'lucide-react';
+import { FaFilter } from 'react-icons/fa';
 
 export default function FilterBy({
   eventTypes,
@@ -40,7 +36,7 @@ export default function FilterBy({
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          variant="outline"
+          variant="ghost"
           className={`justify-between gap-2 ${
             hasFilters
               ? 'border-gray-300 text-gray-300'
@@ -48,14 +44,11 @@ export default function FilterBy({
           } hover:border-gray-700 hover:bg-transparent`}
         >
           <FaFilter className="size-3" />
-          <span>
-            {hasFilters ? `${selectedTypes.length} selected` : 'Filter'}
-          </span>
           {hasFilters && (
-            <X
-              className="size-4 hover:opacity-70"
-              onClick={handleClear}
-            />
+            <>
+              <span>{`${selectedTypes.length} selected`}</span>
+              <X className="size-4 hover:opacity-70" onClick={handleClear} />
+            </>
           )}
         </Button>
       </PopoverTrigger>
