@@ -181,7 +181,8 @@ const formatDate = (timestamp) => {
   return new Date(timestamp).toLocaleString();
 };
 
-const transformRow = (row, columns, stats) => {
+// Transform a raw database row into a history object
+const transformRow = (row, columns) => {
   const historyObject = { additionalFields: {} };
 
   columns.forEach((column, index) => {
@@ -191,8 +192,6 @@ const transformRow = (row, columns, stats) => {
       const domain = urlToDomain(value);
       historyObject.url = value;
       historyObject.domain = domain;
-      stats.set(domain, (stats.get(domain) || 0) + 1);
-      stats.set(value, (stats.get(value) || 0) + 1);
     } else if (column === 'lastVisitTime') {
       historyObject.visitTime = processVisitTimestamp(value);
       historyObject.visitTimeFormatted = formatDate(historyObject.visitTime);
@@ -233,48 +232,60 @@ const estimateTotalRows = (db) => {
   return Math.max(total, 100);
 };
 
-// Process query results in chunks
-const processQueryResultsInChunks = async (
-  result,
-  stats,
-  processedRows,
-  totalRows,
-  onChunk
-) => {
-  const { columns, values } = result;
-  let chunk = [];
-  let currentProcessed = processedRows;
+// Build statistics from all collected rows
+const buildStats = (allRows) => {
+  const urlStats = new Map();
+  const domainStats = new Map();
 
-  for (let i = 0; i < values.length; i++) {
-    const row = values[i];
-    const processed = transformRow(row, columns, stats);
-    chunk.push(processed);
-    currentProcessed++;
+  for (const row of allRows) {
+    const { url, domain, visitTime } = row;
 
-    if (chunk.length >= CHUNK_SIZE) {
-      chunk.forEach((item) => {
-        item.domain_count = stats.get(item.domain) || 0;
-        item.url_count = stats.get(item.url) || 0;
+    // URL stats
+    if (!urlStats.has(url)) {
+      urlStats.set(url, {
+        count: 0,
+        first_visit: Infinity,
+        last_visit: 0,
       });
-
-      onChunk(chunk, currentProcessed, totalRows);
-      chunk = [];
-
-      // Yield to allow message processing
-      await new Promise((resolve) => setTimeout(resolve, 0));
     }
+    const uStats = urlStats.get(url);
+    uStats.count++;
+    if (visitTime < uStats.first_visit) uStats.first_visit = visitTime;
+    if (visitTime > uStats.last_visit) uStats.last_visit = visitTime;
+
+    // Domain stats
+    if (!domainStats.has(domain)) {
+      domainStats.set(domain, {
+        count: 0,
+        first_visit: Infinity,
+        last_visit: 0,
+        unique_urls: new Set(),
+      });
+    }
+    const dStats = domainStats.get(domain);
+    dStats.count++;
+    dStats.unique_urls.add(url);
+    if (visitTime < dStats.first_visit) dStats.first_visit = visitTime;
+    if (visitTime > dStats.last_visit) dStats.last_visit = visitTime;
   }
 
-  // Send remaining items
-  if (chunk.length > 0) {
-    chunk.forEach((item) => {
-      item.domain_count = stats.get(item.domain) || 0;
-      item.url_count = stats.get(item.url) || 0;
-    });
-    onChunk(chunk, currentProcessed, totalRows);
-  }
+  return { urlStats, domainStats };
+};
 
-  return currentProcessed;
+// Attach stats to a row
+const attachStats = (row, urlStats, domainStats) => {
+  const uStats = urlStats.get(row.url);
+  const dStats = domainStats.get(row.domain);
+
+  row.url_count = uStats?.count || 0;
+  row.url_first_visit = uStats?.first_visit || null;
+  row.url_last_visit = uStats?.last_visit || null;
+  row.domain_count = dStats?.count || 0;
+  row.domain_first_visit = dStats?.first_visit || null;
+  row.domain_last_visit = dStats?.last_visit || null;
+  row.domain_unique_urls = dStats?.unique_urls?.size || 0;
+
+  return row;
 };
 
 // Global SQL instance
@@ -305,46 +316,47 @@ const parseHistory = async (data, wasmUrl) => {
     });
 
     const totalRows = estimateTotalRows(db);
-    let processedRows = 0;
-    const stats = new Map();
 
     self.postMessage({
       type: 'PROGRESS',
       payload: {
-        stage: 'processing',
-        message: 'Processing history...',
+        stage: 'collecting',
+        message: 'Collecting history data...',
         percent: 5,
         totalRows,
       },
     });
+
+    // PASS 1: Collect all rows
+    const allRows = [];
+    let collectedRows = 0;
 
     for (const [browserKey, queries] of Object.entries(BROWSER_QUERIES)) {
       for (const [queryKey, query] of Object.entries(queries)) {
         try {
           const result = db.exec(query)[0];
           if (result && result.values.length > 0) {
-            processedRows = await processQueryResultsInChunks(
-              result,
-              stats,
-              processedRows,
-              totalRows,
-              (chunk, currentProcessed, total) => {
-                const progress = Math.min(
-                  99,
-                  5 + Math.round((currentProcessed / total) * 94)
-                );
+            const { columns, values } = result;
+            for (const row of values) {
+              const transformed = transformRow(row, columns);
+              allRows.push(transformed);
+              collectedRows++;
 
+              // Update progress periodically
+              if (collectedRows % 5000 === 0) {
+                const progress = Math.min(45, 5 + Math.round((collectedRows / totalRows) * 40));
                 self.postMessage({
-                  type: 'CHUNK',
+                  type: 'PROGRESS',
                   payload: {
-                    items: chunk,
-                    progress,
-                    processedRows: currentProcessed,
-                    totalRows: total,
+                    stage: 'collecting',
+                    message: 'Collecting history data...',
+                    percent: progress,
+                    processedRows: collectedRows,
+                    totalRows,
                   },
                 });
               }
-            );
+            }
           }
         } catch {
           // Query failed for this browser type - continue with others
@@ -355,8 +367,75 @@ const parseHistory = async (data, wasmUrl) => {
     db.close();
 
     self.postMessage({
+      type: 'PROGRESS',
+      payload: {
+        stage: 'stats',
+        message: 'Calculating statistics...',
+        percent: 50,
+        processedRows: collectedRows,
+        totalRows: collectedRows,
+      },
+    });
+
+    // Build statistics from all collected rows
+    const { urlStats, domainStats } = buildStats(allRows);
+
+    self.postMessage({
+      type: 'PROGRESS',
+      payload: {
+        stage: 'streaming',
+        message: 'Processing results...',
+        percent: 55,
+        processedRows: 0,
+        totalRows: allRows.length,
+      },
+    });
+
+    // PASS 2: Stream rows with stats attached
+    let streamedRows = 0;
+    let chunk = [];
+
+    for (const row of allRows) {
+      attachStats(row, urlStats, domainStats);
+      chunk.push(row);
+      streamedRows++;
+
+      if (chunk.length >= CHUNK_SIZE) {
+        const progress = Math.min(99, 55 + Math.round((streamedRows / allRows.length) * 44));
+
+        self.postMessage({
+          type: 'CHUNK',
+          payload: {
+            items: chunk,
+            progress,
+            processedRows: streamedRows,
+            totalRows: allRows.length,
+          },
+        });
+
+        chunk = [];
+
+        // Yield to allow message processing
+        await new Promise((resolve) => setTimeout(resolve, 0));
+      }
+    }
+
+    // Send remaining items
+    if (chunk.length > 0) {
+      self.postMessage({
+        type: 'CHUNK',
+        payload: {
+          items: chunk,
+          progress: 99,
+          processedRows: streamedRows,
+          totalRows: allRows.length,
+        },
+      });
+    }
+
+    self.postMessage({
       type: 'COMPLETE',
-      payload: { totalProcessed: processedRows },
+      payload: { totalProcessed: streamedRows },
     });
   } catch (error) {
     let message = error.message;
