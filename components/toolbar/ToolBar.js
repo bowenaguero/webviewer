@@ -34,6 +34,9 @@ export default function ToolBar() {
     filteredEventTypes,
     eventTypes,
     dateRange,
+    rangeFilters,
+    setRangeFilters,
+    statsBounds,
   } = useHistory();
 
   return (
@@ -61,6 +64,9 @@ export default function ToolBar() {
           eventTypes={eventTypes}
           setFilteredEventTypes={setFilteredEventTypes}
           filteredEventTypes={filteredEventTypes}
+          rangeFilters={rangeFilters}
+          setRangeFilters={setRangeFilters}
+          statsBounds={statsBounds}
           setPage={setPage}
         />
         <PaginationMenu

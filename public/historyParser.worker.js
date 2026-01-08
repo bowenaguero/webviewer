@@ -148,12 +148,35 @@ const columnMap = {
   eventEntityType: 'eventEntityType',
 };
 
+// PSL library loaded flag
+let pslLoaded = false;
+
+const loadPsl = () => {
+  if (!pslLoaded) {
+    importScripts('https://cdn.jsdelivr.net/npm/psl@1.9.0/dist/psl.min.js');
+    pslLoaded = true;
+  }
+};
+
 // Helper functions
 const urlToDomain = (url) => {
   try {
     return new URL(url).hostname;
   } catch {
     return 'Unknown';
+  }
+};
+
+const domainToApex = (domain) => {
+  if (domain === 'Unknown') return 'Unknown';
+
+  try {
+    const parsed = psl.parse(domain);
+    return parsed.domain || domain;
+  } catch {
+    // Fallback: return last two parts
+    const parts = domain.split('.');
+    return parts.length <= 2 ? domain : parts.slice(-2).join('.');
   }
 };
 
@@ -190,8 +213,10 @@ const transformRow = (row, columns) => {
 
     if (column === 'url') {
       const domain = urlToDomain(value);
+      const apexDomain = domainToApex(domain);
       historyObject.url = value;
       historyObject.domain = domain;
+      historyObject.apexDomain = apexDomain;
     } else if (column === 'lastVisitTime') {
       historyObject.visitTime = processVisitTimestamp(value);
       historyObject.visitTimeFormatted = formatDate(historyObject.visitTime);
@@ -236,9 +261,10 @@ const estimateTotalRows = (db) => {
 const buildStats = (allRows) => {
   const urlStats = new Map();
   const domainStats = new Map();
+  const apexDomainStats = new Map();
 
   for (const row of allRows) {
-    const { url, domain, visitTime } = row;
+    const { url, domain, apexDomain, visitTime } = row;
 
     // URL stats
     if (!urlStats.has(url)) {
@@ -253,7 +279,7 @@ const buildStats = (allRows) => {
     if (visitTime < uStats.first_visit) uStats.first_visit = visitTime;
     if (visitTime > uStats.last_visit) uStats.last_visit = visitTime;
 
-    // Domain stats
+    // Domain stats (FQDN)
     if (!domainStats.has(domain)) {
       domainStats.set(domain, {
         count: 0,
@@ -267,15 +293,33 @@ const buildStats = (allRows) => {
     dStats.unique_urls.add(url);
     if (visitTime < dStats.first_visit) dStats.first_visit = visitTime;
     if (visitTime > dStats.last_visit) dStats.last_visit = visitTime;
+
+    // Apex domain stats
+    if (!apexDomainStats.has(apexDomain)) {
+      apexDomainStats.set(apexDomain, {
+        count: 0,
+        first_visit: Infinity,
+        last_visit: 0,
+        unique_urls: new Set(),
+        unique_subdomains: new Set(),
+      });
+    }
+    const aStats = apexDomainStats.get(apexDomain);
+    aStats.count++;
+    aStats.unique_urls.add(url);
+    aStats.unique_subdomains.add(domain);
+    if (visitTime < aStats.first_visit) aStats.first_visit = visitTime;
+    if (visitTime > aStats.last_visit) aStats.last_visit = visitTime;
   }
 
-  return { urlStats, domainStats };
+  return { urlStats, domainStats, apexDomainStats };
 };
 
 // Attach stats to a row
-const attachStats = (row, urlStats, domainStats) => {
+const attachStats = (row, urlStats, domainStats, apexDomainStats) => {
   const uStats = urlStats.get(row.url);
   const dStats = domainStats.get(row.domain);
+  const aStats = apexDomainStats.get(row.apexDomain);
 
   row.url_count = uStats?.count || 0;
   row.url_first_visit = uStats?.first_visit || null;
@@ -284,6 +328,9 @@ const attachStats = (row, urlStats, domainStats) => {
   row.domain_first_visit = dStats?.first_visit || null;
   row.domain_last_visit = dStats?.last_visit || null;
   row.domain_unique_urls = dStats?.unique_urls?.size || 0;
+  row.apex_domain_count = aStats?.count || 0;
+  row.apex_domain_unique_urls = aStats?.unique_urls?.size || 0;
+  row.apex_domain_unique_subdomains = aStats?.unique_subdomains?.size || 0;
 
   return row;
 };
@@ -307,6 +354,9 @@ const parseHistory = async (data, wasmUrl) => {
         locateFile: () => wasmUrl,
       });
     }
+
+    // Load PSL library for apex domain parsing
+    loadPsl();
 
     const db = new SQL.Database(uint8Array);
 
@@ -378,7 +428,7 @@ const parseHistory = async (data, wasmUrl) => {
     });
 
     // Build statistics from all collected rows
-    const { urlStats, domainStats } = buildStats(allRows);
+    const { urlStats, domainStats, apexDomainStats } = buildStats(allRows);
 
     self.postMessage({
       type: 'PROGRESS',
@@ -396,7 +446,7 @@ const parseHistory = async (data, wasmUrl) => {
     let chunk = [];
 
     for (const row of allRows) {
-      attachStats(row, urlStats, domainStats);
+      attachStats(row, urlStats, domainStats, apexDomainStats);
       chunk.push(row);
       streamedRows++;
 
