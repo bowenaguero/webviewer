@@ -162,8 +162,36 @@ const HistoryRow = memo(function HistoryRow({ item }) {
               {item.url}
             </span>
           </TooltipTrigger>
-          <TooltipContent side="bottom" className="max-w-lg">
-            <p className="break-all">{item.url}</p>
+          <TooltipContent side="bottom" className="max-w-xl">
+            <div className="space-y-2">
+              <p className="break-all text-sm">{item.url}</p>
+              <div className="border-t border-gray-700 pt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-xs">
+                <div>
+                  <span className="text-gray-400">URL Visits:</span>{' '}
+                  <span>{item.url_count || 0}</span>
+                </div>
+                <div>
+                  <span className="text-gray-400">Domain Visits:</span>{' '}
+                  <span>{item.domain_count || 0}</span>
+                </div>
+                <div>
+                  <span className="text-gray-400">First Seen:</span>{' '}
+                  <span>{item.url_first_visit ? new Date(item.url_first_visit).toLocaleDateString() : '—'}</span>
+                </div>
+                <div>
+                  <span className="text-gray-400">Domain URLs:</span>{' '}
+                  <span>{item.domain_unique_urls || 0}</span>
+                </div>
+                <div>
+                  <span className="text-gray-400">Last Seen:</span>{' '}
+                  <span>{item.url_last_visit ? new Date(item.url_last_visit).toLocaleDateString() : '—'}</span>
+                </div>
+                <div>
+                  <span className="text-gray-400">Domain:</span>{' '}
+                  <span className="truncate">{item.domain}</span>
+                </div>
+              </div>
+            </div>
           </TooltipContent>
         </Tooltip>
       </TableCell>

@@ -57,6 +57,22 @@ const filterByDate = (items, startDate, endDate) => {
   );
 };
 
+const filterByRanges = (items, rangeFilters) => {
+  const activeFilters = Object.entries(rangeFilters).filter(
+    ([, range]) => range.min !== null || range.max !== null,
+  );
+  if (activeFilters.length === 0) return items;
+
+  return items.filter((item) => {
+    for (const [field, range] of activeFilters) {
+      const value = item[field];
+      if (range.min !== null && value < range.min) return false;
+      if (range.max !== null && value > range.max) return false;
+    }
+    return true;
+  });
+};
+
 export function HistoryProvider({ children, history }) {
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(15);
@@ -67,6 +83,14 @@ export function HistoryProvider({ children, history }) {
   const [search, setSearch] = useState('');
   const [searching, setSearching] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const [rangeFilters, setRangeFilters] = useState({
+    url_count: { min: null, max: null },
+    domain_count: { min: null, max: null },
+    domain_unique_urls: { min: null, max: null },
+    apex_domain_count: { min: null, max: null },
+    apex_domain_unique_urls: { min: null, max: null },
+    apex_domain_unique_subdomains: { min: null, max: null },
+  });
 
   // Defer the search value to keep UI responsive
   const deferredSearch = useDeferredValue(search);
@@ -104,6 +128,68 @@ export function HistoryProvider({ children, history }) {
     return [...types];
   }, [history]);
 
+  // Calculate statistics bounds for range sliders
+  const statsBounds = useMemo(() => {
+    if (history.length === 0) {
+      return {
+        url_count: { min: 0, max: 100 },
+        domain_count: { min: 0, max: 100 },
+        domain_unique_urls: { min: 0, max: 100 },
+        apex_domain_count: { min: 0, max: 100 },
+        apex_domain_unique_urls: { min: 0, max: 100 },
+        apex_domain_unique_subdomains: { min: 0, max: 100 },
+      };
+    }
+
+    let urlMin = Infinity,
+      urlMax = 0;
+    let domainMin = Infinity,
+      domainMax = 0;
+    let uniqueUrlsMin = Infinity,
+      uniqueUrlsMax = 0;
+    let apexCountMin = Infinity,
+      apexCountMax = 0;
+    let apexUrlsMin = Infinity,
+      apexUrlsMax = 0;
+    let apexSubdomainsMin = Infinity,
+      apexSubdomainsMax = 0;
+
+    for (const item of history) {
+      if (item.url_count < urlMin) urlMin = item.url_count;
+      if (item.url_count > urlMax) urlMax = item.url_count;
+      if (item.domain_count < domainMin) domainMin = item.domain_count;
+      if (item.domain_count > domainMax) domainMax = item.domain_count;
+      if (item.domain_unique_urls < uniqueUrlsMin)
+        uniqueUrlsMin = item.domain_unique_urls;
+      if (item.domain_unique_urls > uniqueUrlsMax)
+        uniqueUrlsMax = item.domain_unique_urls;
+      if (item.apex_domain_count < apexCountMin)
+        apexCountMin = item.apex_domain_count;
+      if (item.apex_domain_count > apexCountMax)
+        apexCountMax = item.apex_domain_count;
+      if (item.apex_domain_unique_urls < apexUrlsMin)
+        apexUrlsMin = item.apex_domain_unique_urls;
+      if (item.apex_domain_unique_urls > apexUrlsMax)
+        apexUrlsMax = item.apex_domain_unique_urls;
+      if (item.apex_domain_unique_subdomains < apexSubdomainsMin)
+        apexSubdomainsMin = item.apex_domain_unique_subdomains;
+      if (item.apex_domain_unique_subdomains > apexSubdomainsMax)
+        apexSubdomainsMax = item.apex_domain_unique_subdomains;
+    }
+
+    return {
+      url_count: { min: urlMin, max: urlMax },
+      domain_count: { min: domainMin, max: domainMax },
+      domain_unique_urls: { min: uniqueUrlsMin, max: uniqueUrlsMax },
+      apex_domain_count: { min: apexCountMin, max: apexCountMax },
+      apex_domain_unique_urls: { min: apexUrlsMin, max: apexUrlsMax },
+      apex_domain_unique_subdomains: {
+        min: apexSubdomainsMin,
+        max: apexSubdomainsMax,
+      },
+    };
+  }, [history]);
+
   // Process history with filters
   const processedHistory = useMemo(() => {
     // Start with pre-sorted data (desc) or reverse for asc
@@ -112,6 +198,7 @@ export function HistoryProvider({ children, history }) {
     filtered = filterByEventTypes(filtered, filteredEventTypes);
     filtered = filterBySearch(filtered, deferredSearch);
     filtered = filterByDate(filtered, startDate, endDate);
+    filtered = filterByRanges(filtered, rangeFilters);
     return filtered;
   }, [
     sortedHistory,
@@ -120,6 +207,7 @@ export function HistoryProvider({ children, history }) {
     deferredSearch,
     startDate,
     endDate,
+    rangeFilters,
   ]);
 
   const totalCount = processedHistory.length;
@@ -145,6 +233,7 @@ export function HistoryProvider({ children, history }) {
     totalCount,
     eventTypes,
     dateRange,
+    statsBounds,
     page,
     setPage,
     itemsPerPage,
@@ -157,6 +246,8 @@ export function HistoryProvider({ children, history }) {
     setEndDate,
     filteredEventTypes,
     setFilteredEventTypes,
+    rangeFilters,
+    setRangeFilters,
     search,
     setSearch: handleSetSearch,
     searching: searching || isPending,

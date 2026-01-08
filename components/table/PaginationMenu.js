@@ -90,9 +90,7 @@ export default function PaginationMenu({
       )}
 
       {style === 'compact' && (
-        <span className="text-gray-500 text-sm px-2">
-          {page} / {totalPages}
-        </span>
+        <span className="text-gray-500 text-sm px-2">{page}</span>
       )}
 
       <Button

@@ -3,16 +3,17 @@
 import { useHistory } from '../context/HistoryContext';
 import PaginationMenu from '../table/PaginationMenu';
 import { Button } from '../ui/button';
-import { MS_PER_DAY } from '../utils/constants';
+import { Calendar } from '../ui/calendar';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '../ui/popover';
 import FilterBy from './FilterBy';
 import ItemsPerPage from './ItemsPerPage';
 import SearchBar from './SearchBar';
 import SortBy from './SortBy';
-import { X } from 'lucide-react';
-import { useState } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { FaCalendarAlt } from 'react-icons/fa';
+import { CalendarIcon, X } from 'lucide-react';
 
 export default function ToolBar() {
   const {
@@ -33,6 +34,9 @@ export default function ToolBar() {
     filteredEventTypes,
     eventTypes,
     dateRange,
+    rangeFilters,
+    setRangeFilters,
+    statsBounds,
   } = useHistory();
 
   return (
@@ -60,6 +64,9 @@ export default function ToolBar() {
           eventTypes={eventTypes}
           setFilteredEventTypes={setFilteredEventTypes}
           filteredEventTypes={filteredEventTypes}
+          rangeFilters={rangeFilters}
+          setRangeFilters={setRangeFilters}
+          statsBounds={statsBounds}
           setPage={setPage}
         />
         <PaginationMenu
@@ -82,79 +89,60 @@ function DateRangePicker({
   dateRange,
   setPage,
 }) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleCalendarClick = (e) => {
-    e.preventDefault();
-    setIsOpen(!isOpen);
-  };
-
-  const handleClearDate = () => {
-    setStartDate(null);
-    setEndDate(null);
-    setIsOpen(false);
-    setPage(1);
-  };
-
-  const handleDateChange = (dates) => {
-    const [start, end] = dates;
-    setStartDate(start);
-    setEndDate(end);
-    setPage(1);
-  };
-
   const hasDateFilter = startDate && endDate;
 
+  const handleSelect = (range) => {
+    setStartDate(range?.from || null);
+    setEndDate(range?.to || null);
+    setPage(1);
+  };
+
+  const handleClear = (e) => {
+    e.stopPropagation();
+    setStartDate(null);
+    setEndDate(null);
+    setPage(1);
+  };
+
   return (
-    <div className="relative">
-      <Button
-        variant="ghost"
-        onClick={handleCalendarClick}
-        className={`justify-between gap-2 ${
-          hasDateFilter
-            ? 'border-gray-300 text-gray-300'
-            : 'border-gray-800 text-gray-500'
-        } hover:border-gray-700 hover:bg-transparent`}
-      >
-        <FaCalendarAlt className="size-4" />
+    <Popover>
+      <div className="flex items-center gap-1">
+        <PopoverTrigger asChild>
+          <Button
+            variant="ghost"
+            className={`justify-between gap-2 ${
+              hasDateFilter
+                ? 'border-gray-300 text-gray-300'
+                : 'border-gray-800 text-gray-500'
+            } hover:border-gray-700 hover:bg-transparent`}
+          >
+            <CalendarIcon className="size-4" />
+            {hasDateFilter && (
+              <span>{`${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`}</span>
+            )}
+          </Button>
+        </PopoverTrigger>
         {hasDateFilter && (
-          <>
-            <span>{`${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`}</span>
-            <X
-              className="size-4 hover:opacity-70"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleClearDate();
-              }}
-            />
-          </>
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            onClick={handleClear}
+            className="text-gray-400 hover:text-gray-200"
+          >
+            <X className="size-4" />
+          </Button>
         )}
-      </Button>
-      {isOpen && (
-        <div className="absolute top-full left-0 z-[1000] bg-gray-950 p-2">
-          <DatePicker
-            inline
-            selectsRange
-            selected={startDate}
-            onChange={handleDateChange}
-            startDate={startDate}
-            endDate={endDate}
-            dateFormat="MM/dd/yyyy"
-            minDate={dateRange.minDate}
-            maxDate={dateRange.maxDate}
-            excludeDateIntervals={[
-              {
-                start: new Date(0),
-                end: new Date(dateRange.minDate.getTime() - MS_PER_DAY),
-              },
-              {
-                start: new Date(dateRange.maxDate.getTime() + MS_PER_DAY),
-                end: new Date(2099, 11, 31),
-              },
-            ]}
-          />
-        </div>
-      )}
-    </div>
+      </div>
+      <PopoverContent className="w-auto p-0" align="start">
+        <Calendar
+          mode="range"
+          selected={{ from: startDate, to: endDate }}
+          onSelect={handleSelect}
+          fromDate={dateRange.minDate}
+          toDate={dateRange.maxDate}
+          numberOfMonths={1}
+        />
+      </PopoverContent>
+    </Popover>
   );
 }
