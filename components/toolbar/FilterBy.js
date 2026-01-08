@@ -12,15 +12,91 @@ import { FaFilter } from 'react-icons/fa';
 const RANGE_FILTER_CONFIG = [
   { key: 'url_count', label: 'URL', group: 'url' },
   { key: 'domain_count', label: 'FQDN', group: 'domain' },
-  // { key: 'domain_unique_urls', label: 'Subdomain URLs', group: 'domain' },
   { key: 'apex_domain_count', label: 'Apex', group: 'apex' },
-  // { key: 'apex_domain_unique_urls', label: 'Apex URLs', group: 'apex' },
-  // {
-  //   key: 'apex_domain_unique_subdomains',
-  //   label: 'Apex Subdomains',
-  //   group: 'apex',
-  // },
 ];
+
+const DEFAULT_RANGE_FILTERS = {
+  url_count: { min: null, max: null },
+  domain_count: { min: null, max: null },
+  domain_unique_urls: { min: null, max: null },
+  apex_domain_count: { min: null, max: null },
+  apex_domain_unique_urls: { min: null, max: null },
+  apex_domain_unique_subdomains: { min: null, max: null },
+};
+
+function EventTypeFilter({ eventTypes, selectedTypes, onToggle }) {
+  return (
+    <div className="space-y-1">
+      <span className="text-xs text-gray-500 uppercase tracking-wide">
+        Event Type
+      </span>
+      <div className="flex flex-col gap-1">
+        {eventTypes.map((type) => (
+          <label
+            key={type}
+            className="flex items-center gap-2 px-2 py-1.5 rounded-sm hover:bg-accent cursor-pointer"
+          >
+            <Checkbox
+              checked={selectedTypes.includes(type)}
+              onCheckedChange={() => onToggle(type)}
+            />
+            <EventIcon eventType={type} size="sm" />
+            <span className="text-sm">{capitalizeFirstLetter(type)}</span>
+          </label>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function RangeSliderFilter({ label, bounds, value, isActive, onChange }) {
+  const handleInputChange = (index, inputValue) => {
+    const num = parseInt(inputValue, 10);
+    if (isNaN(num)) return;
+    const clamped = Math.max(bounds.min, Math.min(bounds.max, num));
+    const newValue = [...value];
+    newValue[index] = clamped;
+    if (index === 0 && clamped > value[1]) newValue[1] = clamped;
+    if (index === 1 && clamped < value[0]) newValue[0] = clamped;
+    onChange(newValue);
+  };
+
+  return (
+    <div className="space-y-2">
+      <div className="flex justify-between items-center text-sm">
+        <span className={isActive ? 'text-gray-200' : 'text-gray-400'}>
+          {label}
+        </span>
+        <div className="flex items-center gap-1 tabular-nums">
+          <input
+            type="number"
+            value={value[0]}
+            min={bounds.min}
+            max={bounds.max}
+            onChange={(e) => handleInputChange(0, e.target.value)}
+            className="w-12 px-1 py-0.5 text-right text-gray-300 bg-gray-800 border border-gray-700 rounded text-xs focus:outline-none focus:border-blue-500"
+          />
+          <span className="text-gray-600">–</span>
+          <input
+            type="number"
+            value={value[1]}
+            min={bounds.min}
+            max={bounds.max}
+            onChange={(e) => handleInputChange(1, e.target.value)}
+            className="w-12 px-1 py-0.5 text-right text-gray-300 bg-gray-800 border border-gray-700 rounded text-xs focus:outline-none focus:border-blue-500"
+          />
+        </div>
+      </div>
+      <Slider
+        value={value}
+        min={bounds.min}
+        max={bounds.max}
+        step={1}
+        onValueChange={onChange}
+      />
+    </div>
+  );
+}
 
 export default function FilterBy({
   eventTypes,
@@ -47,7 +123,6 @@ export default function FilterBy({
     const newValue = selectedTypes.includes(eventType)
       ? selectedTypes.filter((t) => t !== eventType)
       : [...selectedTypes, eventType];
-
     setFilteredEventTypes({ value: newValue });
     setPage(1);
   };
@@ -67,14 +142,7 @@ export default function FilterBy({
   const handleClear = (e) => {
     e.stopPropagation();
     setFilteredEventTypes({ value: [] });
-    setRangeFilters({
-      url_count: { min: null, max: null },
-      domain_count: { min: null, max: null },
-      domain_unique_urls: { min: null, max: null },
-      apex_domain_count: { min: null, max: null },
-      apex_domain_unique_urls: { min: null, max: null },
-      apex_domain_unique_subdomains: { min: null, max: null },
-    });
+    setRangeFilters(DEFAULT_RANGE_FILTERS);
     setPage(1);
   };
 
@@ -107,29 +175,12 @@ export default function FilterBy({
       </div>
       <PopoverContent className="w-64 p-3">
         <div className="space-y-4">
-          {/* Event Type Filters */}
-          <div className="space-y-1">
-            <span className="text-xs text-gray-500 uppercase tracking-wide">
-              Event Type
-            </span>
-            <div className="flex flex-col gap-1">
-              {eventTypes.map((type) => (
-                <label
-                  key={type}
-                  className="flex items-center gap-2 px-2 py-1.5 rounded-sm hover:bg-accent cursor-pointer"
-                >
-                  <Checkbox
-                    checked={selectedTypes.includes(type)}
-                    onCheckedChange={() => handleToggle(type)}
-                  />
-                  <EventIcon eventType={type} size="sm" />
-                  <span className="text-sm">{capitalizeFirstLetter(type)}</span>
-                </label>
-              ))}
-            </div>
-          </div>
+          <EventTypeFilter
+            eventTypes={eventTypes}
+            selectedTypes={selectedTypes}
+            onToggle={handleToggle}
+          />
 
-          {/* Range Filters */}
           <div className="space-y-5 pt-2 border-t border-gray-800">
             <span className="text-xs text-gray-500 uppercase tracking-wide">
               Visits
@@ -143,53 +194,15 @@ export default function FilterBy({
               ];
               const isActive = current.min !== null || current.max !== null;
 
-              const handleInputChange = (index, inputValue) => {
-                const num = parseInt(inputValue, 10);
-                if (isNaN(num)) return;
-                const clamped = Math.max(bounds.min, Math.min(bounds.max, num));
-                const newValue = [...value];
-                newValue[index] = clamped;
-                if (index === 0 && clamped > value[1]) newValue[1] = clamped;
-                if (index === 1 && clamped < value[0]) newValue[0] = clamped;
-                handleSliderChange(key, newValue);
-              };
-
               return (
-                <div key={key} className="space-y-2">
-                  <div className="flex justify-between items-center text-sm">
-                    <span
-                      className={isActive ? 'text-gray-200' : 'text-gray-400'}
-                    >
-                      {label}
-                    </span>
-                    <div className="flex items-center gap-1 tabular-nums">
-                      <input
-                        type="number"
-                        value={value[0]}
-                        min={bounds.min}
-                        max={bounds.max}
-                        onChange={(e) => handleInputChange(0, e.target.value)}
-                        className="w-12 px-1 py-0.5 text-right text-gray-300 bg-gray-800 border border-gray-700 rounded text-xs focus:outline-none focus:border-blue-500"
-                      />
-                      <span className="text-gray-600">–</span>
-                      <input
-                        type="number"
-                        value={value[1]}
-                        min={bounds.min}
-                        max={bounds.max}
-                        onChange={(e) => handleInputChange(1, e.target.value)}
-                        className="w-12 px-1 py-0.5 text-right text-gray-300 bg-gray-800 border border-gray-700 rounded text-xs focus:outline-none focus:border-blue-500"
-                      />
-                    </div>
-                  </div>
-                  <Slider
-                    value={value}
-                    min={bounds.min}
-                    max={bounds.max}
-                    step={1}
-                    onValueChange={(v) => handleSliderChange(key, v)}
-                  />
-                </div>
+                <RangeSliderFilter
+                  key={key}
+                  label={label}
+                  bounds={bounds}
+                  value={value}
+                  isActive={isActive}
+                  onChange={(v) => handleSliderChange(key, v)}
+                />
               );
             })}
           </div>
