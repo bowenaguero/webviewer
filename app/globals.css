@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import "tw-animate-css";
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -149,4 +149,8 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+input[type='number'] {
+  width: 80px;
 }

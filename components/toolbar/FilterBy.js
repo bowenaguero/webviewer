@@ -10,12 +10,16 @@ import { X } from 'lucide-react';
 import { FaFilter } from 'react-icons/fa';
 
 const RANGE_FILTER_CONFIG = [
-  { key: 'url_count', label: 'URL Visits', group: 'url' },
-  { key: 'domain_count', label: 'Subdomain Visits', group: 'domain' },
-  { key: 'domain_unique_urls', label: 'Subdomain URLs', group: 'domain' },
-  { key: 'apex_domain_count', label: 'Apex Visits', group: 'apex' },
-  { key: 'apex_domain_unique_urls', label: 'Apex URLs', group: 'apex' },
-  { key: 'apex_domain_unique_subdomains', label: 'Apex Subdomains', group: 'apex' },
+  { key: 'url_count', label: 'URL', group: 'url' },
+  { key: 'domain_count', label: 'FQDN', group: 'domain' },
+  // { key: 'domain_unique_urls', label: 'Subdomain URLs', group: 'domain' },
+  { key: 'apex_domain_count', label: 'Apex', group: 'apex' },
+  // { key: 'apex_domain_unique_urls', label: 'Apex URLs', group: 'apex' },
+  // {
+  //   key: 'apex_domain_unique_subdomains',
+  //   label: 'Apex Subdomains',
+  //   group: 'apex',
+  // },
 ];
 
 export default function FilterBy({
@@ -126,9 +130,9 @@ export default function FilterBy({
           </div>
 
           {/* Range Filters */}
-          <div className="space-y-3 pt-2 border-t border-gray-800">
+          <div className="space-y-5 pt-2 border-t border-gray-800">
             <span className="text-xs text-gray-500 uppercase tracking-wide">
-              Statistics
+              Visits
             </span>
             {RANGE_FILTER_CONFIG.map(({ key, label }) => {
               const bounds = statsBounds[key];
