@@ -34,24 +34,33 @@ export default function FilterBy({
 
   return (
     <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant="ghost"
-          className={`justify-between gap-2 ${
-            hasFilters
-              ? 'border-gray-300 text-gray-300'
-              : 'border-gray-800 text-gray-500'
-          } hover:border-gray-700 hover:bg-transparent`}
-        >
-          <FaFilter className="size-3" />
-          {hasFilters && (
-            <>
+      <div className="flex items-center gap-1">
+        <PopoverTrigger asChild>
+          <Button
+            variant="ghost"
+            className={`justify-between gap-2 ${
+              hasFilters
+                ? 'border-gray-300 text-gray-300'
+                : 'border-gray-800 text-gray-500'
+            } hover:border-gray-700 hover:bg-transparent`}
+          >
+            <FaFilter className="size-3" />
+            {hasFilters && (
               <span>{`${selectedTypes.length} selected`}</span>
-              <X className="size-4 hover:opacity-70" onClick={handleClear} />
-            </>
-          )}
-        </Button>
-      </PopoverTrigger>
+            )}
+          </Button>
+        </PopoverTrigger>
+        {hasFilters && (
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            onClick={handleClear}
+            className="text-gray-400 hover:text-gray-200"
+          >
+            <X className="size-4" />
+          </Button>
+        )}
+      </div>
       <PopoverContent className="w-48 p-2">
         <div className="flex flex-col gap-2">
           {eventTypes.map((type) => (
