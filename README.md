@@ -17,14 +17,6 @@ Client-side browser history analysis. Your data never leaves your browser.
 2. Upload at [viewer.websec.tools](https://viewer.websec.tools)
 3. Browse, filter, and analyze
 
-## History File Locations
-
-| Browser | Path                                                       |
-| ------- | ---------------------------------------------------------- |
-| Chrome  | `AppData/Local/Google/Chrome/User Data/Default/History`    |
-| Firefox | `AppData/Roaming/Mozilla/Firefox/Profiles/*/places.sqlite` |
-| Edge    | `AppData/Local/Microsoft/Edge/User Data/Default/History`   |
-
 ## Development
 
 ```bash
