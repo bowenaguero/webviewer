@@ -37,9 +37,11 @@ export default function Home() {
           </div>
           {isProcessing && <ProcessingProgress progress={progress} />}
         </div>
-        <div className="flex items-center">
-          <Supports />
-        </div>
+        {!isProcessing && (
+          <div className="flex items-center">
+            <Supports />
+          </div>
+        )}
       </div>
     </div>
   );
