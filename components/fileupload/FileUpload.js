@@ -5,6 +5,7 @@ import { useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { FaUpload } from 'react-icons/fa';
 import { toast } from 'sonner';
+import Supports from './Supports';
 
 export default function FileUpload({
   onHistoryLoaded,
@@ -70,14 +71,17 @@ export default function FileUpload({
   });
 
   return (
-    <div
-      {...getRootProps()}
-      className="w-[300px] sm:w-[400px] md:w-[500px] h-[300px] border-2 border-dashed rounded-lg cursor-pointer hover:border-blue-500 hover:bg-gray-900 transition-all duration-200 flex items-center justify-center"
-    >
-      <input {...getInputProps()} />
-      <div className="flex flex-col items-center gap-3">
-        <FaUpload size={40} />
+    <div className="flex flex-col items-center gap-5">
+      <div
+        {...getRootProps()}
+        className="w-[300px] sm:w-[400px] md:w-[500px] h-[300px] border-2 border-dashed rounded-lg cursor-pointer hover:border-blue-500 hover:bg-gray-900 transition-all duration-200 flex items-center justify-center"
+      >
+        <input {...getInputProps()} />
+        <div className="flex flex-col items-center gap-3">
+          <FaUpload size={40} />
+        </div>
       </div>
+      <Supports />
     </div>
   );
 }

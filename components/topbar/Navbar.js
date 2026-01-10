@@ -23,7 +23,7 @@ export default function Navbar() {
         href="/learn-how"
         className="font-medium text-sm text-gray-500 hover:opacity-80"
       >
-        Learn
+        Help
       </Link>
     </nav>
   );
