@@ -6,8 +6,8 @@ import { GeistSans } from 'geist/font/sans';
 import { ThemeProvider } from 'next-themes';
 
 export const metadata = {
-  title: 'WebViewer',
-  description: 'A tool to analyze browser history',
+  title: 'Viewer',
+  description: 'Analyze browser history',
 };
 
 export default function RootLayout({ children }) {
@@ -29,7 +29,6 @@ export default function RootLayout({ children }) {
         </style>
       </head>
       <body className={GeistSans.className}>
-        {/* <ReactScan/> */}
         <Analytics />
         <ThemeProvider
           attribute="class"
