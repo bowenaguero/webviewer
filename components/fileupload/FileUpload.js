@@ -5,7 +5,7 @@ import { useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { FaUpload } from 'react-icons/fa';
 import { toast } from 'sonner';
-import Supports from './Supports';
+import HomeNavBar from './HomeNavBar';
 
 export default function FileUpload({
   onHistoryLoaded,
@@ -81,7 +81,7 @@ export default function FileUpload({
           <FaUpload size={40} />
         </div>
       </div>
-      <Supports />
+      <HomeNavBar />
     </div>
   );
 }
