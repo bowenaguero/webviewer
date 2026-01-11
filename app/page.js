@@ -1,7 +1,6 @@
 'use client';
 
 import FileUpload from '@/components/fileupload/FileUpload';
-import Supports from '@/components/fileupload/Supports';
 import { Progress } from '@/components/ui/progress';
 import { GeistMono } from 'geist/font/mono';
 import { useRouter } from 'next/navigation';
@@ -37,11 +36,6 @@ export default function Home() {
           </div>
           {isProcessing && <ProcessingProgress progress={progress} />}
         </div>
-        {!isProcessing && (
-          <div className="flex items-center">
-            <Supports />
-          </div>
-        )}
       </div>
     </div>
   );
