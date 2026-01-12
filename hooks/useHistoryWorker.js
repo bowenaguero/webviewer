@@ -1,6 +1,6 @@
 'use client';
 
-import db from '@/components/lib/db';
+import db from '@/lib/db';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 export function useHistoryWorker() {

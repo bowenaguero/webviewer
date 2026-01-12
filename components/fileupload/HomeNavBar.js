@@ -1,6 +1,6 @@
 'use client';
 
-import useHasStoredHistory from '@/components/hooks/useHasStoredHistory';
+import useHasStoredHistory from '@/hooks/useHasStoredHistory';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,

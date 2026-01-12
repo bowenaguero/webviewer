@@ -3,7 +3,7 @@
 import { useHistory } from '../context/HistoryContext';
 import { Button } from '../ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { DEFAULT_RANGE_FILTERS, RANGE_FILTER_FIELDS } from '../lib/rangeFilters';
+import { DEFAULT_RANGE_FILTERS, RANGE_FILTER_FIELDS } from '@/lib/rangeFilters';
 import EventTypeFilter from './EventTypeFilter';
 import RangeSliderFilter from './RangeSliderFilter';
 import { X } from 'lucide-react';

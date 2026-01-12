@@ -5,7 +5,7 @@ import { GeistMono } from 'geist/font/mono';
 import EventIcon from '../event/EventIcon';
 import ActionsMenu from './ActionsMenu';
 import { useItemDetails } from './useItemDetails';
-import { capitalizeFirstLetter } from '../lib/helpers';
+import { capitalizeFirstLetter } from '@/lib/helpers';
 
 const HistoryCard = memo(function HistoryCard({ item }) {
   const { hasDetails, detailsText } = useItemDetails(item);

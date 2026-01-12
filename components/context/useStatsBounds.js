@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import { DEFAULT_STATS_BOUNDS } from '../lib/rangeFilters';
+import { DEFAULT_STATS_BOUNDS } from '@/lib/rangeFilters';
 
 /**
  * Calculate min/max bounds for all stats fields in history data

@@ -13,8 +13,8 @@ import {
   filterBySearch,
   filterByDate,
   filterByRanges,
-} from '../lib/filters';
-import { DEFAULT_RANGE_FILTERS } from '../lib/rangeFilters';
+} from '@/lib/filters';
+import { DEFAULT_RANGE_FILTERS } from '@/lib/rangeFilters';
 import { useStatsBounds } from './useStatsBounds';
 
 const HistoryContext = createContext(null);

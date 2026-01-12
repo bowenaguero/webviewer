@@ -4,7 +4,7 @@ import { memo } from 'react';
 import { GeistMono } from 'geist/font/mono';
 import { TableCell, TableRow } from '../ui/table';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
-import { capitalizeFirstLetter } from '../lib/helpers';
+import { capitalizeFirstLetter } from '@/lib/helpers';
 import EventIcon from '../event/EventIcon';
 import ActionsMenu from './ActionsMenu';
 import { COL_WIDTHS } from './config';

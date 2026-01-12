@@ -1,4 +1,4 @@
-import { EXTERNAL_URLS } from '../lib/constants';
+import { EXTERNAL_URLS } from '@/lib/constants';
 
 // Column widths for desktop table (must add up to 100%)
 export const COL_WIDTHS = {
