@@ -22,8 +22,8 @@ function ViewerContent() {
   }
 
   return (
-    <div className="flex justify-center">
-      <div className="w-[90%]">
+    <div className="flex justify-center px-3 md:px-0">
+      <div className="w-full md:w-[90%]">
         <HistoryTable history={history} />
       </div>
     </div>

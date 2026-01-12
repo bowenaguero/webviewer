@@ -40,35 +40,33 @@ export default function ToolBar() {
   } = useHistory();
 
   return (
-    <div className="flex justify-between gap-5 mt-5 items-center">
-      <div className="w-[30%] flex justify-start gap-3">
-        <ItemsPerPage
-          itemsPerPage={itemsPerPage}
-          setItemsPerPage={setItemsPerPage}
-        />
-        <SortBy sortBy={sortBy} setSortBy={setSortBy} />
-      </div>
-      <div className="w-[30%] flex justify-center gap-3">
+    <div className="flex flex-col gap-3 mt-5 md:flex-row md:justify-between md:items-center md:gap-5">
+      {/* Mobile: Row 1 (full width search) / Desktop: Center column */}
+      <div className="order-1 w-full md:order-2 md:w-[30%] flex justify-center">
         <SearchBar setSearch={setSearch} search={search} />
       </div>
-      <div className="flex justify-end items-center gap-5 w-[30%]">
-        <DateRangePicker
-          startDate={startDate}
-          setStartDate={setStartDate}
-          endDate={endDate}
-          setEndDate={setEndDate}
-          dateRange={dateRange}
-          setPage={setPage}
-        />
-        <FilterBy
-          eventTypes={eventTypes}
-          setFilteredEventTypes={setFilteredEventTypes}
-          filteredEventTypes={filteredEventTypes}
-          rangeFilters={rangeFilters}
-          setRangeFilters={setRangeFilters}
-          statsBounds={statsBounds}
-          setPage={setPage}
-        />
+
+      {/* Mobile: Row 2 (filters + pagination) / Desktop: Right column */}
+      <div className="order-2 flex justify-between items-center gap-3 md:order-3 md:justify-end md:gap-5 md:w-[30%]">
+        <div className="flex items-center gap-2 md:gap-5">
+          <DateRangePicker
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+            dateRange={dateRange}
+            setPage={setPage}
+          />
+          <FilterBy
+            eventTypes={eventTypes}
+            setFilteredEventTypes={setFilteredEventTypes}
+            filteredEventTypes={filteredEventTypes}
+            rangeFilters={rangeFilters}
+            setRangeFilters={setRangeFilters}
+            statsBounds={statsBounds}
+            setPage={setPage}
+          />
+        </div>
         <PaginationMenu
           page={page}
           setPage={setPage}
@@ -76,6 +74,15 @@ export default function ToolBar() {
           count={totalCount}
           style="compact"
         />
+      </div>
+
+      {/* Mobile: Row 3 (display controls) / Desktop: Left column */}
+      <div className="order-3 flex justify-between items-center md:order-1 md:justify-start md:gap-3 md:w-[30%]">
+        <ItemsPerPage
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+        />
+        <SortBy sortBy={sortBy} setSortBy={setSortBy} />
       </div>
     </div>
   );

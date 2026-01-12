@@ -74,7 +74,7 @@ export default function FileUpload({
     <div className="flex flex-col items-center gap-5">
       <div
         {...getRootProps()}
-        className="w-[300px] sm:w-[400px] md:w-[500px] h-[300px] border-2 border-dashed rounded-lg cursor-pointer hover:border-blue-500 hover:bg-gray-900 transition-all duration-200 flex items-center justify-center"
+        className="w-[300px] sm:w-[400px] md:w-[500px] h-[200px] sm:h-[250px] md:h-[300px] border-2 border-dashed rounded-lg cursor-pointer hover:border-blue-500 hover:bg-gray-900 transition-all duration-200 flex items-center justify-center"
       >
         <input {...getInputProps()} />
         <div className="flex flex-col items-center gap-3">
