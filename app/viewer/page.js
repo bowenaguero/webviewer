@@ -1,7 +1,7 @@
 'use client';
 
 import HistoryTable from '@/components/table/HistoryTable';
-import indexedDb from '@/components/utils/indexedDb';
+import { db } from '@/components/lib';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Loader2 } from 'lucide-react';
 import { Suspense } from 'react';
@@ -15,7 +15,7 @@ export default function ViewerPage() {
 }
 
 function ViewerContent() {
-  const history = useLiveQuery(() => indexedDb.history.toArray());
+  const history = useLiveQuery(() => db.history.toArray());
 
   if (!history) {
     return <LoadingSpinner />;

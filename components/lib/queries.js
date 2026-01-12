@@ -1,15 +1,15 @@
-import indexedDb from '@/components/utils/indexedDb';
-import { processHistoryResults } from '@/components/utils/processBrowserHistory';
-import { QUERY_ROW_LIMIT } from '@/components/utils/constants';
+import db from './db';
+import { processHistoryResults } from './processing';
+import { QUERY_ROW_LIMIT } from './constants';
 
-export const queryBrowserHistory = (db) => {
-  indexedDb.history.clear();
+export const queryBrowserHistory = (sqlDb) => {
+  db.history.clear();
   const allResults = [];
 
   Object.keys(BROWSER_QUERIES).forEach((browserKey) => {
     Object.keys(BROWSER_QUERIES[browserKey]).forEach((queryKey) => {
       try {
-        const queryResult = db.exec(BROWSER_QUERIES[browserKey][queryKey])[0];
+        const queryResult = sqlDb.exec(BROWSER_QUERIES[browserKey][queryKey])[0];
         if (queryResult) {
           const processedResult = processHistoryResults(queryResult);
           allResults.push(...processedResult);

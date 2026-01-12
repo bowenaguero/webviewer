@@ -1,4 +1,4 @@
-import db from './indexedDb';
+import db from './db';
 import {
   CHROME_EPOCH_OFFSET,
   FIREFOX_PRECISION_DIVISOR,

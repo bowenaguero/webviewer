@@ -4,25 +4,11 @@ import { memo } from 'react';
 import { GeistMono } from 'geist/font/mono';
 import EventIcon from '../event/EventIcon';
 import ActionsMenu from './ActionsMenu';
-import { capitalizeFirstLetter } from '../utils/helpers';
+import { useItemDetails } from './useItemDetails';
+import { capitalizeFirstLetter } from '../lib/helpers';
 
 const HistoryCard = memo(function HistoryCard({ item }) {
-  const hasEventDetails = item.eventType !== 'Visit';
-  const hasAdditionalFields =
-    Object.keys(item.additionalFields || {}).length > 0;
-  const hasDetails = hasEventDetails || hasAdditionalFields;
-
-  // Build details string
-  const detailsParts = [];
-  if (hasEventDetails && item.eventEntity) {
-    detailsParts.push(`${item.eventEntityType}: ${item.eventEntity}`);
-  }
-  if (hasAdditionalFields) {
-    Object.entries(item.additionalFields).forEach(([key, value]) => {
-      detailsParts.push(`${key}: ${String(value)}`);
-    });
-  }
-  const detailsText = detailsParts.join(' · ');
+  const { hasDetails, detailsText } = useItemDetails(item);
 
   return (
     <div

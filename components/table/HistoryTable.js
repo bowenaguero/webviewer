@@ -12,23 +12,15 @@ import {
   TableRow,
 } from '../ui/table';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
-import { capitalizeFirstLetter } from '../utils/helpers';
+import { capitalizeFirstLetter } from '../lib/helpers';
 import ActionsMenu from './ActionsMenu';
+import { COL_WIDTHS } from './config';
 import HistoryCard from './HistoryCard';
 import PaginationMenu from './PaginationMenu';
+import { useItemDetails } from './useItemDetails';
 import { GeistMono } from 'geist/font/mono';
-import { GeistSans } from 'geist/font/sans';
 import { Loader2 } from 'lucide-react';
 import { memo } from 'react';
-
-// Column widths (5 columns, must add up to 100%)
-const COL_WIDTHS = {
-  actions: 'w-[3%]',
-  time: 'w-[15%]',
-  type: 'w-[5%]',
-  url: 'w-[40%]',
-  title: 'w-[37%]',
-};
 
 export default function HistoryTable({ history }) {
   return (
@@ -132,22 +124,8 @@ function SearchingRow() {
 }
 
 const HistoryRow = memo(function HistoryRow({ item }) {
-  const hasEventDetails = item.eventType !== 'Visit';
-  const hasAdditionalFields =
-    Object.keys(item.additionalFields || {}).length > 0;
-  const hasDetails = hasEventDetails || hasAdditionalFields;
-
-  // Build details string for second line
-  const detailsParts = [];
-  if (hasEventDetails && item.eventEntity) {
-    detailsParts.push(`${item.eventEntityType}: ${item.eventEntity}`);
-  }
-  if (hasAdditionalFields) {
-    Object.entries(item.additionalFields).forEach(([key, value]) => {
-      detailsParts.push(`${key}: ${String(value)}`);
-    });
-  }
-  const detailsText = detailsParts.join(' · ');
+  const { hasEventDetails, hasAdditionalFields, hasDetails, detailsText } =
+    useItemDetails(item);
 
   return (
     <TableRow
