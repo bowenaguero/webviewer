@@ -1,5 +1,5 @@
 import { FolderSearch, Upload, Search } from 'lucide-react';
-import { FaChrome, FaFirefox, FaEdge } from 'react-icons/fa';
+import { FaChrome, FaFirefox, FaEdge, FaSafari } from 'react-icons/fa';
 
 // Steps displayed in the Help dropdown
 export const HELP_STEPS = [
@@ -12,6 +12,7 @@ export const HELP_STEPS = [
 export const SUPPORTED_BROWSERS = [
   { icon: FaChrome, name: 'Chrome', file: 'History' },
   { icon: FaFirefox, name: 'Firefox', file: 'places.sqlite' },
+  { icon: FaSafari, name: 'Safari', file: 'History.db' },
   { icon: FaEdge, name: 'Edge', file: 'History' },
 ];
 

@@ -136,6 +136,25 @@ const BROWSER_QUERIES = {
       LIMIT ${QUERY_ROW_LIMIT}
     `,
   },
+  safari: {
+    visits: `
+      SELECT
+        history_visits.visit_time as lastVisitTime,
+        history_items.url,
+        history_visits.title,
+        history_items.url as eventEntity,
+        history_visits.origin as referrer,
+        'URL' as eventEntityType,
+        'Visit' as eventType,
+        'Safari' as browser
+      FROM
+        history_visits
+      JOIN
+        history_items ON history_visits.history_item = history_items.id
+      ORDER BY history_visits.visit_time DESC
+      LIMIT ${QUERY_ROW_LIMIT}
+    `,
+  },
 };
 
 // Column mapping for standardized output
@@ -241,6 +260,7 @@ const estimateTotalRows = (db) => {
     'SELECT COUNT(*) FROM moz_places',
     'SELECT COUNT(*) FROM urls',
     'SELECT COUNT(*) FROM downloads',
+    'SELECT COUNT(*) FROM history_visits',
   ];
 
   for (const query of countQueries) {
