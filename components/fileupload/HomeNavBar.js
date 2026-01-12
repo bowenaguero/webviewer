@@ -36,16 +36,16 @@ export default function HomeNavBar() {
   const { hasData } = useHasStoredHistory();
 
   return (
-    <div className="grid grid-cols-4 items-center w-[300px] sm:w-[400px] md:w-[500px]">
+    <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-0 items-center w-[300px] sm:w-[400px] md:w-[500px]">
       {/* GitHub link */}
-      <div className="flex justify-start">
+      <div className="flex justify-center sm:justify-start">
         <Link href="https://github.com/bowenaguero/webviewer" target="_blank">
           <Button
             variant="ghost"
             className="text-gray-500 hover:bg-gray-800 text-sm"
           >
             <FaGithub className="size-4" />
-            GitHub
+            <span className="hidden xs:inline sm:inline">GitHub</span>
           </Button>
         </Link>
       </div>
@@ -58,7 +58,7 @@ export default function HomeNavBar() {
             className="text-gray-500 hover:bg-gray-800 text-sm"
           >
             <FaCoffee className="size-4" />
-            Coffee
+            <span className="hidden xs:inline sm:inline">Coffee</span>
           </Button>
         </Link>
       </div>
@@ -72,10 +72,10 @@ export default function HomeNavBar() {
               className="text-gray-500 hover:bg-gray-800 text-sm"
             >
               <FaQuestionCircle className="size-4" />
-              Help
+              <span className="hidden xs:inline sm:inline">Help</span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="center" className="w-80 p-0">
+          <DropdownMenuContent align="center" className="w-72 sm:w-80 p-0">
             {/* App description */}
             <div className="px-4 py-3">
               <p className="text-sm text-gray-400">
@@ -144,7 +144,7 @@ export default function HomeNavBar() {
       </div>
 
       {/* Continue (dimmed/disabled when no data) */}
-      <div className="flex justify-end">
+      <div className="flex justify-center sm:justify-end">
         <Button
           variant="ghost"
           className={`text-sm ${hasData ? 'text-gray-500 hover:bg-gray-800' : 'text-gray-700 opacity-50 cursor-not-allowed'}`}
@@ -153,12 +153,12 @@ export default function HomeNavBar() {
         >
           {hasData ? (
             <Link href="/viewer">
-              Continue
+              <span className="hidden xs:inline sm:inline">Continue</span>
               <ChevronRight className="size-4" />
             </Link>
           ) : (
             <>
-              Continue
+              <span className="hidden xs:inline sm:inline">Continue</span>
               <ChevronRight className="size-4" />
             </>
           )}

@@ -14,6 +14,7 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { capitalizeFirstLetter } from '../utils/helpers';
 import ActionsMenu from './ActionsMenu';
+import HistoryCard from './HistoryCard';
 import PaginationMenu from './PaginationMenu';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
@@ -46,7 +47,9 @@ function HistoryTableContent() {
       <div className="w-full mb-4">
         <ToolBar />
       </div>
-      <div className="bg-gray-950 border border-gray-800 rounded-md overflow-hidden">
+
+      {/* Desktop: Table view (md and up) */}
+      <div className="hidden md:block bg-gray-950 border border-gray-800 rounded-md overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow className="bg-transparent border-gray-800 hover:bg-transparent">
@@ -87,6 +90,23 @@ function HistoryTableContent() {
           </TableBody>
         </Table>
       </div>
+
+      {/* Mobile: Card view (below md) */}
+      <div className="md:hidden space-y-3">
+        {searching ? (
+          <div className="flex justify-center py-8">
+            <Loader2 className="size-6 text-gray-500 animate-spin" />
+          </div>
+        ) : (
+          currentItems.map((item, index) => (
+            <HistoryCard
+              key={`card-${item.url}-${item.visitTime}-${index}`}
+              item={item}
+            />
+          ))
+        )}
+      </div>
+
       <div className="flex justify-center mt-4 mb-4">
         <PaginationMenu
           page={page}
