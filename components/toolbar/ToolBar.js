@@ -17,19 +17,8 @@ export default function ToolBar() {
     page,
     setPage,
     totalCount,
-    startDate,
-    setStartDate,
-    endDate,
-    setEndDate,
-    setFilteredEventTypes,
     setSearch,
     search,
-    filteredEventTypes,
-    eventTypes,
-    dateRange,
-    rangeFilters,
-    setRangeFilters,
-    statsBounds,
   } = useHistory();
 
   return (
@@ -42,23 +31,8 @@ export default function ToolBar() {
       {/* Mobile: Row 2 (filters + pagination) / Desktop: Right column */}
       <div className="order-2 flex justify-between items-center gap-3 md:order-3 md:justify-end md:gap-5 md:w-[30%]">
         <div className="flex items-center gap-2 md:gap-5">
-          <DateRangePicker
-            startDate={startDate}
-            setStartDate={setStartDate}
-            endDate={endDate}
-            setEndDate={setEndDate}
-            dateRange={dateRange}
-            setPage={setPage}
-          />
-          <FilterBy
-            eventTypes={eventTypes}
-            setFilteredEventTypes={setFilteredEventTypes}
-            filteredEventTypes={filteredEventTypes}
-            rangeFilters={rangeFilters}
-            setRangeFilters={setRangeFilters}
-            statsBounds={statsBounds}
-            setPage={setPage}
-          />
+          <DateRangePicker />
+          <FilterBy />
         </div>
         <PaginationMenu
           page={page}

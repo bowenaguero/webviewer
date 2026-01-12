@@ -8,29 +8,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  ChevronRight,
-  FolderSearch,
-  Upload,
-  Search,
-  AlertTriangle,
-} from 'lucide-react';
+import { HELP_STEPS, SUPPORTED_BROWSERS, UPLOAD_WARNINGS } from './config';
+import { ChevronRight, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
-import { FaGithub, FaCoffee, FaChrome, FaFirefox, FaEdge, FaQuestionCircle } from 'react-icons/fa';
-
-const steps = [
-  { icon: FolderSearch, label: 'Find', desc: 'Browser history file' },
-  { icon: Upload, label: 'Upload', desc: 'Drop it here' },
-  { icon: Search, label: 'Explore', desc: 'Search, filter, analyze' },
-];
-
-const browsers = [
-  { icon: FaChrome, name: 'Chrome', file: 'History' },
-  { icon: FaFirefox, name: 'Firefox', file: 'places.sqlite' },
-  { icon: FaEdge, name: 'Edge', file: 'History' },
-];
-
-const warnings = ['Rename to .db or .sqlite to upload', '500k row limit'];
+import { FaGithub, FaCoffee, FaQuestionCircle } from 'react-icons/fa';
 
 export default function HomeNavBar() {
   const { hasData } = useHasStoredHistory();
@@ -90,7 +71,7 @@ export default function HomeNavBar() {
             <div className="px-4 py-3">
               <p className="text-sm font-medium text-gray-300 mb-3">Steps</p>
               <div className="space-y-3">
-                {steps.map((step, i) => (
+                {HELP_STEPS.map((step, i) => (
                   <div key={step.label} className="flex items-start gap-3">
                     <div className="flex items-center justify-center w-7 h-7 rounded-full bg-gray-800 shrink-0">
                       <step.icon className="size-3.5 text-gray-400" />
@@ -116,7 +97,7 @@ export default function HomeNavBar() {
                 Supported
               </p>
               <div className="flex gap-5">
-                {browsers.map((b) => (
+                {SUPPORTED_BROWSERS.map((b) => (
                   <div
                     key={b.name}
                     className="flex flex-col items-center gap-1.5"
@@ -132,7 +113,7 @@ export default function HomeNavBar() {
 
             {/* Warnings */}
             <div className="px-4 py-3 space-y-2">
-              {warnings.map((w) => (
+              {UPLOAD_WARNINGS.map((w) => (
                 <div key={w} className="flex items-center gap-2.5">
                   <AlertTriangle className="size-4 text-amber-500 shrink-0" />
                   <span className="text-xs text-gray-400">{w}</span>

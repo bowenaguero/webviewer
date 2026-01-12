@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '../ui/button';
+import { PAGINATION } from './config';
 import {
   ChevronFirst,
   ChevronLast,
@@ -31,7 +32,7 @@ export default function PaginationMenu({
   // Generate page numbers to display
   const getPageNumbers = () => {
     const pages = [];
-    const maxVisible = 5;
+    const maxVisible = PAGINATION.maxVisiblePages;
 
     let start = Math.max(1, page - Math.floor(maxVisible / 2));
     let end = Math.min(totalPages, start + maxVisible - 1);
