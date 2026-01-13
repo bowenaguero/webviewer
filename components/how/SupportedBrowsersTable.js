@@ -37,12 +37,9 @@ const supportedBrowsers = [
   },
   {
     name: 'Safari',
-    supported: false,
-    fileName: 'History',
-    filePath: [
-      'Windows: AppData/Local/Apple Computer/Safari/History',
-      'macOS: Library/Application Support/Apple/Safari/History',
-    ],
+    supported: true,
+    fileName: 'History.db',
+    filePath: ['macOS: ~/Library/Safari/History.db'],
   },
   {
     name: 'Opera (Not Tested)',
