@@ -23,3 +23,12 @@ Client-side browser history analysis. Your data never leaves your browser.
 npm install
 npm run dev
 ```
+
+## Testing
+
+```bash
+npm run test           # Unit tests (watch mode)
+npm run test:coverage  # Unit tests with coverage
+npm run test:e2e       # E2E tests (Playwright)
+npm run test:all       # Run all tests
+```
