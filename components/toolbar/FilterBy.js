@@ -1,36 +1,24 @@
 'use client';
 
+import { useHistory } from '../context/HistoryContext';
 import { Button } from '../ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { DEFAULT_RANGE_FILTERS, RANGE_FILTER_FIELDS } from '@/lib/rangeFilters';
 import EventTypeFilter from './EventTypeFilter';
 import RangeSliderFilter from './RangeSliderFilter';
 import { X } from 'lucide-react';
 import { FaFilter } from 'react-icons/fa';
 
-const RANGE_FILTER_CONFIG = [
-  { key: 'url_count', label: 'URL', group: 'url' },
-  { key: 'domain_count', label: 'FQDN', group: 'domain' },
-  { key: 'apex_domain_count', label: 'Apex', group: 'apex' },
-];
-
-const DEFAULT_RANGE_FILTERS = {
-  url_count: { min: null, max: null },
-  domain_count: { min: null, max: null },
-  domain_unique_urls: { min: null, max: null },
-  apex_domain_count: { min: null, max: null },
-  apex_domain_unique_urls: { min: null, max: null },
-  apex_domain_unique_subdomains: { min: null, max: null },
-};
-
-export default function FilterBy({
-  eventTypes,
-  setFilteredEventTypes,
-  filteredEventTypes,
-  rangeFilters,
-  setRangeFilters,
-  statsBounds,
-  setPage,
-}) {
+export default function FilterBy() {
+  const {
+    eventTypes,
+    filteredEventTypes,
+    setFilteredEventTypes,
+    rangeFilters,
+    setRangeFilters,
+    statsBounds,
+    setPage,
+  } = useHistory();
   const selectedTypes = filteredEventTypes.value || [];
   const hasTypeFilters = selectedTypes.length > 0;
   const hasRangeFilters = Object.values(rangeFilters).some(
@@ -109,7 +97,7 @@ export default function FilterBy({
             <span className="text-xs text-gray-500 uppercase tracking-wide">
               Visits
             </span>
-            {RANGE_FILTER_CONFIG.map(({ key, label }) => {
+            {RANGE_FILTER_FIELDS.map(({ key, label }) => {
               const bounds = statsBounds[key];
               const current = rangeFilters[key];
               const value = [

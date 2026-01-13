@@ -1,6 +1,6 @@
 'use client';
 
-import { useHistoryWorker } from '@/components/hooks/useHistoryWorker';
+import { useHistoryWorker } from '@/hooks/useHistoryWorker';
 import { useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { FaUpload } from 'react-icons/fa';

@@ -1,4 +1,4 @@
-import { EVENT_TYPE_COLORS, ICON_SIZES } from '../utils/constants';
+import { EVENT_TYPE_COLORS, ICON_SIZES } from '@/lib/constants';
 import {
   FaEye,
   FaDownload,

@@ -1,6 +1,6 @@
 'use client';
 
-import indexedDb from '@/components/utils/indexedDb';
+import db from '@/lib/db';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 export function useHistoryWorker() {
@@ -22,7 +22,7 @@ export function useHistoryWorker() {
 
         case 'CHUNK':
           try {
-            await indexedDb.history.bulkAdd(payload.items);
+            await db.history.bulkAdd(payload.items);
           } catch (e) {
             if (!e.message?.includes('Key already exists')) {
               console.error('IndexedDB write error:', e);
@@ -77,7 +77,7 @@ export function useHistoryWorker() {
     setError(null);
     setProgress({ stage: 'reading', message: 'Reading file...', percent: 0 });
 
-    await indexedDb.history.clear();
+    await db.history.clear();
 
     const arrayBuffer = await file.arrayBuffer();
     const uint8Array = new Uint8Array(arrayBuffer);

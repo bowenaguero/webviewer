@@ -1,10 +1,10 @@
 'use client';
 
 import { useLiveQuery } from 'dexie-react-hooks';
-import indexedDb from '@/components/utils/indexedDb';
+import db from '@/lib/db';
 
 export default function useHasStoredHistory() {
-  const count = useLiveQuery(() => indexedDb.history.count());
+  const count = useLiveQuery(() => db.history.count());
   return {
     hasData: count > 0,
     isLoading: count === undefined,

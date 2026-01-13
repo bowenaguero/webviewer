@@ -10,30 +10,9 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import { Button } from '../ui/button';
-import { EXTERNAL_URLS } from '../utils/constants';
+import { COPY_TYPES, SEND_TO_PROVIDERS } from './config';
 import { FaEllipsisV, FaCopy, FaExternalLinkAlt } from 'react-icons/fa';
 import { toast } from 'sonner';
-
-const COPY_TYPES = {
-  event: {
-    getValue: (event) => JSON.stringify(event),
-    description: 'Event copied to clipboard',
-  },
-  url: {
-    getValue: (event) => event.url,
-    description: 'URL copied to clipboard',
-  },
-  domain: {
-    getValue: (event) => event.domain,
-    description: 'Domain copied to clipboard',
-  },
-};
-
-const SEND_TO_PROVIDERS = {
-  virustotal: { label: 'VirusTotal', getUrl: EXTERNAL_URLS.virustotal },
-  browserling: { label: 'Browserling', getUrl: EXTERNAL_URLS.browserling },
-  urlscan: { label: 'URLScan', getUrl: EXTERNAL_URLS.urlscan },
-};
 
 export default function ActionsMenu({ event }) {
   const handleCopy = (type) => {
