@@ -33,10 +33,10 @@ export default function RootLayout({ children }) {
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
-          enableSystem={false}
+          enableSystem={true}
         >
           <Toaster />
-          <div className="min-h-screen bg-gray-900">
+          <div className="min-h-screen bg-background">
             <Topbar />
             {children}
           </div>
