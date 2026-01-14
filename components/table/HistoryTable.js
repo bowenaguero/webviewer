@@ -35,28 +35,28 @@ function HistoryTableContent() {
       </div>
 
       {/* Desktop: Table view (md and up) */}
-      <div className="hidden md:block bg-gray-950 border border-gray-800 rounded-md overflow-hidden">
+      <div className="hidden md:block bg-card border border-border rounded-md overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="bg-transparent border-gray-800 hover:bg-transparent">
+            <TableRow className="bg-transparent border-border hover:bg-transparent">
               <TableHead className={COL_WIDTHS.actions} />
               <TableHead
-                className={`${COL_WIDTHS.time} text-gray-500 text-sm px-3`}
+                className={`${COL_WIDTHS.time} text-muted-foreground text-sm px-3`}
               >
                 Time
               </TableHead>
               <TableHead
-                className={`${COL_WIDTHS.type} text-gray-500 text-sm px-2`}
+                className={`${COL_WIDTHS.type} text-muted-foreground text-sm px-2`}
               >
                 Type
               </TableHead>
               <TableHead
-                className={`${COL_WIDTHS.url} text-gray-500 text-sm px-3`}
+                className={`${COL_WIDTHS.url} text-muted-foreground text-sm px-3`}
               >
                 URL
               </TableHead>
               <TableHead
-                className={`${COL_WIDTHS.title} text-gray-500 text-sm px-3`}
+                className={`${COL_WIDTHS.title} text-muted-foreground text-sm px-3`}
               >
                 Title
               </TableHead>
@@ -81,7 +81,7 @@ function HistoryTableContent() {
       <div className="md:hidden space-y-3">
         {searching ? (
           <div className="flex justify-center py-8">
-            <Loader2 className="size-6 text-gray-500 animate-spin" />
+            <Loader2 className="size-6 text-muted-foreground animate-spin" />
           </div>
         ) : (
           currentItems.map((item, index) => (
@@ -108,9 +108,9 @@ function HistoryTableContent() {
 function SearchingRow() {
   return (
     <TableRow>
-      <TableCell colSpan={5} className="py-8 bg-gray-900">
+      <TableCell colSpan={5} className="py-8 bg-background">
         <div className="flex justify-center items-center">
-          <Loader2 className="size-6 text-gray-500 animate-spin" />
+          <Loader2 className="size-6 text-muted-foreground animate-spin" />
         </div>
       </TableCell>
     </TableRow>

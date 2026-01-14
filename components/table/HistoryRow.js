@@ -16,13 +16,13 @@ const HistoryRow = memo(function HistoryRow({ item }) {
 
   return (
     <TableRow
-      className={`bg-transparent border-gray-800 hover:bg-gray-800/50 font-medium ${GeistMono.className}`}
+      className={`bg-transparent border-border hover:bg-muted/50 font-medium ${GeistMono.className}`}
     >
       <TableCell className={`${COL_WIDTHS.actions} px-2 py-1.5`}>
         <ActionsMenu event={item} />
       </TableCell>
       <TableCell
-        className={`${COL_WIDTHS.time} text-gray-500 text-sm px-3 py-1.5`}
+        className={`${COL_WIDTHS.time} text-muted-foreground text-sm px-3 py-1.5`}
       >
         <span className="truncate block">{item.visitTimeFormatted}</span>
       </TableCell>
@@ -42,7 +42,7 @@ const HistoryRow = memo(function HistoryRow({ item }) {
         <Tooltip>
           <TooltipTrigger asChild>
             <span
-              className={'text-sm text-gray-300 truncate block cursor-default'}
+              className={'text-sm text-foreground truncate block cursor-default'}
             >
               {item.url}
             </span>
@@ -50,29 +50,29 @@ const HistoryRow = memo(function HistoryRow({ item }) {
           <TooltipContent side="bottom" className="max-w-xl">
             <div className="space-y-2">
               <p className="break-all text-sm">{item.url}</p>
-              <div className="border-t border-gray-700 pt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-xs">
+              <div className="border-t border-border pt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-xs">
                 <div>
-                  <span className="text-gray-400">URL Visits:</span>{' '}
+                  <span className="text-muted-foreground">URL Visits:</span>{' '}
                   <span>{item.url_count || 0}</span>
                 </div>
                 <div>
-                  <span className="text-gray-400">Domain Visits:</span>{' '}
+                  <span className="text-muted-foreground">Domain Visits:</span>{' '}
                   <span>{item.domain_count || 0}</span>
                 </div>
                 <div>
-                  <span className="text-gray-400">First Seen:</span>{' '}
+                  <span className="text-muted-foreground">First Seen:</span>{' '}
                   <span>{item.url_first_visit ? new Date(item.url_first_visit).toLocaleDateString() : '—'}</span>
                 </div>
                 <div>
-                  <span className="text-gray-400">Domain URLs:</span>{' '}
+                  <span className="text-muted-foreground">Domain URLs:</span>{' '}
                   <span>{item.domain_unique_urls || 0}</span>
                 </div>
                 <div>
-                  <span className="text-gray-400">Last Seen:</span>{' '}
+                  <span className="text-muted-foreground">Last Seen:</span>{' '}
                   <span>{item.url_last_visit ? new Date(item.url_last_visit).toLocaleDateString() : '—'}</span>
                 </div>
                 <div>
-                  <span className="text-gray-400">Domain:</span>{' '}
+                  <span className="text-muted-foreground">Domain:</span>{' '}
                   <span className="truncate">{item.domain}</span>
                 </div>
               </div>
@@ -87,7 +87,7 @@ const HistoryRow = memo(function HistoryRow({ item }) {
             <TooltipTrigger asChild>
               <span
                 className={
-                  'text-sm text-gray-400 truncate block cursor-default'
+                  'text-sm text-muted-foreground truncate block cursor-default'
                 }
               >
                 {item.title || 'Untitled'}
@@ -103,7 +103,7 @@ const HistoryRow = memo(function HistoryRow({ item }) {
               <TooltipTrigger asChild>
                 <span
                   className={
-                    'text-[10px] text-gray-600 truncate block cursor-default mt-0.5'
+                    'text-[10px] text-muted-foreground/80 truncate block cursor-default mt-0.5'
                   }
                 >
                   {detailsText}
@@ -113,7 +113,7 @@ const HistoryRow = memo(function HistoryRow({ item }) {
                 <div className="space-y-1">
                   {hasEventDetails && item.eventEntity && (
                     <p>
-                      <span className="text-gray-400">
+                      <span className="text-muted-foreground">
                         {item.eventEntityType}:{' '}
                       </span>
                       <span className="break-all">{item.eventEntity}</span>
@@ -123,7 +123,7 @@ const HistoryRow = memo(function HistoryRow({ item }) {
                     Object.entries(item.additionalFields).map(
                       ([key, value]) => (
                         <p key={key}>
-                          <span className="text-gray-400">{key}: </span>
+                          <span className="text-muted-foreground">{key}: </span>
                           <span className="break-all">{String(value)}</span>
                         </p>
                       ),

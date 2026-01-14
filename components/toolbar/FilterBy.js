@@ -66,9 +66,9 @@ export default function FilterBy() {
             variant="ghost"
             className={`justify-between gap-2 ${
               hasFilters
-                ? 'border-gray-300 text-gray-300'
-                : 'border-gray-800 text-gray-500'
-            } hover:border-gray-700 hover:bg-transparent`}
+                ? 'border-primary text-foreground'
+                : 'border-border text-muted-foreground'
+            } hover:border-muted hover:bg-transparent`}
           >
             <FaFilter className="size-3" />
             {hasFilters && <span>{activeFilterCount} active</span>}
@@ -79,7 +79,7 @@ export default function FilterBy() {
             variant="ghost"
             size="icon-sm"
             onClick={handleClear}
-            className="text-gray-400 hover:text-gray-200"
+            className="text-muted-foreground hover:text-foreground"
           >
             <X className="size-4" />
           </Button>
@@ -93,8 +93,8 @@ export default function FilterBy() {
             onToggle={handleToggle}
           />
 
-          <div className="space-y-5 pt-2 border-t border-gray-800">
-            <span className="text-xs text-gray-500 uppercase tracking-wide">
+          <div className="space-y-5 pt-2 border-t border-border">
+            <span className="text-xs text-muted-foreground uppercase tracking-wide">
               Visits
             </span>
             {RANGE_FILTER_FIELDS.map(({ key, label }) => {

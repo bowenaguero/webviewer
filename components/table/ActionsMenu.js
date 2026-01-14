@@ -36,7 +36,7 @@ export default function ActionsMenu({ event }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon-sm" className="text-gray-400">
+        <Button variant="ghost" size="icon-sm" className="text-muted-foreground">
           <FaEllipsisV className="size-3" />
         </Button>
       </DropdownMenuTrigger>

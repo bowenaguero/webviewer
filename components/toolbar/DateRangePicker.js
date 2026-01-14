@@ -42,9 +42,9 @@ export default function DateRangePicker() {
             variant="ghost"
             className={`justify-between gap-2 ${
               hasDateFilter
-                ? 'border-gray-300 text-gray-300'
-                : 'border-gray-800 text-gray-500'
-            } hover:border-gray-700 hover:bg-transparent`}
+                ? 'border-primary text-foreground'
+                : 'border-border text-muted-foreground'
+            } hover:border-muted hover:bg-transparent`}
           >
             <CalendarIcon className="size-4" />
             {hasDateFilter && (
@@ -57,7 +57,7 @@ export default function DateRangePicker() {
             variant="ghost"
             size="icon-sm"
             onClick={handleClear}
-            className="text-gray-400 hover:text-gray-200"
+            className="text-muted-foreground hover:text-foreground"
           >
             <X className="size-4" />
           </Button>

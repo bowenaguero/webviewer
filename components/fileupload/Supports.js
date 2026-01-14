@@ -25,7 +25,7 @@ export default function Supports() {
         ([browser, { icon: Icon, tooltip }]) => (
           <Tooltip key={browser}>
             <TooltipTrigger asChild>
-              <span className="text-gray-500 opacity-80 cursor-default">
+              <span className="text-muted-foreground opacity-80 cursor-default">
                 <Icon className="size-5" />
               </span>
             </TooltipTrigger>
@@ -37,7 +37,7 @@ export default function Supports() {
         ([browser, { icon: Icon, tooltip }]) => (
           <Tooltip key={browser}>
             <TooltipTrigger asChild>
-              <span className="text-gray-500 opacity-10 cursor-default">
+              <span className="text-muted-foreground opacity-10 cursor-default">
                 <Icon className="size-5" />
               </span>
             </TooltipTrigger>

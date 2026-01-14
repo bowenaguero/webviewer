@@ -9,7 +9,7 @@ export default function SortBy({ sortBy, setSortBy }) {
   return (
     <Button
       variant="ghost"
-      className="text-gray-500 hover:bg-gray-800"
+      className="text-muted-foreground hover:bg-muted"
       onClick={() => {
         setSortBy(sortBy === 'asc' ? 'desc' : 'asc');
       }}

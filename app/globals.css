@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  /* Dark theme colors matching current Chakra theme */
+  /* Dark theme colors */
   --color-background: #0a0a0a;
   --color-foreground: #fafafa;
 
@@ -58,6 +58,10 @@ body {
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-interactive: var(--interactive);
+  --color-interactive-hover: var(--interactive-hover);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -106,6 +110,14 @@ body {
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Status colors */
+  --success: oklch(0.69 0.17 142);
+  --warning: oklch(0.74 0.15 85);
+
+  /* Interactive elements (sliders, focus states) */
+  --interactive: oklch(0.6 0.2 240);
+  --interactive-hover: oklch(0.65 0.22 240);
 }
 
 .dark {
@@ -140,6 +152,14 @@ body {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* Status colors - brighter in dark mode */
+  --success: oklch(0.72 0.19 142);
+  --warning: oklch(0.78 0.17 85);
+
+  /* Interactive elements */
+  --interactive: oklch(0.65 0.22 240);
+  --interactive-hover: oklch(0.7 0.24 240);
 }
 
 @layer base {

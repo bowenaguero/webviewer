@@ -55,7 +55,7 @@ export default function PaginationMenu({
         size="icon-sm"
         onClick={handleFirst}
         disabled={!canGoPrev}
-        className="text-gray-400 hover:bg-gray-800"
+        className="text-muted-foreground hover:bg-muted"
       >
         <ChevronFirst className="size-4" />
       </Button>
@@ -65,7 +65,7 @@ export default function PaginationMenu({
         size="icon-sm"
         onClick={handlePrev}
         disabled={!canGoPrev}
-        className="text-gray-400 hover:bg-gray-800"
+        className="text-muted-foreground hover:bg-muted"
       >
         <ChevronLeft className="size-4" />
       </Button>
@@ -80,8 +80,8 @@ export default function PaginationMenu({
               onClick={() => setPage(pageNum)}
               className={
                 pageNum === page
-                  ? 'bg-gray-700 text-white'
-                  : 'text-gray-400 hover:bg-gray-800'
+                  ? 'bg-secondary text-secondary-foreground'
+                  : 'text-muted-foreground hover:bg-muted'
               }
             >
               {pageNum}
@@ -91,7 +91,7 @@ export default function PaginationMenu({
       )}
 
       {style === 'compact' && (
-        <span className="text-gray-500 text-sm px-2">{page}</span>
+        <span className="text-muted-foreground text-sm px-2">{page}</span>
       )}
 
       <Button
@@ -99,7 +99,7 @@ export default function PaginationMenu({
         size="icon-sm"
         onClick={handleNext}
         disabled={!canGoNext}
-        className="text-gray-400 hover:bg-gray-800"
+        className="text-muted-foreground hover:bg-muted"
       >
         <ChevronRight className="size-4" />
       </Button>
@@ -109,7 +109,7 @@ export default function PaginationMenu({
         size="icon-sm"
         onClick={handleLast}
         disabled={!canGoNext}
-        className="text-gray-400 hover:bg-gray-800"
+        className="text-muted-foreground hover:bg-muted"
       >
         <ChevronLast className="size-4" />
       </Button>
