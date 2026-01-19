@@ -1,5 +1,6 @@
 'use client';
 
+import { memo, useCallback } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,24 +15,30 @@ import { COPY_TYPES, SEND_TO_PROVIDERS } from './config';
 import { FaEllipsisV, FaCopy, FaExternalLinkAlt } from 'react-icons/fa';
 import { toast } from 'sonner';
 
-export default function ActionsMenu({ event }) {
-  const handleCopy = (type) => {
-    const config = COPY_TYPES[type];
-    if (!config) return;
+const ActionsMenu = memo(function ActionsMenu({ event }) {
+  const handleCopy = useCallback(
+    (type) => {
+      const config = COPY_TYPES[type];
+      if (!config) return;
 
-    navigator.clipboard.writeText(config.getValue(event));
-    toast.success('Copied to clipboard', {
-      description: config.description,
-    });
-  };
+      navigator.clipboard.writeText(config.getValue(event));
+      toast.success('Copied to clipboard', {
+        description: config.description,
+      });
+    },
+    [event],
+  );
 
-  const handleSendTo = (provider) => {
-    const config = SEND_TO_PROVIDERS[provider];
-    if (!config) return;
+  const handleSendTo = useCallback(
+    (provider) => {
+      const config = SEND_TO_PROVIDERS[provider];
+      if (!config) return;
 
-    const urlParam = provider === 'browserling' ? event.url : event.domain;
-    window.open(config.getUrl(urlParam), '_blank');
-  };
+      const urlParam = provider === 'browserling' ? event.url : event.domain;
+      window.open(config.getUrl(urlParam), '_blank');
+    },
+    [event.url, event.domain],
+  );
 
   return (
     <DropdownMenu>
@@ -66,4 +73,6 @@ export default function ActionsMenu({ event }) {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+});
+
+export default ActionsMenu;

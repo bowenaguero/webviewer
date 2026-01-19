@@ -1,6 +1,10 @@
 'use client';
 
-import { useHistory } from '../context/HistoryContext';
+import {
+  useHistoryData,
+  useHistoryFilters,
+  useHistoryPagination,
+} from '../context/HistoryContext';
 import PaginationMenu from '../table/PaginationMenu';
 import DateRangePicker from './DateRangePicker';
 import FilterBy from './FilterBy';
@@ -9,17 +13,9 @@ import SearchBar from './SearchBar';
 import SortBy from './SortBy';
 
 export default function ToolBar() {
-  const {
-    itemsPerPage,
-    setItemsPerPage,
-    sortBy,
-    setSortBy,
-    page,
-    setPage,
-    totalCount,
-    setSearch,
-    search,
-  } = useHistory();
+  const { totalCount } = useHistoryData();
+  const { sortBy, setSortBy, search, setSearch } = useHistoryFilters();
+  const { page, setPage, itemsPerPage, setItemsPerPage } = useHistoryPagination();
 
   return (
     <div className="flex flex-col gap-3 mt-5 md:flex-row md:justify-between md:items-center md:gap-5">

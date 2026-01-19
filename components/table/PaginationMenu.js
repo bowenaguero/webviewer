@@ -1,5 +1,6 @@
 'use client';
 
+import { memo, useCallback, useMemo } from 'react';
 import { Button } from '../ui/button';
 import { PAGINATION } from './config';
 import {
@@ -9,7 +10,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 
-export default function PaginationMenu({
+const PaginationMenu = memo(function PaginationMenu({
   page,
   setPage,
   itemsPerPage,
@@ -20,17 +21,18 @@ export default function PaginationMenu({
   const canGoPrev = page > 1;
   const canGoNext = page < totalPages;
 
-  const handleFirst = () => setPage(1);
-  const handlePrev = () => {
-    if (canGoPrev) setPage(page - 1);
-  };
-  const handleNext = () => {
-    if (canGoNext) setPage(page + 1);
-  };
-  const handleLast = () => setPage(totalPages);
+  const handleFirst = useCallback(() => setPage(1), [setPage]);
+  const handlePrev = useCallback(() => {
+    if (page > 1) setPage(page - 1);
+  }, [page, setPage]);
+  const handleNext = useCallback(() => {
+    if (page < totalPages) setPage(page + 1);
+  }, [page, totalPages, setPage]);
+  const handleLast = useCallback(() => setPage(totalPages), [setPage, totalPages]);
+  const handlePageClick = useCallback((pageNum) => setPage(pageNum), [setPage]);
 
-  // Generate page numbers to display
-  const getPageNumbers = () => {
+  // Memoize page numbers calculation
+  const pageNumbers = useMemo(() => {
     const pages = [];
     const maxVisible = PAGINATION.maxVisiblePages;
 
@@ -46,7 +48,7 @@ export default function PaginationMenu({
     }
 
     return pages;
-  };
+  }, [page, totalPages]);
 
   return (
     <div className="flex items-center gap-1">
@@ -72,12 +74,12 @@ export default function PaginationMenu({
 
       {style !== 'compact' && (
         <>
-          {getPageNumbers().map((pageNum) => (
+          {pageNumbers.map((pageNum) => (
             <Button
               key={pageNum}
               variant={pageNum === page ? 'secondary' : 'ghost'}
               size="sm"
-              onClick={() => setPage(pageNum)}
+              onClick={() => handlePageClick(pageNum)}
               className={
                 pageNum === page
                   ? 'bg-gray-700 text-white'
@@ -115,4 +117,6 @@ export default function PaginationMenu({
       </Button>
     </div>
   );
-}
+});
+
+export default PaginationMenu;

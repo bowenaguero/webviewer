@@ -1,6 +1,10 @@
 'use client';
 
-import { HistoryProvider, useHistory } from '../context/HistoryContext';
+import {
+  HistoryProvider,
+  useHistoryData,
+  useHistoryPagination,
+} from '../context/HistoryContext';
 import ToolBar from '../toolbar/ToolBar';
 import {
   Table,
@@ -16,6 +20,23 @@ import HistoryRow from './HistoryRow';
 import PaginationMenu from './PaginationMenu';
 import { Loader2 } from 'lucide-react';
 
+// Hoisted static component - avoids recreation on parent re-renders
+const SearchingRow = (
+  <TableRow>
+    <TableCell colSpan={5} className="py-8 bg-gray-900">
+      <div className="flex justify-center items-center">
+        <Loader2 className="size-6 text-gray-500 animate-spin" />
+      </div>
+    </TableCell>
+  </TableRow>
+);
+
+const MobileSearchingSpinner = (
+  <div className="flex justify-center py-8">
+    <Loader2 className="size-6 text-gray-500 animate-spin" />
+  </div>
+);
+
 export default function HistoryTable({ history }) {
   return (
     <HistoryProvider history={history}>
@@ -25,8 +46,8 @@ export default function HistoryTable({ history }) {
 }
 
 function HistoryTableContent() {
-  const { currentItems, totalCount, searching, page, setPage, itemsPerPage } =
-    useHistory();
+  const { currentItems, totalCount, searching } = useHistoryData();
+  const { page, setPage, itemsPerPage } = useHistoryPagination();
 
   return (
     <>
@@ -63,34 +84,28 @@ function HistoryTableContent() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {searching ? (
-              <SearchingRow />
-            ) : (
-              currentItems.map((item, index) => (
-                <HistoryRow
-                  key={`${item.url}-${item.visitTime}-${index}`}
-                  item={item}
-                />
-              ))
-            )}
+            {searching
+              ? SearchingRow
+              : currentItems.map((item, index) => (
+                  <HistoryRow
+                    key={`${item.url}-${item.visitTime}-${index}`}
+                    item={item}
+                  />
+                ))}
           </TableBody>
         </Table>
       </div>
 
       {/* Mobile: Card view (below md) */}
       <div className="md:hidden space-y-3">
-        {searching ? (
-          <div className="flex justify-center py-8">
-            <Loader2 className="size-6 text-gray-500 animate-spin" />
-          </div>
-        ) : (
-          currentItems.map((item, index) => (
-            <HistoryCard
-              key={`card-${item.url}-${item.visitTime}-${index}`}
-              item={item}
-            />
-          ))
-        )}
+        {searching
+          ? MobileSearchingSpinner
+          : currentItems.map((item, index) => (
+              <HistoryCard
+                key={`card-${item.url}-${item.visitTime}-${index}`}
+                item={item}
+              />
+            ))}
       </div>
 
       <div className="flex justify-center mt-4 mb-4">
@@ -102,17 +117,5 @@ function HistoryTableContent() {
         />
       </div>
     </>
-  );
-}
-
-function SearchingRow() {
-  return (
-    <TableRow>
-      <TableCell colSpan={5} className="py-8 bg-gray-900">
-        <div className="flex justify-center items-center">
-          <Loader2 className="size-6 text-gray-500 animate-spin" />
-        </div>
-      </TableCell>
-    </TableRow>
   );
 }

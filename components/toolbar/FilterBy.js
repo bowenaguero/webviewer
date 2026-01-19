@@ -1,6 +1,10 @@
 'use client';
 
-import { useHistory } from '../context/HistoryContext';
+import {
+  useHistoryData,
+  useHistoryFilters,
+  useHistoryPagination,
+} from '../context/HistoryContext';
 import { Button } from '../ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { DEFAULT_RANGE_FILTERS, RANGE_FILTER_FIELDS } from '@/lib/rangeFilters';
@@ -10,15 +14,14 @@ import { X } from 'lucide-react';
 import { FaFilter } from 'react-icons/fa';
 
 export default function FilterBy() {
+  const { eventTypes, statsBounds } = useHistoryData();
   const {
-    eventTypes,
     filteredEventTypes,
     setFilteredEventTypes,
     rangeFilters,
     setRangeFilters,
-    statsBounds,
-    setPage,
-  } = useHistory();
+  } = useHistoryFilters();
+  const { setPage } = useHistoryPagination();
   const selectedTypes = filteredEventTypes.value || [];
   const hasTypeFilters = selectedTypes.length > 0;
   const hasRangeFilters = Object.values(rangeFilters).some(
