@@ -1,6 +1,6 @@
 'use client';
 
-import HistoryTable from '@/components/table/HistoryTable';
+import { HistoryTable } from '@/components/history';
 import { db } from '@/lib';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Loader2 } from 'lucide-react';

@@ -1,12 +1,12 @@
 'use client';
 
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
+} from '../../ui/dropdown-menu';
 import { FaChevronDown } from 'react-icons/fa';
 
 const PAGE_SIZE_OPTIONS = [15, 25, 50, 100];

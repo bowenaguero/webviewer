@@ -13,7 +13,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '../ui/table';
+} from '../../ui/table';
 import { COL_WIDTHS } from './config';
 import HistoryCard from './HistoryCard';
 import HistoryRow from './HistoryRow';

@@ -1,7 +1,7 @@
 'use client';
 
-import { Input } from '../ui/input';
-import { Button } from '../ui/button';
+import { Input } from '../../ui/input';
+import { Button } from '../../ui/button';
 import { SEARCH_DEBOUNCE_MS } from '@/lib/constants';
 import { useCallback, useRef, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';

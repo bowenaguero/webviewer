@@ -1,7 +1,7 @@
 'use client';
 
 import { memo, useCallback, useMemo } from 'react';
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 import { PAGINATION } from './config';
 import {
   ChevronFirst,

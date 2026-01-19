@@ -2,9 +2,9 @@
 
 import { memo } from 'react';
 import { GeistMono } from 'geist/font/mono';
-import EventIcon from '../event/EventIcon';
+import EventIcon from '../../event/EventIcon';
 import ActionsMenu from './ActionsMenu';
-import { useItemDetails } from './useItemDetails';
+import { useItemDetails } from '@/hooks';
 import { capitalizeFirstLetter } from '@/lib/helpers';
 
 const HistoryCard = memo(function HistoryCard({ item }) {

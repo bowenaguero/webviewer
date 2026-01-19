@@ -1,6 +1,6 @@
 'use client';
 
-import { Slider } from '../ui/slider';
+import { Slider } from '../../ui/slider';
 
 export default function RangeSliderFilter({ label, bounds, value, isActive, onChange }) {
   const handleInputChange = (index, inputValue) => {

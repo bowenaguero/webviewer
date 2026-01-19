@@ -9,8 +9,8 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
-import { Button } from '../ui/button';
+} from '../../ui/dropdown-menu';
+import { Button } from '../../ui/button';
 import { COPY_TYPES, SEND_TO_PROVIDERS } from './config';
 import { FaEllipsisV, FaCopy, FaExternalLinkAlt } from 'react-icons/fa';
 import { toast } from 'sonner';

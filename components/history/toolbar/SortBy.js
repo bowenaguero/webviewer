@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 
 export default function SortBy({ sortBy, setSortBy }) {

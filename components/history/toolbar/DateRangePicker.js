@@ -6,16 +6,16 @@ import {
   useHistoryFilters,
   useHistoryPagination,
 } from '../context/HistoryContext';
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '../ui/popover';
+} from '../../ui/popover';
 import { CalendarIcon, X } from 'lucide-react';
 
 const Calendar = dynamic(
-  () => import('../ui/calendar').then((m) => m.Calendar),
+  () => import('../../ui/calendar').then((m) => m.Calendar),
   { ssr: false },
 );
 

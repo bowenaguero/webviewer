@@ -11,7 +11,7 @@ import {
 } from 'react';
 import { combinedFilter } from '@/lib/filters';
 import { DEFAULT_RANGE_FILTERS } from '@/lib/rangeFilters';
-import { useStatsBounds } from './useStatsBounds';
+import { useStatsBounds } from '@/hooks';
 
 // Split contexts to minimize re-renders
 const HistoryDataContext = createContext(null);

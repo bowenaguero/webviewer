@@ -9,7 +9,9 @@
       "Bash(npm run lint:*)",
       "Bash(npx next lint:*)",
       "Bash(npx eslint:*)",
-      "Bash(npm run test:run:*)"
+      "Bash(npm run test:run:*)",
+      "Bash(grep:*)",
+      "Bash(wc:*)"
     ]
   }
 }

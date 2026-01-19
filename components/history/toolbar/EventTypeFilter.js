@@ -1,7 +1,7 @@
 'use client';
 
-import EventIcon from '../event/EventIcon';
-import { Checkbox } from '../ui/checkbox';
+import EventIcon from '../../event/EventIcon';
+import { Checkbox } from '../../ui/checkbox';
 import { capitalizeFirstLetter } from '@/lib/helpers';
 
 export default function EventTypeFilter({ eventTypes, selectedTypes, onToggle }) {

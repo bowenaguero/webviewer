@@ -1,4 +1,4 @@
-// Barrel export for toolbar components
+// Barrel export for history toolbar components
 export { default as ToolBar } from './ToolBar';
 export { default as SearchBar } from './SearchBar';
 export { default as FilterBy } from './FilterBy';
