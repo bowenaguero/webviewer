@@ -1,7 +1,7 @@
 // Web Worker for parsing browser history SQLite files
 // This is the source file that gets bundled to public/historyParser.worker.js
 
-import { WORKER_CHUNK_SIZE } from '../../lib/constants';
+import { WORKER_CHUNK_SIZE } from '../../lib/constants/index';
 import { BROWSER_QUERIES, transformRow } from '../../lib/browser-parser';
 import { estimateTotalRows, buildStats, attachStats } from './stats';
 

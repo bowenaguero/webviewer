@@ -1,5 +1,5 @@
 import { FolderSearch, Upload, Search } from 'lucide-react';
-import { FaChrome, FaFirefox, FaEdge, FaSafari } from 'react-icons/fa';
+import { HELP_BROWSER_LIST } from '@/lib/constants/index';
 
 // Steps displayed in the Help dropdown
 export const HELP_STEPS = [
@@ -8,13 +8,8 @@ export const HELP_STEPS = [
   { icon: Search, label: 'Explore', desc: 'Search, filter, analyze' },
 ];
 
-// Supported browsers displayed in the Help dropdown
-export const SUPPORTED_BROWSERS = [
-  { icon: FaChrome, name: 'Chrome', file: 'History' },
-  { icon: FaFirefox, name: 'Firefox', file: 'places.sqlite' },
-  { icon: FaSafari, name: 'Safari', file: 'History.db' },
-  { icon: FaEdge, name: 'Edge', file: 'History' },
-];
+// Supported browsers displayed in the Help dropdown (re-export from constants)
+export const SUPPORTED_BROWSERS = HELP_BROWSER_LIST;
 
 // Warning messages displayed in the Help dropdown
 export const UPLOAD_WARNINGS = [

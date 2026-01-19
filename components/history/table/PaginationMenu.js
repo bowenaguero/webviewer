@@ -29,7 +29,13 @@ const PaginationMenu = memo(function PaginationMenu({
     if (page < totalPages) setPage(page + 1);
   }, [page, totalPages, setPage]);
   const handleLast = useCallback(() => setPage(totalPages), [setPage, totalPages]);
-  const handlePageClick = useCallback((pageNum) => setPage(pageNum), [setPage]);
+  const handlePageClick = useCallback(
+    (e) => {
+      const pageNum = Number(e.currentTarget.dataset.page);
+      setPage(pageNum);
+    },
+    [setPage],
+  );
 
   // Memoize page numbers calculation
   const pageNumbers = useMemo(() => {
@@ -79,7 +85,8 @@ const PaginationMenu = memo(function PaginationMenu({
               key={pageNum}
               variant={pageNum === page ? 'secondary' : 'ghost'}
               size="sm"
-              onClick={() => handlePageClick(pageNum)}
+              data-page={pageNum}
+              onClick={handlePageClick}
               className={
                 pageNum === page
                   ? 'bg-gray-700 text-white'

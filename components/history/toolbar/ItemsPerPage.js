@@ -1,6 +1,6 @@
 'use client';
 
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import { Button } from '../../ui/button';
 import {
   DropdownMenu,
@@ -13,6 +13,14 @@ import { FaChevronDown } from 'react-icons/fa';
 const PAGE_SIZE_OPTIONS = [15, 25, 50, 100];
 
 const ItemsPerPage = memo(function ItemsPerPage({ itemsPerPage, setItemsPerPage }) {
+  const handleSizeClick = useCallback(
+    (e) => {
+      const size = Number(e.currentTarget.dataset.size);
+      setItemsPerPage(size);
+    },
+    [setItemsPerPage],
+  );
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -23,7 +31,7 @@ const ItemsPerPage = memo(function ItemsPerPage({ itemsPerPage, setItemsPerPage 
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         {PAGE_SIZE_OPTIONS.map((size) => (
-          <DropdownMenuItem key={size} onClick={() => setItemsPerPage(size)}>
+          <DropdownMenuItem key={size} data-size={size} onClick={handleSizeClick}>
             {size} items per page
           </DropdownMenuItem>
         ))}
