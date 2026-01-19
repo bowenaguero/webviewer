@@ -10,7 +10,7 @@ import {
   useCallback,
 } from 'react';
 import { combinedFilter } from '@/lib/filters';
-import { DEFAULT_RANGE_FILTERS } from '@/lib/rangeFilters';
+import { DEFAULT_RANGE_FILTERS } from '@/config/filters';
 import { useStatsBounds } from '@/hooks';
 
 // Split contexts to minimize re-renders

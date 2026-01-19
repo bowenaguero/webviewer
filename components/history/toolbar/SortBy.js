@@ -1,9 +1,10 @@
 'use client';
 
+import { memo } from 'react';
 import { Button } from '../../ui/button';
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 
-export default function SortBy({ sortBy, setSortBy }) {
+const SortBy = memo(function SortBy({ sortBy, setSortBy }) {
   const Icon = sortBy === 'asc' ? FaChevronUp : FaChevronDown;
 
   return (
@@ -18,4 +19,6 @@ export default function SortBy({ sortBy, setSortBy }) {
       <Icon className="size-3 ml-1" />
     </Button>
   );
-}
+});
+
+export default SortBy;

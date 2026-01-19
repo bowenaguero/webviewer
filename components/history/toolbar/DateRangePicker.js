@@ -1,5 +1,6 @@
 'use client';
 
+import { memo, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import {
   useHistoryData,
@@ -19,24 +20,30 @@ const Calendar = dynamic(
   { ssr: false },
 );
 
-export default function DateRangePicker() {
+const DateRangePicker = memo(function DateRangePicker() {
   const { dateRange } = useHistoryData();
   const { startDate, setStartDate, endDate, setEndDate } = useHistoryFilters();
   const { setPage } = useHistoryPagination();
   const hasDateFilter = startDate && endDate;
 
-  const handleSelect = (range) => {
-    setStartDate(range?.from || null);
-    setEndDate(range?.to || null);
-    setPage(1);
-  };
+  const handleSelect = useCallback(
+    (range) => {
+      setStartDate(range?.from || null);
+      setEndDate(range?.to || null);
+      setPage(1);
+    },
+    [setStartDate, setEndDate, setPage],
+  );
 
-  const handleClear = (e) => {
-    e.stopPropagation();
-    setStartDate(null);
-    setEndDate(null);
-    setPage(1);
-  };
+  const handleClear = useCallback(
+    (e) => {
+      e.stopPropagation();
+      setStartDate(null);
+      setEndDate(null);
+      setPage(1);
+    },
+    [setStartDate, setEndDate, setPage],
+  );
 
   return (
     <Popover>
@@ -79,4 +86,6 @@ export default function DateRangePicker() {
       </PopoverContent>
     </Popover>
   );
-}
+});
+
+export default DateRangePicker;

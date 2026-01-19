@@ -1,18 +1,22 @@
 'use client';
 
+import { memo, useCallback } from 'react';
 import { Slider } from '../../ui/slider';
 
-export default function RangeSliderFilter({ label, bounds, value, isActive, onChange }) {
-  const handleInputChange = (index, inputValue) => {
-    const num = parseInt(inputValue, 10);
-    if (isNaN(num)) return;
-    const clamped = Math.max(bounds.min, Math.min(bounds.max, num));
-    const newValue = [...value];
-    newValue[index] = clamped;
-    if (index === 0 && clamped > value[1]) newValue[1] = clamped;
-    if (index === 1 && clamped < value[0]) newValue[0] = clamped;
-    onChange(newValue);
-  };
+const RangeSliderFilter = memo(function RangeSliderFilter({ label, bounds, value, isActive, onChange }) {
+  const handleInputChange = useCallback(
+    (index, inputValue) => {
+      const num = parseInt(inputValue, 10);
+      if (isNaN(num)) return;
+      const clamped = Math.max(bounds.min, Math.min(bounds.max, num));
+      const newValue = [...value];
+      newValue[index] = clamped;
+      if (index === 0 && clamped > value[1]) newValue[1] = clamped;
+      if (index === 1 && clamped < value[0]) newValue[0] = clamped;
+      onChange(newValue);
+    },
+    [bounds.min, bounds.max, value, onChange],
+  );
 
   return (
     <div className="space-y-2">
@@ -49,4 +53,6 @@ export default function RangeSliderFilter({ label, bounds, value, isActive, onCh
       />
     </div>
   );
-}
+});
+
+export default RangeSliderFilter;

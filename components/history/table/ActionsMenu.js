@@ -14,6 +14,7 @@ import { Button } from '../../ui/button';
 import { COPY_TYPES, SEND_TO_PROVIDERS } from './config';
 import { FaEllipsisV, FaCopy, FaExternalLinkAlt } from 'react-icons/fa';
 import { toast } from 'sonner';
+import { capitalizeFirstLetter } from '@/lib';
 
 const ActionsMenu = memo(function ActionsMenu({ event }) {
   const handleCopy = useCallback(
@@ -54,7 +55,7 @@ const ActionsMenu = memo(function ActionsMenu({ event }) {
             {Object.keys(COPY_TYPES).map((type) => (
               <DropdownMenuItem key={type} onClick={() => handleCopy(type)}>
                 <FaCopy className="size-3" />
-                {type.charAt(0).toUpperCase() + type.slice(1)}
+                {capitalizeFirstLetter(type)}
               </DropdownMenuItem>
             ))}
           </DropdownMenuSubContent>

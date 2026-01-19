@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import {
   useHistoryData,
   useHistoryFilters,
@@ -12,7 +13,7 @@ import ItemsPerPage from './ItemsPerPage';
 import SearchBar from './SearchBar';
 import SortBy from './SortBy';
 
-export default function ToolBar() {
+const ToolBar = memo(function ToolBar() {
   const { totalCount } = useHistoryData();
   const { sortBy, setSortBy, search, setSearch } = useHistoryFilters();
   const { page, setPage, itemsPerPage, setItemsPerPage } = useHistoryPagination();
@@ -49,4 +50,6 @@ export default function ToolBar() {
       </div>
     </div>
   );
-}
+});
+
+export default ToolBar;

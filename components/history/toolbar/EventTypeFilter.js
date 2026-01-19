@@ -1,10 +1,11 @@
 'use client';
 
+import { memo } from 'react';
 import EventIcon from '../../event/EventIcon';
 import { Checkbox } from '../../ui/checkbox';
 import { capitalizeFirstLetter } from '@/lib/helpers';
 
-export default function EventTypeFilter({ eventTypes, selectedTypes, onToggle }) {
+const EventTypeFilter = memo(function EventTypeFilter({ eventTypes, selectedTypes, onToggle }) {
   return (
     <div className="space-y-1">
       <span className="text-xs text-gray-500 uppercase tracking-wide">
@@ -27,4 +28,6 @@ export default function EventTypeFilter({ eventTypes, selectedTypes, onToggle })
       </div>
     </div>
   );
-}
+});
+
+export default EventTypeFilter;

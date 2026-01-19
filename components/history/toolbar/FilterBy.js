@@ -1,5 +1,6 @@
 'use client';
 
+import { memo, useCallback } from 'react';
 import {
   useHistoryData,
   useHistoryFilters,
@@ -7,13 +8,13 @@ import {
 } from '../context/HistoryContext';
 import { Button } from '../../ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover';
-import { DEFAULT_RANGE_FILTERS, RANGE_FILTER_FIELDS } from '@/lib/rangeFilters';
+import { DEFAULT_RANGE_FILTERS, RANGE_FILTER_FIELDS } from '@/config/filters';
 import EventTypeFilter from './EventTypeFilter';
 import RangeSliderFilter from './RangeSliderFilter';
 import { X } from 'lucide-react';
 import { FaFilter } from 'react-icons/fa';
 
-export default function FilterBy() {
+const FilterBy = memo(function FilterBy() {
   const { eventTypes, statsBounds } = useHistoryData();
   const {
     filteredEventTypes,
@@ -34,32 +35,41 @@ export default function FilterBy() {
     Object.values(rangeFilters).filter((r) => r.min !== null || r.max !== null)
       .length;
 
-  const handleToggle = (eventType) => {
-    const newValue = selectedTypes.includes(eventType)
-      ? selectedTypes.filter((t) => t !== eventType)
-      : [...selectedTypes, eventType];
-    setFilteredEventTypes({ value: newValue });
-    setPage(1);
-  };
+  const handleToggle = useCallback(
+    (eventType) => {
+      const newValue = selectedTypes.includes(eventType)
+        ? selectedTypes.filter((t) => t !== eventType)
+        : [...selectedTypes, eventType];
+      setFilteredEventTypes({ value: newValue });
+      setPage(1);
+    },
+    [selectedTypes, setFilteredEventTypes, setPage],
+  );
 
-  const handleSliderChange = (key, values) => {
-    const bounds = statsBounds[key];
-    setRangeFilters((prev) => ({
-      ...prev,
-      [key]: {
-        min: values[0] === bounds.min ? null : values[0],
-        max: values[1] === bounds.max ? null : values[1],
-      },
-    }));
-    setPage(1);
-  };
+  const handleSliderChange = useCallback(
+    (key, values) => {
+      const bounds = statsBounds[key];
+      setRangeFilters((prev) => ({
+        ...prev,
+        [key]: {
+          min: values[0] === bounds.min ? null : values[0],
+          max: values[1] === bounds.max ? null : values[1],
+        },
+      }));
+      setPage(1);
+    },
+    [statsBounds, setRangeFilters, setPage],
+  );
 
-  const handleClear = (e) => {
-    e.stopPropagation();
-    setFilteredEventTypes({ value: [] });
-    setRangeFilters(DEFAULT_RANGE_FILTERS);
-    setPage(1);
-  };
+  const handleClear = useCallback(
+    (e) => {
+      e.stopPropagation();
+      setFilteredEventTypes({ value: [] });
+      setRangeFilters(DEFAULT_RANGE_FILTERS);
+      setPage(1);
+    },
+    [setFilteredEventTypes, setRangeFilters, setPage],
+  );
 
   return (
     <Popover>
@@ -125,4 +135,6 @@ export default function FilterBy() {
       </PopoverContent>
     </Popover>
   );
-}
+});
+
+export default FilterBy;

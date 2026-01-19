@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import useHasStoredHistory from '@/hooks/useHasStoredHistory';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,7 +14,7 @@ import { ChevronRight, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { FaGithub, FaCoffee, FaQuestionCircle } from 'react-icons/fa';
 
-export default function HomeNavBar() {
+const HomeNavBar = memo(function HomeNavBar() {
   const { hasData } = useHasStoredHistory();
 
   return (
@@ -147,4 +148,6 @@ export default function HomeNavBar() {
       </div>
     </div>
   );
-}
+});
+
+export default HomeNavBar;
