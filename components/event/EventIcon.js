@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { EVENT_TYPE_COLORS, ICON_SIZES } from '@/lib/constants';
 import {
   FaEye,
@@ -21,7 +22,7 @@ const BROWSER_LOGOS = {
   firefox: { src: '/images/firefox-logo.svg', alt: 'Firefox' },
 };
 
-export default function EventIcon({ eventType, size = 'md' }) {
+const EventIcon = memo(function EventIcon({ eventType, size = 'md' }) {
   const sizeInPx = ICON_SIZES[size] || ICON_SIZES.default;
   const numericSize = parseInt(sizeInPx, 10);
 
@@ -51,4 +52,6 @@ export default function EventIcon({ eventType, size = 'md' }) {
       }}
     />
   );
-}
+});
+
+export default EventIcon;

@@ -7,21 +7,23 @@ import {
   useMemo,
   useDeferredValue,
   useTransition,
+  useCallback,
 } from 'react';
-import {
-  filterByEventTypes,
-  filterBySearch,
-  filterByDate,
-  filterByRanges,
-} from '@/lib/filters';
+import { combinedFilter } from '@/lib/filters';
 import { DEFAULT_RANGE_FILTERS } from '@/lib/rangeFilters';
 import { useStatsBounds } from './useStatsBounds';
 
-const HistoryContext = createContext(null);
+// Split contexts to minimize re-renders
+const HistoryDataContext = createContext(null);
+const HistoryFiltersContext = createContext(null);
+const HistoryPaginationContext = createContext(null);
 
 export function HistoryProvider({ children, history }) {
+  // Pagination state
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(15);
+
+  // Filter state
   const [sortBy, setSortBy] = useState('desc');
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -70,16 +72,17 @@ export function HistoryProvider({ children, history }) {
   // Calculate statistics bounds for range sliders
   const statsBounds = useStatsBounds(history);
 
-  // Process history with filters
+  // Process history with combined filter (single iteration)
   const processedHistory = useMemo(() => {
     // Start with pre-sorted data (desc) or reverse for asc
-    let filtered =
-      sortBy === 'desc' ? sortedHistory : [...sortedHistory].reverse();
-    filtered = filterByEventTypes(filtered, filteredEventTypes);
-    filtered = filterBySearch(filtered, deferredSearch);
-    filtered = filterByDate(filtered, startDate, endDate);
-    filtered = filterByRanges(filtered, rangeFilters);
-    return filtered;
+    const source = sortBy === 'desc' ? sortedHistory : [...sortedHistory].reverse();
+    return combinedFilter(source, {
+      eventTypes: filteredEventTypes,
+      search: deferredSearch,
+      startDate,
+      endDate,
+      rangeFilters,
+    });
   }, [
     sortedHistory,
     sortBy,
@@ -98,51 +101,123 @@ export function HistoryProvider({ children, history }) {
   );
 
   // Wrap setSearch to use transition
-  const handleSetSearch = (value) => {
+  const handleSetSearch = useCallback((value) => {
     setSearching(true);
     startTransition(() => {
       setSearch(value);
       setSearching(false);
     });
-  };
+  }, []);
 
-  const value = {
-    history,
-    processedHistory,
-    currentItems,
-    totalCount,
-    eventTypes,
-    dateRange,
-    statsBounds,
-    page,
-    setPage,
-    itemsPerPage,
-    setItemsPerPage,
-    sortBy,
-    setSortBy,
-    startDate,
-    setStartDate,
-    endDate,
-    setEndDate,
-    filteredEventTypes,
-    setFilteredEventTypes,
-    rangeFilters,
-    setRangeFilters,
-    search,
-    setSearch: handleSetSearch,
-    searching: searching || isPending,
-    setSearching,
-  };
+  // Stable setters wrapped in useCallback
+  const stableSetPage = useCallback((v) => setPage(v), []);
+  const stableSetItemsPerPage = useCallback((v) => setItemsPerPage(v), []);
+  const stableSetSortBy = useCallback((v) => setSortBy(v), []);
+  const stableSetStartDate = useCallback((v) => setStartDate(v), []);
+  const stableSetEndDate = useCallback((v) => setEndDate(v), []);
+  const stableSetFilteredEventTypes = useCallback((v) => setFilteredEventTypes(v), []);
+  const stableSetRangeFilters = useCallback((v) => setRangeFilters(v), []);
+
+  // Memoize context values to prevent unnecessary re-renders
+  const dataValue = useMemo(
+    () => ({
+      history,
+      processedHistory,
+      currentItems,
+      totalCount,
+      eventTypes,
+      dateRange,
+      statsBounds,
+      searching: searching || isPending,
+    }),
+    [
+      history,
+      processedHistory,
+      currentItems,
+      totalCount,
+      eventTypes,
+      dateRange,
+      statsBounds,
+      searching,
+      isPending,
+    ],
+  );
+
+  const filtersValue = useMemo(
+    () => ({
+      sortBy,
+      setSortBy: stableSetSortBy,
+      startDate,
+      setStartDate: stableSetStartDate,
+      endDate,
+      setEndDate: stableSetEndDate,
+      filteredEventTypes,
+      setFilteredEventTypes: stableSetFilteredEventTypes,
+      rangeFilters,
+      setRangeFilters: stableSetRangeFilters,
+      search,
+      setSearch: handleSetSearch,
+    }),
+    [
+      sortBy,
+      stableSetSortBy,
+      startDate,
+      stableSetStartDate,
+      endDate,
+      stableSetEndDate,
+      filteredEventTypes,
+      stableSetFilteredEventTypes,
+      rangeFilters,
+      stableSetRangeFilters,
+      search,
+      handleSetSearch,
+    ],
+  );
+
+  const paginationValue = useMemo(
+    () => ({
+      page,
+      setPage: stableSetPage,
+      itemsPerPage,
+      setItemsPerPage: stableSetItemsPerPage,
+    }),
+    [page, stableSetPage, itemsPerPage, stableSetItemsPerPage],
+  );
 
   return (
-    <HistoryContext.Provider value={value}>{children}</HistoryContext.Provider>
+    <HistoryDataContext.Provider value={dataValue}>
+      <HistoryFiltersContext.Provider value={filtersValue}>
+        <HistoryPaginationContext.Provider value={paginationValue}>
+          {children}
+        </HistoryPaginationContext.Provider>
+      </HistoryFiltersContext.Provider>
+    </HistoryDataContext.Provider>
   );
 }
 
-export function useHistory() {
-  const context = useContext(HistoryContext);
+// Hook for components that only need data (read-only)
+export function useHistoryData() {
+  const context = useContext(HistoryDataContext);
   if (!context) {
-    throw new Error('useHistory must be used within a HistoryProvider');
+    throw new Error('useHistoryData must be used within a HistoryProvider');
+  }
+  return context;
+}
+
+// Hook for components that need filter controls
+export function useHistoryFilters() {
+  const context = useContext(HistoryFiltersContext);
+  if (!context) {
+    throw new Error('useHistoryFilters must be used within a HistoryProvider');
+  }
+  return context;
+}
+
+// Hook for components that need pagination controls
+export function useHistoryPagination() {
+  const context = useContext(HistoryPaginationContext);
+  if (!context) {
+    throw new Error('useHistoryPagination must be used within a HistoryProvider');
   }
   return context;
 }

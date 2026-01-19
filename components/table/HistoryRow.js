@@ -1,6 +1,6 @@
 'use client';
 
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import { GeistMono } from 'geist/font/mono';
 import { TableCell, TableRow } from '../ui/table';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
@@ -13,6 +13,19 @@ import { useItemDetails } from './useItemDetails';
 const HistoryRow = memo(function HistoryRow({ item }) {
   const { hasEventDetails, hasAdditionalFields, hasDetails, detailsText } =
     useItemDetails(item);
+
+  // Pre-compute formatted dates for tooltip to avoid creating Date objects in render
+  const tooltipDates = useMemo(
+    () => ({
+      firstSeen: item.url_first_visit
+        ? new Date(item.url_first_visit).toLocaleDateString()
+        : '—',
+      lastSeen: item.url_last_visit
+        ? new Date(item.url_last_visit).toLocaleDateString()
+        : '—',
+    }),
+    [item.url_first_visit, item.url_last_visit],
+  );
 
   return (
     <TableRow
@@ -61,7 +74,7 @@ const HistoryRow = memo(function HistoryRow({ item }) {
                 </div>
                 <div>
                   <span className="text-gray-400">First Seen:</span>{' '}
-                  <span>{item.url_first_visit ? new Date(item.url_first_visit).toLocaleDateString() : '—'}</span>
+                  <span>{tooltipDates.firstSeen}</span>
                 </div>
                 <div>
                   <span className="text-gray-400">Domain URLs:</span>{' '}
@@ -69,7 +82,7 @@ const HistoryRow = memo(function HistoryRow({ item }) {
                 </div>
                 <div>
                   <span className="text-gray-400">Last Seen:</span>{' '}
-                  <span>{item.url_last_visit ? new Date(item.url_last_visit).toLocaleDateString() : '—'}</span>
+                  <span>{tooltipDates.lastSeen}</span>
                 </div>
                 <div>
                   <span className="text-gray-400">Domain:</span>{' '}

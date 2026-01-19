@@ -1,8 +1,12 @@
 'use client';
 
-import { useHistory } from '../context/HistoryContext';
+import dynamic from 'next/dynamic';
+import {
+  useHistoryData,
+  useHistoryFilters,
+  useHistoryPagination,
+} from '../context/HistoryContext';
 import { Button } from '../ui/button';
-import { Calendar } from '../ui/calendar';
 import {
   Popover,
   PopoverContent,
@@ -10,15 +14,15 @@ import {
 } from '../ui/popover';
 import { CalendarIcon, X } from 'lucide-react';
 
+const Calendar = dynamic(
+  () => import('../ui/calendar').then((m) => m.Calendar),
+  { ssr: false },
+);
+
 export default function DateRangePicker() {
-  const {
-    startDate,
-    setStartDate,
-    endDate,
-    setEndDate,
-    dateRange,
-    setPage,
-  } = useHistory();
+  const { dateRange } = useHistoryData();
+  const { startDate, setStartDate, endDate, setEndDate } = useHistoryFilters();
+  const { setPage } = useHistoryPagination();
   const hasDateFilter = startDate && endDate;
 
   const handleSelect = (range) => {
