@@ -5,7 +5,13 @@
       "Bash(timeout 10s npm run dev:*)",
       "Bash(npx shadcn@latest add:*)",
       "Bash(npm run build:*)",
-      "Bash(npm run test:e2e:*)"
+      "Bash(npm run test:e2e:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npx next lint:*)",
+      "Bash(npx eslint:*)",
+      "Bash(npm run test:run:*)",
+      "Bash(grep:*)",
+      "Bash(wc:*)"
     ]
   }
 }

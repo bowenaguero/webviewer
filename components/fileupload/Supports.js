@@ -5,46 +5,34 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { FaChrome, FaFirefox, FaSafari, FaEdge, FaOpera } from 'react-icons/fa';
-
-const supportedBrowsers = new Map([
-  ['chrome', { icon: FaChrome, tooltip: 'Chromium (Supported)' }],
-  ['firefox', { icon: FaFirefox, tooltip: 'Firefox (Supported)' }],
-  ['edge', { icon: FaEdge, tooltip: 'Edge (Supported)' }],
-]);
-
-const unsupportedBrowsers = new Map([
-  ['safari', { icon: FaSafari, tooltip: 'Safari (Not Supported)' }],
-  ['opera', { icon: FaOpera, tooltip: 'Opera (Not Supported)' }],
-]);
+import {
+  BROWSER_ICONS_SUPPORTED,
+  BROWSER_ICONS_UNSUPPORTED,
+} from '@/lib/constants/index';
 
 export default function Supports() {
   return (
     <div className="flex items-center gap-2">
-      {Array.from(supportedBrowsers.entries()).map(
-        ([browser, { icon: Icon, tooltip }]) => (
-          <Tooltip key={browser}>
-            <TooltipTrigger asChild>
-              <span className="text-gray-500 opacity-80 cursor-default">
-                <Icon className="size-5" />
-              </span>
-            </TooltipTrigger>
-            <TooltipContent>{tooltip}</TooltipContent>
-          </Tooltip>
-        ),
-      )}
-      {Array.from(unsupportedBrowsers.entries()).map(
-        ([browser, { icon: Icon, tooltip }]) => (
-          <Tooltip key={browser}>
-            <TooltipTrigger asChild>
-              <span className="text-gray-500 opacity-10 cursor-default">
-                <Icon className="size-5" />
-              </span>
-            </TooltipTrigger>
-            <TooltipContent>{tooltip}</TooltipContent>
-          </Tooltip>
-        ),
-      )}
+      {BROWSER_ICONS_SUPPORTED.map(({ id, icon: Icon, tooltip }) => (
+        <Tooltip key={id}>
+          <TooltipTrigger asChild>
+            <span className="text-gray-500 opacity-80 cursor-default">
+              <Icon className="size-5" />
+            </span>
+          </TooltipTrigger>
+          <TooltipContent>{tooltip}</TooltipContent>
+        </Tooltip>
+      ))}
+      {BROWSER_ICONS_UNSUPPORTED.map(({ id, icon: Icon, tooltip }) => (
+        <Tooltip key={id}>
+          <TooltipTrigger asChild>
+            <span className="text-gray-500 opacity-10 cursor-default">
+              <Icon className="size-5" />
+            </span>
+          </TooltipTrigger>
+          <TooltipContent>{tooltip}</TooltipContent>
+        </Tooltip>
+      ))}
     </div>
   );
 }

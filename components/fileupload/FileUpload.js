@@ -1,13 +1,13 @@
 'use client';
 
+import { memo, useCallback, useEffect } from 'react';
 import { useHistoryWorker } from '@/hooks/useHistoryWorker';
-import { useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { FaUpload } from 'react-icons/fa';
 import { toast } from 'sonner';
 import HomeNavBar from './HomeNavBar';
 
-export default function FileUpload({
+const FileUpload = memo(function FileUpload({
   onHistoryLoaded,
   setIsProcessing,
   setProgress,
@@ -84,4 +84,6 @@ export default function FileUpload({
       <HomeNavBar />
     </div>
   );
-}
+});
+
+export default FileUpload;

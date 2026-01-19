@@ -6,60 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-
-const supportedBrowsers = [
-  {
-    name: 'Chromium',
-    supported: true,
-    fileName: 'History',
-    filePath: [
-      'Windows: AppData/Local/Google/Chrome/User Data/Default/History',
-      'macOS: Library/Application Support/Google/Chrome/Default/History',
-    ],
-  },
-  {
-    name: 'Firefox',
-    supported: true,
-    fileName: 'places.sqlite',
-    filePath: [
-      'Windows: AppData/Roaming/Mozilla/Firefox/Profiles/<your_profile>/places.sqlite',
-      'macOS: Library/Application Support/Mozilla/Firefox/Profiles/Default/places.sqlite',
-    ],
-  },
-  {
-    name: 'Edge',
-    supported: true,
-    fileName: 'History',
-    filePath: [
-      'Windows: AppData/Local/Microsoft/Edge/User Data/Default/History',
-      'macOS: Library/Application Support/Microsoft/Edge/Default/History',
-    ],
-  },
-  {
-    name: 'Safari',
-    supported: true,
-    fileName: 'History.db',
-    filePath: ['macOS: ~/Library/Safari/History.db'],
-  },
-  {
-    name: 'Opera (Not Tested)',
-    supported: false,
-    fileName: 'History',
-    filePath: [
-      'Windows: AppData/Local/Opera Software/Opera Stable/History',
-      'macOS: Library/Application Support/Opera Software/Opera Stable/History',
-    ],
-  },
-  {
-    name: 'Brave (Not Tested)',
-    supported: false,
-    fileName: 'History',
-    filePath: [
-      'Windows: AppData/Local/BraveSoftware/Brave-Browser/User Data/Default/History',
-      'macOS: Library/Application Support/BraveSoftware/Brave-Browser/Default/History',
-    ],
-  },
-];
+import { BROWSERS_TABLE_DATA } from '@/lib/constants/index';
 
 export default function SupportedBrowsersTable() {
   return (
@@ -81,7 +28,7 @@ export default function SupportedBrowsersTable() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {supportedBrowsers.map((browser) => (
+            {BROWSERS_TABLE_DATA.map((browser) => (
               <TableRow
                 key={browser.name}
                 className="bg-gray-950 hover:bg-gray-900"

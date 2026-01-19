@@ -63,6 +63,8 @@ function TableRow({
       data-slot="table-row"
       className={cn(
         "hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors",
+        // content-visibility for rendering performance on long tables
+        "content-visibility-auto contain-intrinsic-size-[auto_40px]",
         className
       )}
       {...props} />

@@ -20,34 +20,104 @@ Client-side browser history analysis tool. All data processing happens in-browse
 ```
 app/                    # Next.js App Router pages
 components/
-  context/              # React context (HistoryContext)
-  event/                # Event type icons
-  fileupload/           # Dropzone file upload
-  hooks/                # Custom React hooks
-  table/                # HistoryTable, ActionsMenu, PaginationMenu
-  toolbar/              # ToolBar, SearchBar, FilterBy, SortBy, DatePicker
-  topbar/               # Header/navigation
+  analytics/            # Vercel Analytics
   bottombar/            # Footer
-  ui/                   # shadcn/ui components
-  utils/                # Helpers, constants, query/filter/process functions
-lib/                    # Utilities (cn function)
-public/                 # Static assets, Web Worker
+  event/                # Event type icons
+  fileupload/           # File upload (with local config)
+  history/              # Main feature (context + table + toolbar)
+  how/                  # Landing page content
+  topbar/               # Header/navigation
+  ui/                   # shadcn/ui primitives
+config/                 # Feature-level configuration
+hooks/                  # Custom React hooks (consolidated)
+lib/                    # Utilities, constants, shared logic
+  browser-parser/       # SQL queries + processing (single source of truth)
+  constants/            # Semantic constant grouping
+workers/                # Web Worker source code
+public/                 # Static assets, compiled worker
 ```
 
 ## Key Files
 
-- `components/table/HistoryTable.js` - Main data table with two-line rows (title + details)
-- `components/context/HistoryContext.js` - Global state for history data, filters, pagination
-- `components/toolbar/ToolBar.js` - Search, filter, date picker, sort controls
-- `components/utils/queryBrowserHistory.js` - SQL queries for different browser formats
-- `components/utils/processBrowserHistory.js` - Data normalization
-- `components/utils/filterBrowserHistory.js` - Client-side filtering
+- `components/history/table/HistoryTable.js` - Main data table with two-line rows (title + details)
+- `components/history/context/HistoryContext.js` - Global state for history data, filters, pagination
+- `components/history/toolbar/ToolBar.js` - Search, filter, date picker, sort controls
+- `lib/browser-parser/queries.js` - SQL queries for different browser formats
+- `lib/browser-parser/processing.js` - Data normalization
+- `lib/filters.js` - Client-side filtering
 
 ## Supported Browsers
 
 - Chrome (`History` file)
 - Firefox (`places.sqlite`)
 - Edge (`History` file)
+
+## Build Philosophy
+
+**Core Principles:** Simplicity, Clarity, Maintainability, Modularity
+
+### Directory Organization
+
+**Feature-based grouping** - Related code lives together:
+- `components/history/` contains context, table, and toolbar for the history feature
+- Each feature folder has its own barrel export (index.js)
+
+**Semantic separation** - Code grouped by purpose:
+- `lib/` - Shared utilities and business logic
+- `config/` - Feature-level configuration
+- `hooks/` - All custom React hooks in one place
+- `workers/` - Web Worker source code
+
+### Import Patterns
+
+**Barrel exports** - Clean, discoverable imports:
+```javascript
+import { HistoryTable, ToolBar } from '@/components/history';
+import { useHistoryWorker, useStatsBounds } from '@/hooks';
+import { combinedFilter } from '@/lib';
+```
+
+**Explicit named exports** - Better tree-shaking, no `export *`:
+```javascript
+// Good
+export { ComponentA } from './ComponentA';
+export { ComponentB } from './ComponentB';
+
+// Avoid
+export * from './ComponentA';
+```
+
+**Absolute paths** for cross-feature imports (`@/`), relative for siblings.
+
+### Single Source of Truth
+
+**Shared logic lives in one place:**
+- `lib/browser-parser/` - SQL queries and processing used by both main thread and worker
+- `lib/constants/` - All constants, semantically grouped (browser, ui, external)
+- `config/` - Feature configuration (table, filters)
+
+**No duplication** - Worker imports from lib/, doesn't duplicate code.
+
+### Performance Patterns
+
+**Split contexts** - Minimize re-renders:
+- Separate contexts for data, filters, pagination
+- Components subscribe only to what they need
+
+**Memoization** - Expensive computations:
+- `useMemo` for derived state
+- `useDeferredValue` for search input
+- `useTransition` for non-urgent updates
+
+**Streaming** - Large data:
+- Worker streams results in chunks
+- Progress updates during processing
+
+### Configuration Hierarchy
+
+1. **lib/constants/** - Core behavioral constants (epoch offsets, limits)
+2. **config/** - Feature configuration (table layout, filter fields)
+3. **Component-local config** - UI-specific (collocated with component)
 
 ## Design Patterns
 
@@ -70,9 +140,12 @@ public/                 # Static assets, Web Worker
 ## Commands
 
 ```bash
-npm run dev      # Development server
-npm run build    # Production build
-npm run lint     # ESLint
+npm run dev          # Development server (builds worker first)
+npm run build        # Production build (builds worker first)
+npm run build:worker # Build web worker only
+npm run lint         # ESLint
+npm run test:run     # Unit tests (87 tests)
+npm run test:e2e     # E2E tests (Playwright)
 ```
 
 ## External Integrations

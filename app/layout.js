@@ -1,7 +1,7 @@
 import './globals.css';
+import Analytics from '@/components/analytics/Analytics';
 import Topbar from '@/components/topbar/Topbar';
 import { Toaster } from '@/components/ui/sonner';
-import { Analytics } from '@vercel/analytics/react';
 import { GeistSans } from 'geist/font/sans';
 import { ThemeProvider } from 'next-themes';
 
