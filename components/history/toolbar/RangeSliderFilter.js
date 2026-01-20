@@ -21,7 +21,7 @@ const RangeSliderFilter = memo(function RangeSliderFilter({ label, bounds, value
   return (
     <div className="space-y-2">
       <div className="flex justify-between items-center text-sm">
-        <span className={isActive ? 'text-gray-200' : 'text-gray-400'}>
+        <span className={isActive ? 'text-fg-emphasis' : 'text-fg-muted'}>
           {label}
         </span>
         <div className="flex items-center gap-1 tabular-nums">
@@ -31,16 +31,16 @@ const RangeSliderFilter = memo(function RangeSliderFilter({ label, bounds, value
             min={bounds.min}
             max={bounds.max}
             onChange={(e) => handleInputChange(0, e.target.value)}
-            className="w-12 px-1 py-0.5 text-right text-gray-300 bg-gray-800 border border-gray-700 rounded text-xs focus:outline-none focus:border-blue-500"
+            className="w-12 px-1 py-0.5 text-right text-fg-primary bg-surface-elevated border border-stroke-subtle rounded text-xs focus:outline-none focus:border-accent-primary"
           />
-          <span className="text-gray-600">–</span>
+          <span className="text-fg-tertiary">–</span>
           <input
             type="number"
             value={value[1]}
             min={bounds.min}
             max={bounds.max}
             onChange={(e) => handleInputChange(1, e.target.value)}
-            className="w-12 px-1 py-0.5 text-right text-gray-300 bg-gray-800 border border-gray-700 rounded text-xs focus:outline-none focus:border-blue-500"
+            className="w-12 px-1 py-0.5 text-right text-fg-primary bg-surface-elevated border border-stroke-subtle rounded text-xs focus:outline-none focus:border-accent-primary"
           />
         </div>
       </div>

@@ -23,9 +23,9 @@ import { Loader2 } from 'lucide-react';
 // Hoisted static component - avoids recreation on parent re-renders
 const SearchingRow = (
   <TableRow>
-    <TableCell colSpan={5} className="py-8 bg-gray-900">
+    <TableCell colSpan={5} className="py-8 bg-surface-page">
       <div className="flex justify-center items-center">
-        <Loader2 className="size-6 text-gray-500 animate-spin" />
+        <Loader2 className="size-6 text-fg-secondary animate-spin" />
       </div>
     </TableCell>
   </TableRow>
@@ -33,7 +33,7 @@ const SearchingRow = (
 
 const MobileSearchingSpinner = (
   <div className="flex justify-center py-8">
-    <Loader2 className="size-6 text-gray-500 animate-spin" />
+    <Loader2 className="size-6 text-fg-secondary animate-spin" />
   </div>
 );
 
@@ -56,28 +56,28 @@ function HistoryTableContent() {
       </div>
 
       {/* Desktop: Table view (md and up) */}
-      <div className="hidden md:block bg-gray-950 border border-gray-800 rounded-md overflow-hidden">
+      <div className="hidden md:block bg-surface-base border border-stroke-default rounded-md overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="bg-transparent border-gray-800 hover:bg-transparent">
+            <TableRow className="bg-transparent border-stroke-default hover:bg-transparent">
               <TableHead className={COL_WIDTHS.actions} />
               <TableHead
-                className={`${COL_WIDTHS.time} text-gray-500 text-sm px-3`}
+                className={`${COL_WIDTHS.time} text-fg-secondary text-sm px-3`}
               >
                 Time
               </TableHead>
               <TableHead
-                className={`${COL_WIDTHS.type} text-gray-500 text-sm px-2`}
+                className={`${COL_WIDTHS.type} text-fg-secondary text-sm px-2`}
               >
                 Type
               </TableHead>
               <TableHead
-                className={`${COL_WIDTHS.url} text-gray-500 text-sm px-3`}
+                className={`${COL_WIDTHS.url} text-fg-secondary text-sm px-3`}
               >
                 URL
               </TableHead>
               <TableHead
-                className={`${COL_WIDTHS.title} text-gray-500 text-sm px-3`}
+                className={`${COL_WIDTHS.title} text-fg-secondary text-sm px-3`}
               >
                 Title
               </TableHead>

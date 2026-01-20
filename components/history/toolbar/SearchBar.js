@@ -37,13 +37,13 @@ export default function SearchBar({ setSearch, search }) {
 
   return (
     <div className="relative flex-1">
-      <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-500" />
+      <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-fg-secondary" />
       <Input
         value={inputValue}
         placeholder="Search"
         className={`pl-9 pr-9 border-2 rounded-sm bg-transparent ${
-          search ? 'border-gray-300' : 'border-gray-800'
-        } hover:border-gray-700 focus-visible:border-gray-600`}
+          search ? 'border-stroke-active' : 'border-stroke-default'
+        } hover:border-stroke-subtle focus-visible:border-fg-tertiary`}
         onChange={handleChange}
       />
       {inputValue && (

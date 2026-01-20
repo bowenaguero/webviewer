@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
           enableSystem={false}
         >
           <Toaster />
-          <div className="min-h-screen bg-gray-900">
+          <div className="min-h-screen bg-surface-page">
             <Topbar />
             {children}
           </div>

@@ -21,6 +21,33 @@
   --color-gray-900: #18181b;
   --color-gray-950: #09090b;
 
+  /* Foreground (text) colors */
+  --color-fg-primary: #d4d4d8;     /* gray-300 */
+  --color-fg-secondary: #71717a;   /* gray-500 */
+  --color-fg-tertiary: #52525b;    /* gray-600 */
+  --color-fg-muted: #a1a1aa;       /* gray-400 */
+  --color-fg-disabled: #3f3f46;    /* gray-700 */
+  --color-fg-emphasis: #e4e4e7;    /* gray-200 */
+
+  /* Surface (background) colors */
+  --color-surface-page: #18181b;      /* gray-900 */
+  --color-surface-base: #09090b;      /* gray-950 */
+  --color-surface-elevated: #27272a;  /* gray-800 */
+  --color-surface-active: #3f3f46;    /* gray-700 */
+
+  /* Stroke (border) colors */
+  --color-stroke-default: #27272a;  /* gray-800 */
+  --color-stroke-subtle: #3f3f46;   /* gray-700 */
+  --color-stroke-active: #d4d4d8;   /* gray-300 */
+
+  /* Accent colors */
+  --color-accent-primary: oklch(0.55 0.18 145);
+  --color-accent-primary-hover: oklch(0.65 0.16 145);
+  --color-accent-warning: #f59e0b;
+  --color-accent-info: #f97316;
+  --color-accent-success: #22c55e;
+  --color-accent-error: #ef4444;
+
   /* Border radius */
   --radius-sm: 0.25rem;
   --radius-md: 0.375rem;

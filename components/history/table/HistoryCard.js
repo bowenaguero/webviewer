@@ -12,38 +12,38 @@ const HistoryCard = memo(function HistoryCard({ item }) {
 
   return (
     <div
-      className={`bg-gray-950 border border-gray-800 rounded-lg p-4 space-y-3 ${GeistMono.className}`}
+      className={`bg-surface-base border border-stroke-default rounded-lg p-4 space-y-3 ${GeistMono.className}`}
     >
       {/* Header: Event type + Time + Actions */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <EventIcon size="sm" eventType={item.eventType} />
-          <span className="text-xs text-gray-500">
+          <span className="text-xs text-fg-secondary">
             {capitalizeFirstLetter(item.eventType)}
           </span>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-xs text-gray-500">{item.visitTimeFormatted}</span>
+          <span className="text-xs text-fg-secondary">{item.visitTimeFormatted}</span>
           <ActionsMenu event={item} />
         </div>
       </div>
 
       {/* Title */}
       <div className="min-w-0">
-        <p className="text-sm text-gray-300 truncate">
+        <p className="text-sm text-fg-primary truncate">
           {item.title || 'Untitled'}
         </p>
       </div>
 
       {/* URL */}
       <div className="min-w-0">
-        <p className="text-xs text-gray-500 truncate">{item.url}</p>
+        <p className="text-xs text-fg-secondary truncate">{item.url}</p>
       </div>
 
       {/* Details (if any) */}
       {hasDetails && (
-        <div className="pt-2 border-t border-gray-800">
-          <p className="text-[10px] text-gray-600 truncate">{detailsText}</p>
+        <div className="pt-2 border-t border-stroke-default">
+          <p className="text-[10px] text-fg-tertiary truncate">{detailsText}</p>
         </div>
       )}
     </div>

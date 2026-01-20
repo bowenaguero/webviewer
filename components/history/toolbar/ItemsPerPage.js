@@ -24,7 +24,7 @@ const ItemsPerPage = memo(function ItemsPerPage({ itemsPerPage, setItemsPerPage 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="text-gray-500 hover:bg-gray-800">
+        <Button variant="ghost" className="text-fg-secondary hover:bg-surface-elevated">
           {`${itemsPerPage} items per page`}
           <FaChevronDown className="size-3 ml-1" />
         </Button>

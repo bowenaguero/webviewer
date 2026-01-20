@@ -33,16 +33,16 @@ export default function HowToTimeline() {
               <div key={instruction.title} className="relative">
                 {/* Vertical line */}
                 {index < instructions.length - 1 && (
-                  <div className="absolute left-[-20px] top-8 w-0.5 h-full bg-gray-700" />
+                  <div className="absolute left-[-20px] top-8 w-0.5 h-full bg-stroke-subtle" />
                 )}
                 {/* Icon circle */}
-                <div className="absolute left-[-28px] top-0 w-6 h-6 rounded-full bg-gray-800 flex items-center justify-center">
-                  <Icon className="size-3 text-gray-400" />
+                <div className="absolute left-[-28px] top-0 w-6 h-6 rounded-full bg-surface-elevated flex items-center justify-center">
+                  <Icon className="size-3 text-fg-muted" />
                 </div>
                 {/* Content */}
                 <div className="pb-2">
                   <h3 className="font-medium">{instruction.title}</h3>
-                  <p className="text-gray-500 text-sm">
+                  <p className="text-fg-secondary text-sm">
                     {instruction.description}
                   </p>
                 </div>
@@ -53,13 +53,13 @@ export default function HowToTimeline() {
 
         {/* Info notes */}
         <div className="flex gap-2 items-center">
-          <FaInfoCircle className="text-orange-500 size-4" />
+          <FaInfoCircle className="text-accent-info size-4" />
           <span className="text-sm font-medium">
             Append .db or .sqlite to be recognized
           </span>
         </div>
         <div className="flex gap-2 items-center">
-          <FaInfoCircle className="text-orange-500 size-4" />
+          <FaInfoCircle className="text-accent-info size-4" />
           <span className="text-sm font-medium">Row limit of 500,000</span>
         </div>
       </div>

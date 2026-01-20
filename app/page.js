@@ -50,9 +50,9 @@ function ProcessingProgress({ progress }) {
   return (
     <div className="flex flex-col items-center justify-center m-5 gap-4 w-[300px] sm:w-[400px] md:w-[500px]">
       <Progress value={percent} className="w-full" />
-      <span className="text-xs sm:text-sm text-gray-400">{message}</span>
+      <span className="text-xs sm:text-sm text-fg-muted">{message}</span>
       {processedRows !== undefined && (
-        <span className="text-xs text-gray-500">
+        <span className="text-xs text-fg-secondary">
           {processedRows.toLocaleString()}
           {totalRows ? ` / ${totalRows.toLocaleString()}` : ''} rows
         </span>

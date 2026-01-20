@@ -24,7 +24,7 @@ const HomeNavBar = memo(function HomeNavBar() {
         <Link href="https://github.com/bowenaguero/webviewer" target="_blank">
           <Button
             variant="ghost"
-            className="text-gray-500 hover:bg-gray-800 text-sm"
+            className="text-fg-secondary hover:bg-surface-elevated text-sm"
           >
             <FaGithub className="size-4" />
             <span className="hidden xs:inline sm:inline">GitHub</span>
@@ -37,7 +37,7 @@ const HomeNavBar = memo(function HomeNavBar() {
         <Link href="https://buymeacoffee.com/bowenaguero" target="_blank">
           <Button
             variant="ghost"
-            className="text-gray-500 hover:bg-gray-800 text-sm"
+            className="text-fg-secondary hover:bg-surface-elevated text-sm"
           >
             <FaCoffee className="size-4" />
             <span className="hidden xs:inline sm:inline">Coffee</span>
@@ -51,7 +51,7 @@ const HomeNavBar = memo(function HomeNavBar() {
           <DropdownMenuTrigger asChild>
             <Button
               variant="ghost"
-              className="text-gray-500 hover:bg-gray-800 text-sm"
+              className="text-fg-secondary hover:bg-surface-elevated text-sm"
             >
               <FaQuestionCircle className="size-4" />
               <span className="hidden xs:inline sm:inline">Help</span>
@@ -60,7 +60,7 @@ const HomeNavBar = memo(function HomeNavBar() {
           <DropdownMenuContent align="center" className="w-72 sm:w-80 p-0">
             {/* App description */}
             <div className="px-4 py-3">
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-fg-muted">
                 Analyze your browser history locally. Your data never leaves
                 your device.
               </p>
@@ -70,18 +70,18 @@ const HomeNavBar = memo(function HomeNavBar() {
 
             {/* Steps - Timeline */}
             <div className="px-4 py-3">
-              <p className="text-sm font-medium text-gray-300 mb-3">Steps</p>
+              <p className="text-sm font-medium text-fg-primary mb-3">Steps</p>
               <div className="space-y-3">
                 {HELP_STEPS.map((step, i) => (
                   <div key={step.label} className="flex items-start gap-3">
-                    <div className="flex items-center justify-center w-7 h-7 rounded-full bg-gray-800 shrink-0">
-                      <step.icon className="size-3.5 text-gray-400" />
+                    <div className="flex items-center justify-center w-7 h-7 rounded-full bg-surface-elevated shrink-0">
+                      <step.icon className="size-3.5 text-fg-muted" />
                     </div>
                     <div className="flex-1 min-w-0 pt-0.5">
-                      <span className="text-sm font-medium text-gray-200">
+                      <span className="text-sm font-medium text-fg-emphasis">
                         {step.label}
                       </span>
-                      <span className="text-sm text-gray-500 ml-1.5">
+                      <span className="text-sm text-fg-secondary ml-1.5">
                         — {step.desc}
                       </span>
                     </div>
@@ -94,7 +94,7 @@ const HomeNavBar = memo(function HomeNavBar() {
 
             {/* Supported browsers */}
             <div className="px-4 py-3">
-              <p className="text-sm font-medium text-gray-300 mb-3">
+              <p className="text-sm font-medium text-fg-primary mb-3">
                 Supported
               </p>
               <div className="flex gap-5">
@@ -103,8 +103,8 @@ const HomeNavBar = memo(function HomeNavBar() {
                     key={b.name}
                     className="flex flex-col items-center gap-1.5"
                   >
-                    <b.icon className="size-5 text-gray-400" />
-                    <span className="text-xs text-gray-500">{b.name}</span>
+                    <b.icon className="size-5 text-fg-muted" />
+                    <span className="text-xs text-fg-secondary">{b.name}</span>
                   </div>
                 ))}
               </div>
@@ -116,8 +116,8 @@ const HomeNavBar = memo(function HomeNavBar() {
             <div className="px-4 py-3 space-y-2">
               {UPLOAD_WARNINGS.map((w) => (
                 <div key={w} className="flex items-center gap-2.5">
-                  <AlertTriangle className="size-4 text-amber-500 shrink-0" />
-                  <span className="text-xs text-gray-400">{w}</span>
+                  <AlertTriangle className="size-4 text-accent-warning shrink-0" />
+                  <span className="text-xs text-fg-muted">{w}</span>
                 </div>
               ))}
             </div>
@@ -129,7 +129,7 @@ const HomeNavBar = memo(function HomeNavBar() {
       <div className="flex justify-center sm:justify-end">
         <Button
           variant="ghost"
-          className={`text-sm ${hasData ? 'text-gray-500 hover:bg-gray-800' : 'text-gray-700 opacity-50 cursor-not-allowed'}`}
+          className={`text-sm ${hasData ? 'text-fg-secondary hover:bg-surface-elevated' : 'text-fg-disabled opacity-50 cursor-not-allowed'}`}
           disabled={!hasData}
           asChild={hasData}
         >

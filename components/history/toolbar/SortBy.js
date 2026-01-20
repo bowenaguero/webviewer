@@ -14,7 +14,7 @@ const SortBy = memo(function SortBy({ sortBy, setSortBy }) {
   return (
     <Button
       variant="ghost"
-      className="text-gray-500 hover:bg-gray-800"
+      className="text-fg-secondary hover:bg-surface-elevated"
       onClick={handleToggle}
     >
       {sortBy === 'asc' ? 'Oldest first' : 'Newest first'}

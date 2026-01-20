@@ -3,7 +3,7 @@ export default function HowItWorks() {
     <div className="flex flex-col items-start gap-2">
       <div className="flex flex-col gap-2 items-start">
         <h2 className="text-3xl font-bold">How It Works</h2>
-        <p className="text-gray-500 text-sm">
+        <p className="text-fg-secondary text-sm">
           WebViewer uses your browsers native capabilities to read and parse
           browser history.
         </p>

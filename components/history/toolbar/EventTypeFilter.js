@@ -8,7 +8,7 @@ import { capitalizeFirstLetter } from '@/lib/helpers';
 const EventTypeFilter = memo(function EventTypeFilter({ eventTypes, selectedTypes, onToggle }) {
   return (
     <div className="space-y-1">
-      <span className="text-xs text-gray-500 uppercase tracking-wide">
+      <span className="text-xs text-fg-secondary uppercase tracking-wide">
         Event Type
       </span>
       <div className="flex flex-col gap-1">

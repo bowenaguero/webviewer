@@ -16,7 +16,7 @@ export default function Supports() {
       {BROWSER_ICONS_SUPPORTED.map(({ id, icon: Icon, tooltip }) => (
         <Tooltip key={id}>
           <TooltipTrigger asChild>
-            <span className="text-gray-500 opacity-80 cursor-default">
+            <span className="text-fg-secondary opacity-80 cursor-default">
               <Icon className="size-5" />
             </span>
           </TooltipTrigger>
@@ -26,7 +26,7 @@ export default function Supports() {
       {BROWSER_ICONS_UNSUPPORTED.map(({ id, icon: Icon, tooltip }) => (
         <Tooltip key={id}>
           <TooltipTrigger asChild>
-            <span className="text-gray-500 opacity-10 cursor-default">
+            <span className="text-fg-secondary opacity-10 cursor-default">
               <Icon className="size-5" />
             </span>
           </TooltipTrigger>

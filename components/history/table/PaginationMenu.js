@@ -63,7 +63,7 @@ const PaginationMenu = memo(function PaginationMenu({
         size="icon-sm"
         onClick={handleFirst}
         disabled={!canGoPrev}
-        className="text-gray-400 hover:bg-gray-800"
+        className="text-fg-muted hover:bg-surface-elevated"
       >
         <ChevronFirst className="size-4" />
       </Button>
@@ -73,7 +73,7 @@ const PaginationMenu = memo(function PaginationMenu({
         size="icon-sm"
         onClick={handlePrev}
         disabled={!canGoPrev}
-        className="text-gray-400 hover:bg-gray-800"
+        className="text-fg-muted hover:bg-surface-elevated"
       >
         <ChevronLeft className="size-4" />
       </Button>
@@ -89,8 +89,8 @@ const PaginationMenu = memo(function PaginationMenu({
               onClick={handlePageClick}
               className={
                 pageNum === page
-                  ? 'bg-gray-700 text-white'
-                  : 'text-gray-400 hover:bg-gray-800'
+                  ? 'bg-surface-active text-white'
+                  : 'text-fg-muted hover:bg-surface-elevated'
               }
             >
               {pageNum}
@@ -100,7 +100,7 @@ const PaginationMenu = memo(function PaginationMenu({
       )}
 
       {style === 'compact' && (
-        <span className="text-gray-500 text-sm px-2">{page}</span>
+        <span className="text-fg-secondary text-sm px-2">{page}</span>
       )}
 
       <Button
@@ -108,7 +108,7 @@ const PaginationMenu = memo(function PaginationMenu({
         size="icon-sm"
         onClick={handleNext}
         disabled={!canGoNext}
-        className="text-gray-400 hover:bg-gray-800"
+        className="text-fg-muted hover:bg-surface-elevated"
       >
         <ChevronRight className="size-4" />
       </Button>
@@ -118,7 +118,7 @@ const PaginationMenu = memo(function PaginationMenu({
         size="icon-sm"
         onClick={handleLast}
         disabled={!canGoNext}
-        className="text-gray-400 hover:bg-gray-800"
+        className="text-fg-muted hover:bg-surface-elevated"
       >
         <ChevronLast className="size-4" />
       </Button>
